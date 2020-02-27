@@ -1,0 +1,4 @@
+#Thu Feb 27 16:34:48 NPT 2020
+base.0=/Users/cloudyfox/Desktop/REGAN/EXAMPLEPROJECTS/ninetyNineLeaveApp_V5/android/app/build/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex
