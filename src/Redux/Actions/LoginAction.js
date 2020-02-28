@@ -87,16 +87,26 @@ export const employeeDetailApiFailureAction = employeeDetailFailure => {
 // }
 
 
-
 export const employeeDetailApi = () => (dispatch, getState) => {
   const state = getState();
   const accessToken = state.login.accessToken;
   const employeeId = state.login.userId;
 
+  // Method & headers send through action                // feb-28
+  // const options = {
+  //   method: "GET",
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Authorization': `Bearer ${accessToken}`,
+  //   }
+  // }
+
   const paramObj = {
     employeeId: employeeId
   }
 
+  // dispatch(employeeDetailApiRequestAction(options));                               // Method & headers send through action          // feb-28
+  // api.employeeDetail(options, paramObj).then(res => res.json()).then(res => {            // Method & headers send through action    // feb-28
   dispatch(employeeDetailApiRequestAction());
   api.employeeDetail("GET", paramObj, accessToken).then(res => res.json()).then(res => {
     if(res.statusCode == 200 && res.status == true) {

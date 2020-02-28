@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, TextInput, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Alert, StyleSheet, TextInput, Text, View, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -14,6 +14,12 @@ import * as Keychain from 'react-native-keychain';
 import * as api from '../../Authentication/Api/Api';
 
 import ToggleButton from '../../Components/Layouts/ToggleButton';
+
+import Toast from 'react-native-root-toast';
+
+import * as yup from 'yup'; // for everything
+// or
+// import { string, object } from 'yup'; // for only what you need
 
 import * as RNLocalize from "react-native-localize";
  
@@ -315,52 +321,57 @@ class Login extends Component {
   render() {
     // console.log('this.props ==> ', this.props.login);
     return (
-      <View style={styles.viewContainer}>
+      <ScrollView>
+        <View style={styles.viewContainer}>
 
-        <View style={styles.containerBody}>
-          <Text style={[{ fontSize: 45 }, styles.textAlign]}>Welcome</Text>
-          <Text style={styles.textAlign}>Login to your account</Text>
-        </View>
+          <View style={styles.containerBody}>
+            <Text style={[{ fontSize: 45 }, styles.textAlign]}>Welcome</Text>
+            <Text style={styles.textAlign}>Login to your account</Text>
+          </View>
 
-        <View>
-          <TextInput style={styles.textInput1} placeholder="Username" onChangeText={(email) => this.setState({ email })} value={this.state.email} />
-          <TextInput style={styles.textInput2} placeholder="Password" onChangeText={(password) => this.setState({ password })} value={this.state.password} />
-        </View>
+          <View>
+            <TextInput style={styles.textInput1} placeholder="Username" onChangeText={(email) => this.setState({ email })} value={this.state.email} />
+            <TextInput secureTextEntry={true} style={styles.textInput2} placeholder="Password" onChangeText={(password) => this.setState({ password })} value={this.state.password} />
+          </View>
 
+          <View>
+            <ToggleButton
+              toggleSwitch = {this.toggleSwitch}
+              switchValue = {this.state.switchValue}
+              toggleText = 'Remember Me'
+            />
+          </View>
 
-        <View>
-          <ToggleButton
-            toggleSwitch = {this.toggleSwitch}
-            switchValue = {this.state.switchValue}
-            toggleText = 'Remember Me'
-          />
-        </View>
-
-        {
-          this.state.validationStatus ? <Text  style={{ marginTop: 10, textAlign: 'center', color: 'red' }}>Username / Password Incorrect</Text> : null
-        }
-
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-          <TouchableOpacity onPress={this.loginHandler} style={styles.buttonContainer}>
-            <Text style={{ fontSize: 18, fontWeight: 'bold', paddingHorizontal: 60, paddingVertical: 20, color: '#fff' }}>Login</Text>
-          </TouchableOpacity>
           {
-            this.state.fingerprintValidation ? <Icon style={styles.icon} name="fingerprint" size={30} color="#900" /> : null
+            this.state.validationStatus ? <Text  style={{ marginTop: 10, textAlign: 'center', color: 'red' }}>Username / Password Incorrect</Text> : null
           }
-        </View>
 
-        <TouchableOpacity style={{ marginTop: 5  }} onPress={this.forgotPassword}>
-          <Text style={{ color: 'blue', textAlign: 'center' }}>Forgot Password?</Text>
-        </TouchableOpacity>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+            <TouchableOpacity onPress={this.loginHandler} style={styles.buttonContainer}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', paddingHorizontal: 60, paddingVertical: 20, color: '#fff' }}>Login</Text>
+            </TouchableOpacity>
+            {
+              this.state.fingerprintValidation ? <Icon style={styles.icon} name="fingerprint" size={30} color="#900" /> : null
+            }
+          </View>
 
-        <View style={{ height: 30 }}>
-          <Text>&nbsp;</Text>
-        </View>
+          <TouchableOpacity style={{ marginTop: 5  }} onPress={this.forgotPassword}>
+            <Text style={{ color: 'blue', textAlign: 'center' }}>Forgot Password?</Text>
+          </TouchableOpacity>
 
-        <View>
-          { this.state.loader ? <ActivityIndicator  size="large" color="#0000ff" /> : null }
+          <View style={{ height: 30 }}>
+            <Text>&nbsp;</Text>
+          </View>
+
+          <View>
+            <Toast visible={this.state.loader} position={-40} shadow={true} animation={true} hideOnPress={false} >
+              Updating data. Please wait
+            </Toast>
+           
+            {/* { this.state.loader ? <ActivityIndicator  size="large" color="#0000ff" /> : null } */}
+          </View>
         </View>
-      </View>
+      </ScrollView>  
     );
   }
 }

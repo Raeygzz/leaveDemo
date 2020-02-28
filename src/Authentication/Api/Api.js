@@ -16,6 +16,14 @@ export const login = (method = {}, body = {}) => {
 }
 
 
+// Method & headers send through action                                 // feb-28
+// export const employeeDetail = (options = {}, paramObj = {}) => {
+//   return fetch(url + '/identity/employee/' + paramObj.employeeId, {
+//     method: options.method,
+//     headers: options.headers
+//   });
+// }
+
 export const employeeDetail = (method = {}, paramObj = {}, accessToken = {}) => {
   // const store = configureStore();
 
