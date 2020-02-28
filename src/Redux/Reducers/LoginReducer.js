@@ -1,4 +1,4 @@
-import { LOGIN, EMPLOYEE_DETAIL_GET_API_REQUEST, EMPLOYEE_DETAIL_GET_API_SUCCESS, EMPLOYEE_DETAIL_GET_API_FAILURE } from '../Actions/Constants/ActionsTypes';
+import { LOGIN, LOGIN_POST_API_REQUEST, LOGIN_POST_API_SUCCESS, LOGIN_POST_API_FAILURE, EMPLOYEE_DETAIL_GET_API_REQUEST, EMPLOYEE_DETAIL_GET_API_SUCCESS, EMPLOYEE_DETAIL_GET_API_FAILURE } from '../Actions/Constants/ActionsTypes';
 
 
 const INITIAL_STATE = {
@@ -11,7 +11,8 @@ const INITIAL_STATE = {
   userId: '',
   companyId: '',
   fullName: '',
-  error: ''
+  error: '',
+  // loginApiSuccessStatus: false,
 }
 
 
@@ -29,6 +30,32 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         tokenType: action.payload.object.token.token_type,
         userId: action.payload.object.id
       }
+
+
+    // case LOGIN_POST_API_REQUEST:
+    //   return {
+    //     ...state,
+    //     error: action.payload
+    //   }
+
+    // case LOGIN_POST_API_SUCCESS:
+    //   return {
+    //     ...state,
+    //     dateAtTheTimeOfLogin: action.payload.dateAtTheTimeOfLogin,
+    //     countryCode: action.payload.countryCode,
+    //     accessToken: action.payload.object.token.id_token,
+    //     refreshToken: action.payload.object.token.refresh_token,
+    //     expiresIn: action.payload.object.token.expires_in,
+    //     tokenType: action.payload.object.token.token_type,
+    //     userId: action.payload.object.id,
+    //     loginApiSuccessStatus: action.payload.loginApiSuccessStatus
+    //   }  
+
+    // case LOGIN_POST_API_FAILURE:
+    //   return {
+    //     ...state,
+    //     error: action.payload.message
+    //   }   
 
 
     case EMPLOYEE_DETAIL_GET_API_REQUEST:
@@ -50,6 +77,7 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         error: action.payload.message
       }    
 
+      
     default:
       return state;  
   }

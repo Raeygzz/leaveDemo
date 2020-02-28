@@ -14,12 +14,13 @@ export default class ResetLink extends Component {
   render() {
     return(
       <View style={styles.container}>
-        <View style={{ height: 200 }}>
+        
+        <View style={{ height: 400 }}>
           <Text>&nbsp;</Text>
         </View>
 
         <Text style={{ textAlign: 'center' }}>Your password reset link has been sent</Text>
-        <Text style={{ fontWeight: "bold", textAlign: 'center' }}>Successfully</Text>
+        <Text style={{ fontWeight: "bold", textAlign: 'center', fontSize: 22, marginTop: 5 }}>Successfully</Text>
 
         <View style={styles.buttonContainer}>
           <Button title="Continue" onPress={() => this.props.navigation.navigate('Login')} />

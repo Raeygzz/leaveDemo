@@ -1,5 +1,4 @@
 import { CHECKINOUT_STATUS, CHECKIN_POST_API_REQUEST, CHECKIN_POST_API_SUCCESS, CHECKIN_POST_API_FAILURE, CHECKOUT_POST_API_REQUEST, CHECKOUT_POST_API_SUCCESS, CHECKOUT_POST_API_FAILURE, VIEW_REPORTS_API_REQUEST, VIEW_REPORTS_API_SUCCESS, VIEW_REPORTS_API_FAILURE } from './Constants/ActionsTypes';
-import { CommonActions } from '@react-navigation/native';
 
 import * as api from '../../Authentication/Api/Api';
 
@@ -143,14 +142,12 @@ export const checkOutApi = body => (dispatch, getState) => {
   const accessToken = storeState.login.accessToken;
 
   dispatch(checkOutApiRequestAction());
-  api.checkOut("POST", accessToken, body).then(res => res.json()).then(res => {debugger
+  api.checkOut("POST", accessToken, body).then(res => res.json()).then(res => {
     if(res.statusCode == 200 && res.status == true) {
       if(res.object.attendance.checkin_status && res.object.attendance.checkout_status) {
         res.checkInAlready = false;
-        res.viewReportResponseStatusFromCheckOut = true;
       } else {
         res.checkInAlready = true;
-        res.viewReportResponseStatusFromCheckOut = false;
       }
       
       dispatch(checkOutApiSuccessAction(res))
@@ -174,7 +171,7 @@ export const viewWeeklyReportApi = () => (dispatch, getState) => {
   const startFullYear = year + '/' + month + '/' + date;
 
   const accessToken = state.login.accessToken;
-  const companyId = 2;
+  const companyId = state.login.companyId;
   const userId = state.login.userId;
   const startDate = startFullYear;
   const endDate = state.login.dateAtTheTimeOfLogin;
@@ -201,7 +198,6 @@ export const viewWeeklyReportApi = () => (dispatch, getState) => {
       if(res.object.filter.length < 1) {
         viewReportResponse.viewReportResponseStatus = true
       } else {
-        // let checkInOutReports = [];
         viewReportResponse.viewReportResponseStatus = false
         for(let i = 0; i < res.object.filter.length; i++) {
           viewReportResponse.checkInOutReports.push({ id: res.object.filter[i].id.toString(), date: res.object.filter[i].date, checkIn: res.object.filter[i].check_in, checkOut: res.object.filter[i].check_out })

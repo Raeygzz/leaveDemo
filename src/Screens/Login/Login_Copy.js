@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, TextInput, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Alert, StyleSheet, TextInput, Button, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { connect } from 'react-redux';
-import { LoginAction, employeeDetailApi } from '../../Redux/Actions/LoginAction'; 
+import { loginApi, employeeDetailApi } from '../../Redux/Actions/LoginAction'; 
 
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -33,8 +33,8 @@ class Login extends Component {
 
       
       // company_id = 2
-      email: 'bijay@gmail.com',
-      password: 'password',
+      // email: 'bijay@gmail.com',
+      // password: 'password',
 
       // email: 'biplab@gmail.com',                                    // comapy_id = 5
       // password: 'password@2',
@@ -60,8 +60,8 @@ class Login extends Component {
       // email: 'angel@gmail.com',
       // password: 'password',
 
-      // email: 'mobile1@gmail.com',
-      // password: 'password',
+      email: 'mobile1@gmail.com',
+      password: 'password',
 
       // email: 'mobile2@gmail.com',
       // password: 'password',
@@ -105,9 +105,9 @@ class Login extends Component {
     const {navigation} = this.props;
     this.focusListener = navigation.addListener('focus', () => {
 
-      // AsyncStorage.getItem('touchIdHasenrolledFinger').then((val) => {
-      //   JSON.parse(val) || JSON.parse(val) == null ? this.touchIdAuthorization() : this.isSupported();
-      // })
+      AsyncStorage.getItem('touchIdHasenrolledFinger').then((val) => {
+        JSON.parse(val) || JSON.parse(val) == null ? this.touchIdAuthorization() : this.isSupported();
+      })
       
       this.setState({
         // email: '',
@@ -129,7 +129,7 @@ class Login extends Component {
 
   enableTouchIdAuth = () => {
     Keychain.getGenericPassword().then(credentials => {
-      // console.log('key credential In enableTouchIdAuth method ==> ', credentials);
+      console.log('key credential In enableTouchIdAuth method ==> ', credentials);
       if(credentials) {
         TouchID.isSupported().then(this.authenticate).catch(error => {
           Alert.alert('TouchID not supported', error);
@@ -257,43 +257,49 @@ class Login extends Component {
       this.setState({
         validationStatus: false,
         loader: true
+      }, () => {
+     
       })
 
       const obj = JSON.stringify({
         email: this.state.email,
         password: this.state.password
       });
+   
+      this.props.dispatch(loginApi(obj));
+      // api.login('POST', obj).then((response) => response.json()).then((responseJson) => {
+      //   const year = new Date().getFullYear();
+      //   let month = new Date().getMonth() + 1;
+      //   month.toString().length <= 1 ? month = '0' + month : month;
+      //   let date = new Date().getDate();
+      //   date.toString().length <= 1 ? date = '0' + date : date;
+      //   const fullYear = year + '/' + month + '/' + date;
+      //   responseJson.dateAtTheTimeOfLogin = fullYear;
+      //   responseJson.countryCode = "NP";
+
+      //   // console.log('res Login ==> ', responseJson);
+      //   if(responseJson.statusCode == 200 && responseJson.status == true) {
+
+      //     this.props.dispatch(LoginAction(responseJson));
+this.employeeDetailHandler()
+
+      this.props.login.loginApiSuccessStatus ? Keychain.setGenericPassword(this.state.email, this.state.password) : null;
+
+      this.props.login.loginApiSuccessStatus ? this.setState({
+        loader: false
+      }, () => {
+        console.log('stt ==> ', this.state)
+      }) : null;
+
+      // this.props.navigation.navigate('Main', { screen: 'Dashboard' });
+    // }
   
-      api.login('POST', obj).then((response) => response.json()).then((responseJson) => {
-        const year = new Date().getFullYear();
-        let month = new Date().getMonth() + 1;
-        month.toString().length <= 1 ? month = '0' + month : month;
-        let date = new Date().getDate();
-        date.toString().length <= 1 ? date = '0' + date : date;
-        const fullYear = year + '/' + month + '/' + date;
-        responseJson.dateAtTheTimeOfLogin = fullYear;
-        responseJson.countryCode = "NP";
-
-        // console.log('res Login ==> ', responseJson);
-        if(responseJson.statusCode == 200 && responseJson.status == true) {
-
-          this.props.dispatch(LoginAction(responseJson));
-
-          this.employeeDetailHandler();
-
-          Keychain.setGenericPassword(this.state.email, this.state.password);
-          this.setState({
-            loader: false
-          })
-          this.props.navigation.navigate('Main', { screen: 'Dashboard' });
-        }
-  
-      }).catch(err => {
-        this.setState({
+      // }).catch(err => {
+        !this.props.login.loginApiSuccessStatus ? this.setState({
           loader: false
-        })
-        console.log('Error ==> ', err);
-      })
+        }) : null
+      //   console.log('Error ==> ', err);
+      // })
     } else {
       this.setState({
         validationStatus: true,
@@ -312,8 +318,22 @@ class Login extends Component {
   }
 
 
+  // loginUsingTouchID = () => {
+  //   Keychain.getGenericPassword().then(credentials => {
+  //     // console.log('key credential In LoginUsingTouchID ==> ', credentials);
+  //     if(credentials) {
+  //       TouchID.isSupported().then(this.authenticate).catch(error => {
+  //         Alert.alert('TouchID not supported', error);
+  //       });
+  //     } else {
+  //       Alert.alert('Touch ID Alert', 'User need to manually login for the first time');
+  //     }
+  //   })
+  // }
+
+
   render() {
-    // console.log('this.props ==> ', this.props.login);
+    console.log('this.props.login ==> ', this.props.login);
     return (
       <View style={styles.viewContainer}>
 
@@ -340,6 +360,10 @@ class Login extends Component {
           this.state.validationStatus ? <Text  style={{ marginTop: 10, textAlign: 'center', color: 'red' }}>Username / Password Incorrect</Text> : null
         }
 
+<View>
+          { this.state.loader ? <ActivityIndicator  size="large" color="#0000ff" /> : null }
+        </View>
+
         <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
           <TouchableOpacity onPress={this.loginHandler} style={styles.buttonContainer}>
             <Text style={{ fontSize: 18, fontWeight: 'bold', paddingHorizontal: 60, paddingVertical: 20, color: '#fff' }}>Login</Text>
@@ -353,13 +377,11 @@ class Login extends Component {
           <Text style={{ color: 'blue', textAlign: 'center' }}>Forgot Password?</Text>
         </TouchableOpacity>
 
-        <View style={{ height: 30 }}>
+        {/* <View style={{ height: 30 }}>
           <Text>&nbsp;</Text>
-        </View>
+        </View> */}
 
-        <View>
-          { this.state.loader ? <ActivityIndicator  size="large" color="#0000ff" /> : null }
-        </View>
+        
       </View>
     );
   }

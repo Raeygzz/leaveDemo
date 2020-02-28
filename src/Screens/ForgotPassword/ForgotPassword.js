@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, Button, StyleSheet, TextInput } from 'react-native';
 
+import { CustomHeader } from '../../Components/Layouts/CustomHeader';
+
 
 export default class ForgotPassword extends Component {
   constructor(props) {
@@ -13,17 +15,21 @@ export default class ForgotPassword extends Component {
 
   render() {
     return(
-      <View style={styles.container}>
-        <Text style={{ fontWeight: "bold", textAlign: 'center' }}>Forgot Password</Text>
+      <View>
+        <CustomHeader isHome={false} navigation={this.props.navigation} />
+        <View style={styles.container}>
+          <View style={{ height: 250 }}>
+            <Text>&nbsp;</Text>
+          </View>
 
-        <View style={{ height: 200 }}>
-          <Text>&nbsp;</Text>
-        </View>
+          <Text style={{ fontWeight: "bold", textAlign: 'center', fontSize: 22 }}>Forgot Password</Text>
+          <Text style={{ textAlign: 'center' }}>Enter your valid Email</Text>
 
-        <TextInput placeholder="Email" style={styles.textInput} />
+          <TextInput placeholder="Email" style={styles.textInput} />
 
-        <View style={styles.buttonContainer}>
-          <Button title="Send Link" onPress={() => this.props.navigation.navigate('ResetLink')} />
+          <View style={styles.buttonContainer}>
+            <Button title="Send Link" onPress={() => this.props.navigation.navigate('ResetLink')} />
+          </View>
         </View>
       </View>
     )
@@ -33,11 +39,13 @@ export default class ForgotPassword extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 30
+    padding: 30,
   },
   textInput: {
-    borderBottomWidth: 1,
-    marginBottom: 40
+    marginTop: 30,
+    padding: 10,
+    borderWidth: 1,
+    marginBottom: 25
   },
   buttonContainer: {
     width: '50%',

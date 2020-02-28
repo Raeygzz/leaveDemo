@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Thu Feb 27 16:34:49 NPT 2020
+#Fri Feb 28 14:21:19 NPT 2020
 60.set=NATIVE_RESOURCE
 52.set=NATIVE_RESOURCE
 53.base=/Users/cloudyfox/Desktop/REGAN/EXAMPLEPROJECTS/ninetyNineLeaveApp_V5/android/app/build/intermediates/transforms/mergeJniLibs/debug/0

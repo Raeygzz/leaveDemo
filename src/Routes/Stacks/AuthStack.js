@@ -2,7 +2,6 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Login from '../../Screens/Login/Login';
-// import Dashboard from '../../screens/Dashboard/Dashboard';
 import ForgotPassword from '../../Screens/ForgotPassword/ForgotPassword';
 import ResetLink from '../../Screens/ResetLink/ResetLink';
 

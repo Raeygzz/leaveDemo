@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, Alert, FlatList } from 'react-native';
 
+import { Day, Month } from '../../Helper/Constants/Constant';
 import { CustomHeader } from '../../Components/Layouts/CustomHeader';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -20,10 +21,10 @@ class CheckInOut extends Component {
 
     const todayDateYear = new Date().getFullYear();
     const todayDateMonthNum = new Date().getMonth();
-    const todayDateMonth = ["January", "February", "March", "April", "May", "June", "July", "August", "Septtember", "October", "November", "December"][todayDateMonthNum];
+    const todayDateMonth = Month[todayDateMonthNum];
     const todayDateDate = new Date().getDate();
     const todayDateDayNum = new Date().getDay();
-    const todayDateDay = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][todayDateDayNum];
+    const todayDateDay = Day[todayDateDayNum];
     const todayDate = todayDateDay + ', ' + todayDateDate + ' ' + todayDateMonth + ' ' + todayDateYear;
 
     this.state = {
@@ -34,7 +35,7 @@ class CheckInOut extends Component {
       myApiKey: 'AIzaSyAlLxofrXNceXHrdMbUQgwz6F1YF9WlKyE',
       todayDate: todayDate,
       currentTime: null,
-      elapsedTime: null
+      elapsedTime: null,
     }
   }
 
@@ -114,10 +115,10 @@ class CheckInOut extends Component {
 
       const todayDateYear = new Date().getFullYear();
       const todayDateMonthNum = new Date().getMonth();
-      const todayDateMonth = ["January", "February", "March", "April", "May", "June", "July", "August", "Septtember", "October", "November", "December"][todayDateMonthNum];
+      const todayDateMonth = Month[todayDateMonthNum];
       const todayDateDate = new Date().getDate();
       const todayDateDayNum = new Date().getDay();
-      const todayDateDay = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][todayDateDayNum];
+      const todayDateDay = Month[todayDateDayNum];
       const todayDate = todayDateDay + ', ' + todayDateDate + ' ' + todayDateMonth + ' ' + todayDateYear;
 
       this.setState({
@@ -146,7 +147,9 @@ class CheckInOut extends Component {
     this.props.dispatch(checkInOutStatusApi());
 
     this.elapsedTime = setInterval(() => {
-      this.showElapsedTime();
+      if(this.props.check.checkInOut.checkInStatus && !this.props.check.checkInOut.checkOutStatus) {
+        this.showElapsedTime();
+      }
     }, 1000);
   }
 
@@ -205,7 +208,7 @@ class CheckInOut extends Component {
             user_id: this.props.check.login.userId,
             date: this.state.fullYear,
             country: "NP",
-            company_id: "2",
+            company_id: this.props.check.login.companyId,
             checkin_location: JSON.stringify({
               latitude: location.coords.latitude,
               longitude: location.coords.longitude,
@@ -219,7 +222,10 @@ class CheckInOut extends Component {
             this.showElapsedTime();
           }, 1000);
 
-          this.props.check.checkInOut.viewReportResponseStatus ? this.viewReport(): null;
+          setTimeout(() => {
+            // this.props.check.checkInOut.viewReportResponseStatus ? this.viewReport(): null;
+            this.props.check.checkInOut.viewReportResponseStatusFromCheckInOut ? this.viewReport(): null;
+          }, 1000)
 
           // fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + this.state.myLat + ',' + this.state.myLon + '&key=' + this.state.myApiKey)
           //   .then((response) => response.json())
@@ -258,8 +264,10 @@ class CheckInOut extends Component {
       this.props.dispatch(checkOutApi(body));
 
       clearInterval(this.elapsedTime);
-console.log('i m here', this.props.check.checkInOut.viewReportResponseStatusFromCheckOut)
-      this.props.check.checkInOut.viewReportResponseStatusFromCheckOut ? this.viewReport(): null;
+
+      setTimeout(() => {
+        this.props.check.checkInOut.viewReportResponseStatusFromCheckInOut ? this.viewReport(): null;
+      }, 1000)
     },
     (error) => Alert.alert('Permission Denied', 'Ninety leave app ' + error.message + ' for checkout.'),
     { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
@@ -267,7 +275,8 @@ console.log('i m here', this.props.check.checkInOut.viewReportResponseStatusFrom
   }
   
   render() {
-    console.log('this.props.check.checkInOut ==> ', this.props.check.checkInOut);
+    // console.log('this.props.check.checkInOut ==> ', this.props.check.checkInOut);
+    // console.log('this.state ==> ', this.state);
 
     return(
       <View style={{ flex: 1 }}>
@@ -295,7 +304,13 @@ console.log('i m here', this.props.check.checkInOut.viewReportResponseStatusFrom
 
               <View>
                 <Text>Time Elapsed</Text>
-                <Text>{ this.state.elapsedTime == 'NaN:NaN:NaN' ? 'n/a' : this.state.elapsedTime }</Text>
+                {/* <Text>{ this.state.elapsedTime == 'NaN:NaN:NaN' ? 'n/a' : this.state.elapsedTime }</Text> */}
+                <Text>
+                  { this.state.elapsedTime == null || this.state.elapsedTime == "NaN:NaN:NaN" ? 
+                    this.props.check.checkInOut.elapsedTime != "" ? this.props.check.checkInOut.elapsedTime : 'n/a' 
+                    : this.state.elapsedTime 
+                  }
+                </Text>
               </View>
             </View>
 
@@ -305,8 +320,7 @@ console.log('i m here', this.props.check.checkInOut.viewReportResponseStatusFrom
 
             <View style={{ marginLeft: 40, flexDirection: 'row', justifyContent: 'flex-start' }}>
               <Text>Location:</Text>
-              <Text style={{ marginLeft: 10 }}>{this.props.check.checkInLocation ? this.props.check.checkInLocation : null}</Text>
-              {/* <Text style={{ marginTop: 40 }}>{this.props.check.checkInOut.displayStatus ? this.props.check.checkInOut.displayStatus : null}</Text> */}
+              <Text style={{ marginLeft: 10 }}>{this.props.check.checkInLocation ? this.props.check.checkInLocation : 'n/a'}</Text>
             </View>
 
             <View style={{ height: 15 }}>

@@ -3,9 +3,11 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
+import { Day, Month } from '../../Helper/Constants/Constant';
 import { CustomHeader } from '../../Components/Layouts/CustomHeader';
 
 import { connect } from 'react-redux';
+
 
 
 class Dashboard extends Component {
@@ -29,10 +31,10 @@ class Dashboard extends Component {
 
       const year = new Date().getFullYear();
       const monthNum = new Date().getMonth();
-      const month = ["January", "February", "March", "April", "May", "June", "July", "August", "Septtember", "October", "November", "December"][monthNum];
+      const month = Month[monthNum];
       const date = new Date().getDate();
       const dayNum = new Date().getDay();
-      const day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][dayNum];
+      const day = Day[dayNum];
       const todayDate = day + ', ' + date + ' ' + month + ' ' + year;
 
       this.setState({

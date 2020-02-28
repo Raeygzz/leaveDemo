@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Switch, StyleSheet } from 'react-native';
+import { View, Text, Switch } from 'react-native';
 
 
 export default class ToggleButton extends Component {
@@ -8,28 +8,19 @@ export default class ToggleButton extends Component {
     
   }
 
-
   render() {
     return (
-      <View style = {styles.container}>
-        <View style={[{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }, styles.container]}>
-          <View>
-            <Text>{this.props.toggleText}</Text>
-          </View>
-
-          <Switch
-            onValueChange = {this.props.toggleSwitch}
-            value = {this.props.switchValue}
-          />
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        <View>
+          <Text style={{ marginLeft: 10 }}>{this.props.toggleText}</Text>
         </View>
+
+        <Switch
+          style={{ marginRight: 10 }}
+          onValueChange = {this.props.toggleSwitch}
+          value = {this.props.switchValue}
+        />
       </View>
     )
   }
 }
-
-
-const styles = StyleSheet.create ({
-  container: {
-    marginTop: 5,
-  }
-})

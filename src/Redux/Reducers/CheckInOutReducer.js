@@ -16,7 +16,7 @@ const INITIAL_STATE = {
   
   checkInOutReports: '',
   viewReportResponseStatus: false,
-  viewReportResponseStatusFromCheckOut: false,
+  viewReportResponseStatusFromCheckInOut: true,
 
   checkInAlready: false
 }
@@ -75,7 +75,6 @@ const checkInOutReducer = (state = INITIAL_STATE, action) => {
         ...state,
         checkInStatus: action.payload.object.attendance.checkin_status,
         checkOutStatus: action.payload.object.attendance.checkout_status,
-        viewReportResponseStatusFromCheckOut: action.payload.viewReportResponseStatusFromCheckOut,
         checkInAlready: action.payload.checkInAlready
       }  
 
