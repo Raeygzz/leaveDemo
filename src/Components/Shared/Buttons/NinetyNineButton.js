@@ -17,7 +17,7 @@ export class NinetyNineButton extends Component {
   render() {
     return (
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-        <TouchableOpacity onPress={this.props.handleSubmit} style={styles.buttonContainer}>
+        <TouchableOpacity onPress={this.props.onItemPressed} style={styles.buttonContainer}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', paddingHorizontal: 60, paddingVertical: 20, color: '#fff' }}>{this.props.buttonTitle}</Text>
         </TouchableOpacity>
         {

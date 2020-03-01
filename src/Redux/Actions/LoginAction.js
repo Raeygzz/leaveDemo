@@ -2,38 +2,38 @@ import { LOGIN, LOGIN_POST_API_REQUEST, LOGIN_POST_API_SUCCESS, LOGIN_POST_API_F
 
 import * as api from '../../Authentication/Api/Api';
 
-// import * as Keychain from 'react-native-keychain';
+import * as Keychain from 'react-native-keychain';
 
-// import { CommonActions } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
 
 
-export const LoginAction = login => {
+// export const LoginAction = login => {
+//   return {
+//     type: LOGIN,
+//     payload: login
+//   }
+// }
+
+export const loginApiRequestAction = loginRequest => {
   return {
-    type: LOGIN,
-    payload: login
+    type: LOGIN_POST_API_REQUEST,
+    payload: loginRequest
   }
 }
 
-// export const loginApiRequestAction = loginRequest => {
-//   return {
-//     type: LOGIN_POST_API_REQUEST,
-//     payload: loginRequest
-//   }
-// }
+export const loginApiSuccessAction = loginSuccess => {
+  return {
+    type: LOGIN_POST_API_SUCCESS,
+    payload: loginSuccess
+  }
+}
 
-// export const loginApiSuccessAction = loginSuccess => {
-//   return {
-//     type: LOGIN_POST_API_SUCCESS,
-//     payload: loginSuccess
-//   }
-// }
-
-// export const loginApiFailureAction = loginFailure => {
-//   return {
-//     type: LOGIN_POST_API_FAILURE,
-//     payload: loginFailure
-//   }
-// }
+export const loginApiFailureAction = loginFailure => {
+  return {
+    type: LOGIN_POST_API_FAILURE,
+    payload: loginFailure
+  }
+}
 
 
 
@@ -60,31 +60,33 @@ export const employeeDetailApiFailureAction = employeeDetailFailure => {
 
 
 
-// export const loginApi = body => (dispatch, getState) => {
-//   dispatch(loginApiRequestAction());
-//   api.login("POST", body).then(res => res.json()).then(res => {
-//     if(res.statusCode == 200 || res.status == true) {
-//       const year = new Date().getFullYear();
-//       let month = new Date().getMonth() + 1;
-//       month.toString().length <= 1 ? month = '0' + month : month;
-//       let date = new Date().getDate();
-//       date.toString().length <= 1 ? date = '0' + date : date;
-//       const fullYear = year + '/' + month + '/' + date;
-//       res.dateAtTheTimeOfLogin = fullYear;
-//       res.countryCode = "NP";
-//       res.loginApiSuccessStatus = true;
+export const loginApi = body => (dispatch, getState) => {
+  dispatch(loginApiRequestAction());
+  api.login("POST", body).then(res => res.json()).then(res => {
+    if(res.statusCode == 200 && res.status == true) {
+      const year = new Date().getFullYear();
+      let month = new Date().getMonth() + 1;
+      month.toString().length <= 1 ? month = '0' + month : month;
+      let date = new Date().getDate();
+      date.toString().length <= 1 ? date = '0' + date : date;
+      const fullYear = year + '/' + month + '/' + date;
+      res.dateAtTheTimeOfLogin = fullYear;
+      res.countryCode = "NP";
+      res.loginApiSuccessStatus = true;
 
-//       dispatch(loginApiSuccessAction(res))
+      dispatch(loginApiSuccessAction(res))
 
-//       // this.props.navigation.navigate('Main', { screen: 'Dashboard' });
-//     } else {
-//       res.loginApiSuccessStatus = false;
-//     }
+      Keychain.setGenericPassword(JSON.parse(body).email, JSON.parse(body).password);
+      
+      // this.props.navigation.navigate('Main', { screen: 'Dashboard' });
+    } else {
+      res.loginApiSuccessStatus = false;
+    }
 
-//   }).catch((error) => {
-//     dispatch(loginApiFailureAction(error))
-//   })
-// }
+  }).catch((error) => {
+    dispatch(loginApiFailureAction(error))
+  })
+}
 
 
 export const employeeDetailApi = () => (dispatch, getState) => {
@@ -105,8 +107,8 @@ export const employeeDetailApi = () => (dispatch, getState) => {
     employeeId: employeeId
   }
 
-  // dispatch(employeeDetailApiRequestAction(options));                               // Method & headers send through action          // feb-28
-  // api.employeeDetail(options, paramObj).then(res => res.json()).then(res => {            // Method & headers send through action    // feb-28
+  // dispatch(employeeDetailApiRequestAction(options));                              // Method & headers send through action          // feb-28
+  // api.employeeDetail(options, paramObj).then(res => res.json()).then(res => {           // Method & headers send through action    // feb-28
   dispatch(employeeDetailApiRequestAction());
   api.employeeDetail("GET", paramObj, accessToken).then(res => res.json()).then(res => {
     if(res.statusCode == 200 && res.status == true) {

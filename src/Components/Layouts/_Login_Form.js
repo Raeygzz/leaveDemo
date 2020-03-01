@@ -4,14 +4,8 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import { NinetyNineToggleButton } from '../Shared/Forms/NinetyNineToggleButton';
 import { NinetyNineButton } from '../Shared/Buttons/NinetyNineButton';
 
-import * as yup from 'yup';
+import { loginSchema } from '../../Authentication/Validations/_Login_FormValidation';
 import { Formik } from 'formik';
-
-
-const loginSchema = yup.object({
-  email: yup.string().required().email(),
-  password: yup.string().required().min(8)
-})
 
 
 export class _Login_Form extends Component {
@@ -47,11 +41,11 @@ export class _Login_Form extends Component {
 
 
           // company_id = 2
-          email: 'bijay@gmail.com',
-          password: 'password',
+          // email: 'bijay@gmail.com',
+          // password: 'password',
 
-          // email: 'biplab@gmail.com',                                    // comapy_id = 5
-          // password: 'password@2',
+          email: 'biplab@gmail.com',                                    // comapy_id = 5
+          password: 'password@2',
 
           // email: 'testuser1@yopmail.com',
           // password: 'password',
@@ -105,7 +99,7 @@ export class _Login_Form extends Component {
               />
             </View>
 
-            <NinetyNineButton buttonTitle="Login" handleSubmit={handleSubmit} />
+            <NinetyNineButton buttonTitle="Login" onItemPressed={handleSubmit} />
 
             <TouchableOpacity style={{ marginTop: 5 }} onPress={this.forgotPassword}>
               <Text style={{ color: 'blue', textAlign: 'center' }}>Forgot Password?</Text>

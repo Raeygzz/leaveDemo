@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Alert, StyleSheet, Text, View, ScrollView } from 'react-native';
 
 import { connect } from 'react-redux';
-import { LoginAction, employeeDetailApi } from '../../Redux/Actions/LoginAction';
+import { LoginAction, loginApi, employeeDetailApi } from '../../Redux/Actions/LoginAction';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -13,7 +13,7 @@ import { _Login_Form } from '../../Components/Layouts/_Login_Form';
 
 import * as api from '../../Authentication/Api/Api';
 
-import Toast from 'react-native-root-toast';
+import { NinetyNineLoader } from '../../Components/Shared/Loaders/NinetyNineLoader';
 
 // import * as RNLocalize from "react-native-localize";
 
@@ -187,8 +187,11 @@ class Login extends Component {
 
 
   loginHandler = (values) => {
+
     this.setState({
       loader: true
+    }, () => {
+      console.log('this.state1 ==> ', this.state);
     })
 
     const obj = JSON.stringify({
@@ -196,42 +199,42 @@ class Login extends Component {
       password: values.password
     });
 
-    api.login('POST', obj).then((response) => response.json()).then((responseJson) => {
-      const year = new Date().getFullYear();
-      let month = new Date().getMonth() + 1;
-      month.toString().length <= 1 ? month = '0' + month : month;
-      let date = new Date().getDate();
-      date.toString().length <= 1 ? date = '0' + date : date;
-      const fullYear = year + '/' + month + '/' + date;
-      responseJson.dateAtTheTimeOfLogin = fullYear;
-      responseJson.countryCode = "NP";
+    this.props.dispatch(loginApi(obj));
 
-      // console.log('res Login ==> ', responseJson);
-      if (responseJson.statusCode == 200 && responseJson.status == true) {
+    this.props.dispatch(employeeDetailApi());
+    // api.login('POST', obj).then((response) => response.json()).then((responseJson) => {
+    //   const year = new Date().getFullYear();
+    //   let month = new Date().getMonth() + 1;
+    //   month.toString().length <= 1 ? month = '0' + month : month;
+    //   let date = new Date().getDate();
+    //   date.toString().length <= 1 ? date = '0' + date : date;
+    //   const fullYear = year + '/' + month + '/' + date;
+    //   responseJson.dateAtTheTimeOfLogin = fullYear;
+    //   responseJson.countryCode = "NP";
 
-        this.props.dispatch(LoginAction(responseJson));
+    //   if (responseJson.statusCode == 200 && responseJson.status == true) {
 
-        this.employeeDetailHandler();
+    //     this.props.dispatch(LoginAction(responseJson));
 
-        Keychain.setGenericPassword(values.email, values.password);
         this.setState({
           loader: false
+        }, () => {
+          console.log('this.state2 ==> ', this.state);
         })
-        this.props.navigation.navigate('Main', { screen: 'Dashboard' });
-      }
+    //   }
 
-    }).catch(err => {
-      this.setState({
-        loader: false
-      })
-      console.log('Error ==> ', err);
-    })
+    // }).catch(err => {
+    //   this.setState({
+    //     loader: false
+    //   })
+    //   console.log('Error ==> ', err);
+    // })
   }
 
 
-  employeeDetailHandler = () => {
-    this.props.dispatch(employeeDetailApi());
-  }
+  // employeeDetailHandler = () => {
+  //   this.props.dispatch(employeeDetailApi());
+  // }
 
 
   forgotPassword = () => {
@@ -258,9 +261,9 @@ class Login extends Component {
           </View>
 
           <View>
-            <Toast visible={this.state.loader} position={-40} shadow={true} animation={true} hideOnPress={false} >
-              Updating data. Please wait
-            </Toast>
+            {
+              this.state.loader ? <NinetyNineLoader message="Updating data. Please wait" isLoading={true} /> : null
+            }
           </View>
         </View>
       </ScrollView>

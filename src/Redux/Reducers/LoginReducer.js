@@ -12,33 +12,14 @@ const INITIAL_STATE = {
   companyId: '',
   fullName: '',
   error: '',
-  // loginApiSuccessStatus: false,
+  loginApiSuccessStatus: false,
 }
 
 
 
 const loginReducer = (state = INITIAL_STATE, action) => {
   switch(action.type) {
-    case LOGIN:
-      return {
-        ...state,
-        dateAtTheTimeOfLogin: action.payload.dateAtTheTimeOfLogin,
-        countryCode: action.payload.countryCode,
-        accessToken: action.payload.object.token.id_token,
-        refreshToken: action.payload.object.token.refresh_token,
-        expiresIn: action.payload.object.token.expires_in,
-        tokenType: action.payload.object.token.token_type,
-        userId: action.payload.object.id
-      }
-
-
-    // case LOGIN_POST_API_REQUEST:
-    //   return {
-    //     ...state,
-    //     error: action.payload
-    //   }
-
-    // case LOGIN_POST_API_SUCCESS:
+    // case LOGIN:
     //   return {
     //     ...state,
     //     dateAtTheTimeOfLogin: action.payload.dateAtTheTimeOfLogin,
@@ -47,15 +28,34 @@ const loginReducer = (state = INITIAL_STATE, action) => {
     //     refreshToken: action.payload.object.token.refresh_token,
     //     expiresIn: action.payload.object.token.expires_in,
     //     tokenType: action.payload.object.token.token_type,
-    //     userId: action.payload.object.id,
-    //     loginApiSuccessStatus: action.payload.loginApiSuccessStatus
-    //   }  
+    //     userId: action.payload.object.id
+    //   }
 
-    // case LOGIN_POST_API_FAILURE:
-    //   return {
-    //     ...state,
-    //     error: action.payload.message
-    //   }   
+
+    case LOGIN_POST_API_REQUEST:
+      return {
+        ...state,
+        error: action.payload
+      }
+
+    case LOGIN_POST_API_SUCCESS:
+      return {
+        ...state,
+        loginApiSuccessStatus: action.payload.loginApiSuccessStatus,
+        dateAtTheTimeOfLogin: action.payload.dateAtTheTimeOfLogin,
+        countryCode: action.payload.countryCode,
+        accessToken: action.payload.object.token.id_token,
+        refreshToken: action.payload.object.token.refresh_token,
+        expiresIn: action.payload.object.token.expires_in,
+        tokenType: action.payload.object.token.token_type,
+        userId: action.payload.object.id,
+      }  
+
+    case LOGIN_POST_API_FAILURE:
+      return {
+        ...state,
+        error: action.payload.message
+      }   
 
 
     case EMPLOYEE_DETAIL_GET_API_REQUEST:
