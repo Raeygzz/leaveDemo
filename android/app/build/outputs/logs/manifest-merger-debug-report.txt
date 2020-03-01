@@ -8,6 +8,7 @@ MERGED from E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\android\app\
 MERGED from [:react-native-community_async-storage] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\@react-native-community\async-storage\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-community_geolocation] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\@react-native-community\geolocation\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-community_masked-view] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\@react-native-community\masked-view\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:react-native-community_netinfo] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\@react-native-community\netinfo\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-12:12
 MERGED from [:react-native-gesture-handler] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\react-native-gesture-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-keychain] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\react-native-keychain\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-13:12
 MERGED from [:react-native-localize] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\react-native-localize\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
@@ -43,9 +44,9 @@ MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\Regan Timsina\.g
 MERGED from [androidx.customview:customview:1.0.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\d39f95ddef722ccf34f80d7d7ac1fa97\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.transition:transition:1.2.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\69b8d57f64f9d8784bee702dea920e1f\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\aeab5a1af8d877e3e1f1c455ca2633f1\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.core:core:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\b716096aeb6bd91474472cca6f8a3f2d\AndroidManifest.xml:17:1-26:12
-MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\0a3d78c97f96ada21b4c37e80df89305\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.3.0-alpha01] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\2fa02740fc3aef49c1327b9c2b641bac\AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\36a8acfd0c8699393196335a9617f3ba\AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\0a3d78c97f96ada21b4c37e80df89305\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\ce74a3c0104daec949dc22ad3587c0f2\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.2.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\fa668fc404ed0a07ef5a31e0ddfa339c\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\a2d18464bf0d6688afacf141c7998fcb\AndroidManifest.xml:17:1-22:12
@@ -102,12 +103,12 @@ MERGED from [com.google.android.material:material:1.1.0] C:\Users\Regan Timsina\
 MERGED from [com.google.android.material:material:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\17f56a15d732a68fa2f8b3a018bab7c9\AndroidManifest.xml:22:5-20
 MERGED from [com.facebook.soloader:soloader:0.6.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\80b3aca071e403b08a58cf72cd43f0fd\AndroidManifest.xml:11:5-20
 MERGED from [com.facebook.soloader:soloader:0.6.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\80b3aca071e403b08a58cf72cd43f0fd\AndroidManifest.xml:11:5-20
-MERGED from [androidx.core:core:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\b716096aeb6bd91474472cca6f8a3f2d\AndroidManifest.xml:24:5-89
-MERGED from [androidx.core:core:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\b716096aeb6bd91474472cca6f8a3f2d\AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.3.0-alpha01] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\2fa02740fc3aef49c1327b9c2b641bac\AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.3.0-alpha01] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\2fa02740fc3aef49c1327b9c2b641bac\AndroidManifest.xml:24:5-89
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\36a8acfd0c8699393196335a9617f3ba\AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\36a8acfd0c8699393196335a9617f3ba\AndroidManifest.xml:24:5-25:19
 	android:appComponentFactory
-		ADDED from [androidx.core:core:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\b716096aeb6bd91474472cca6f8a3f2d\AndroidManifest.xml:24:18-86
+		ADDED from [androidx.core:core:1.3.0-alpha01] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\2fa02740fc3aef49c1327b9c2b641bac\AndroidManifest.xml:24:18-86
 	android:label
 		ADDED from E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\android\app\src\main\AndroidManifest.xml:10:7-39
 		ADDED from E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\android\app\src\main\AndroidManifest.xml:10:7-39
@@ -166,6 +167,8 @@ MERGED from [:react-native-community_geolocation] E:\Company\Cloudyfox Pvt Ltd\P
 MERGED from [:react-native-community_geolocation] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\@react-native-community\geolocation\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-community_masked-view] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\@react-native-community\masked-view\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-community_masked-view] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\@react-native-community\masked-view\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-community_netinfo] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\@react-native-community\netinfo\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-community_netinfo] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\@react-native-community\netinfo\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-gesture-handler] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\react-native-gesture-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-gesture-handler] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\react-native-gesture-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-keychain] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\react-native-keychain\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
@@ -236,12 +239,12 @@ MERGED from [androidx.transition:transition:1.2.0] C:\Users\Regan Timsina\.gradl
 MERGED from [androidx.transition:transition:1.2.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\69b8d57f64f9d8784bee702dea920e1f\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\aeab5a1af8d877e3e1f1c455ca2633f1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\aeab5a1af8d877e3e1f1c455ca2633f1\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.core:core:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\b716096aeb6bd91474472cca6f8a3f2d\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.core:core:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\b716096aeb6bd91474472cca6f8a3f2d\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\0a3d78c97f96ada21b4c37e80df89305\AndroidManifest.xml:20:5-44
-MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\0a3d78c97f96ada21b4c37e80df89305\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.3.0-alpha01] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\2fa02740fc3aef49c1327b9c2b641bac\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.3.0-alpha01] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\2fa02740fc3aef49c1327b9c2b641bac\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\36a8acfd0c8699393196335a9617f3ba\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\36a8acfd0c8699393196335a9617f3ba\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\0a3d78c97f96ada21b4c37e80df89305\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\0a3d78c97f96ada21b4c37e80df89305\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\ce74a3c0104daec949dc22ad3587c0f2\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\ce74a3c0104daec949dc22ad3587c0f2\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.2.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\fa668fc404ed0a07ef5a31e0ddfa339c\AndroidManifest.xml:20:5-22:41
@@ -274,3 +277,11 @@ uses-permission#android.permission.SYSTEM_ALERT_WINDOW
 ADDED from E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\android\app\src\debug\AndroidManifest.xml:5:5-77
 	android:name
 		ADDED from E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\android\app\src\debug\AndroidManifest.xml:5:22-75
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [:react-native-community_netinfo] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\@react-native-community\netinfo\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:9:5-79
+	android:name
+		ADDED from [:react-native-community_netinfo] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\@react-native-community\netinfo\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:9:22-76
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from [:react-native-community_netinfo] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\@react-native-community\netinfo\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:10:5-76
+	android:name
+		ADDED from [:react-native-community_netinfo] E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\node_modules\@react-native-community\netinfo\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:10:22-73

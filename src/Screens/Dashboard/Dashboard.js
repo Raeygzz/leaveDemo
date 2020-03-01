@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { Day, Month } from '../../Helper/Constants/Constant';
-import { CustomHeader } from '../../Components/Layouts/Headers/CustomHeader';
+import { NinetyNineHeader } from '../../Components/Shared/Headers/NinetyNineHeader';
 
 import { connect } from 'react-redux';
 
@@ -81,7 +81,7 @@ class Dashboard extends Component {
 
     return(
       <View>
-        <CustomHeader isHome={true} navigation={this.props.navigation}  />
+        <NinetyNineHeader isHome={true} navigation={this.props.navigation}  />
 
         <View style={styles.bodyContainer}>
           {

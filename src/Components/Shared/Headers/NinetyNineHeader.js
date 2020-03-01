@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { DrawerActions } from '@react-navigation/native';
 
-export class CustomHeader extends Component {
+export class NinetyNineHeader extends Component {
   render() {
     let { title, isHome } = this.props;
     

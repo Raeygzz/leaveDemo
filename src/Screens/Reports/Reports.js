@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, } from 'react-native';
 
-import { CustomHeader } from '../../Components/Layouts/Headers/CustomHeader';
+import { NinetyNineHeader } from '../../Components/Shared/Headers/NinetyNineHeader';
 
 
 export default class Reports extends Component {
@@ -21,7 +21,7 @@ export default class Reports extends Component {
   render() {
     return(
       <View>
-        <CustomHeader title="Reports" isHome={true} navigation={this.props.navigation}  />
+        <NinetyNineHeader title="Reports" isHome={true} navigation={this.props.navigation}  />
 
         <View style={styles.bodyContainer}>
           <Text>I m in Reports</Text>

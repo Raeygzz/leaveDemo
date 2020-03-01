@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Button, StyleSheet, TextInput } from 'react-native';
 
-import { CustomHeader } from '../../Components/Layouts/Headers/CustomHeader';
+import { NinetyNineHeader } from '../../Components/Shared/Headers/NinetyNineHeader';
 
 
 export default class ForgotPassword extends Component {
@@ -16,7 +16,7 @@ export default class ForgotPassword extends Component {
   render() {
     return(
       <View>
-        <CustomHeader isHome={false} navigation={this.props.navigation} />
+        <NinetyNineHeader isHome={false} navigation={this.props.navigation} />
         <View style={styles.container}>
           <View style={{ height: 250 }}>
             <Text>&nbsp;</Text>

@@ -6,7 +6,7 @@ import * as Keychain from 'react-native-keychain';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import { CustomHeader } from '../../Components/Layouts/Headers/CustomHeader';
+import { NinetyNineHeader } from '../../Components/Shared/Headers/NinetyNineHeader';
 
 
 export default class ResetFingerprint extends Component {
@@ -22,7 +22,7 @@ export default class ResetFingerprint extends Component {
   render() {
     return (
       <View>
-        <CustomHeader title="Reset Finger Print" isHome={false} navigation={this.props.navigation}  />
+        <NinetyNineHeader title="Reset Finger Print" isHome={false} navigation={this.props.navigation}  />
 
         <View style={styles.bodyContainer}>
           <Text>I m in Reset Finger Print</Text>

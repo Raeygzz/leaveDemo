@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, Alert, FlatList } from 'react-native';
 
 import { Day, Month } from '../../Helper/Constants/Constant';
-import { CustomHeader } from '../../Components/Layouts/Headers/CustomHeader';
+import { NinetyNineHeader } from '../../Components/Shared/Headers/NinetyNineHeader';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -280,7 +280,7 @@ class CheckInOut extends Component {
 
     return(
       <View style={{ flex: 1 }}>
-        <CustomHeader title="Attendance" isHome={true} navigation={this.props.navigation}  />
+        <NinetyNineHeader title="Attendance" isHome={true} navigation={this.props.navigation}  />
 
         <View style={styles.bodyContainer}>
 

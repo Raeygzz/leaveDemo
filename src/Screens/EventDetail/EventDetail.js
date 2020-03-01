@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-import { CustomHeader } from '../../Components/Layouts/Headers/CustomHeader';
+import { NinetyNineHeader } from '../../Components/Shared/Headers/NinetyNineHeader';
 
 export default class EventDetail extends Component {
   constructor(props) {
@@ -15,7 +15,7 @@ export default class EventDetail extends Component {
   render() {
     return(
       <View>
-        <CustomHeader isHome={false} navigation={this.props.navigation}  />
+        <NinetyNineHeader isHome={false} navigation={this.props.navigation}  />
 
         <View style={styles.bodyContainer}>
           <Text>I m in Event Detail</Text>

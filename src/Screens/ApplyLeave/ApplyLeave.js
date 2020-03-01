@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, } from 'react-native';
 
-import { CustomHeader } from '../../Components/Layouts/Headers/CustomHeader';
+import { NinetyNineHeader } from '../../Components/Shared/Headers/NinetyNineHeader';
 
 
 export default class ApplyLeave extends Component {
@@ -21,7 +21,7 @@ export default class ApplyLeave extends Component {
   render() {
     return(
       <View>
-        <CustomHeader title="Apply leave" isHome={true} navigation={this.props.navigation}  />
+        <NinetyNineHeader title="Apply leave" isHome={true} navigation={this.props.navigation}  />
 
         <View style={styles.bodyContainer}>
           <Text>I m in Apply leave</Text>

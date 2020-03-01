@@ -8,7 +8,7 @@ export default class ListItem extends Component {
     const dayNum = date.getDay();
     const day = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"][dayNum];
 
-    return(
+    return (
       <View style={{ marginBottom: 8, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', backgroundColor: 'lightgrey', padding: 15 }}>
         <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
           <View style={{ position: 'absolute', right: 65, borderRadius: 100, padding: 4, backgroundColor: '#fff' }}>
@@ -24,7 +24,7 @@ export default class ListItem extends Component {
 
         <View>
           <Text>check out</Text>
-          <Text>{this.props.title.checkOut ? this.props.title.checkOut : 'n/a' }</Text>
+          <Text>{this.props.title.checkOut ? this.props.title.checkOut : 'n/a'}</Text>
         </View>
       </View>
     )
