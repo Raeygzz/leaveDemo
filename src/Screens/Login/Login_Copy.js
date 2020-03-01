@@ -13,7 +13,7 @@ import * as Keychain from 'react-native-keychain';
 
 import * as api from '../../Authentication/Api/Api';
 
-import ToggleButton from '../../Components/Layouts/ToggleButton';
+import ToggleButton from '../../Components/Layouts/Forms/ToggleButton';
 
 import * as RNLocalize from "react-native-localize";
  

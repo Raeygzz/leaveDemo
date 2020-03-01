@@ -6,7 +6,7 @@ import * as Keychain from 'react-native-keychain';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import { CustomHeader } from '../../Components/Layouts/CustomHeader';
+import { CustomHeader } from '../../Components/Layouts/Headers/CustomHeader';
 
 
 export default class ResetFingerprint extends Component {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-import { CustomHeader } from '../../Components/Layouts/CustomHeader';
+import { CustomHeader } from '../../Components/Layouts/Headers/CustomHeader';
 
 export default class EventDetail extends Component {
   constructor(props) {

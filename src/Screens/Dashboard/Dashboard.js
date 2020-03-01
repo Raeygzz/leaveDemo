@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { Day, Month } from '../../Helper/Constants/Constant';
-import { CustomHeader } from '../../Components/Layouts/CustomHeader';
+import { CustomHeader } from '../../Components/Layouts/Headers/CustomHeader';
 
 import { connect } from 'react-redux';
 

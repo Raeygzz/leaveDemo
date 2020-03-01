@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 
-import { CustomHeader } from '../../Components/Layouts/CustomHeader';
+import { CustomHeader } from '../../Components/Layouts/Headers/CustomHeader';
 
 
 export default class Settings extends Component {

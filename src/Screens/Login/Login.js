@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, TextInput, Text, View, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
+import { Alert, StyleSheet, TextInput, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -13,20 +13,25 @@ import * as Keychain from 'react-native-keychain';
 
 import * as api from '../../Authentication/Api/Api';
 
-import ToggleButton from '../../Components/Layouts/ToggleButton';
+import { NinetyNineToggleButton } from '../../Components/Layouts/Forms/NinetyNineToggleButton';
+import { NinetyNineTextInput } from '../../Components/Layouts/Forms/NinetyNineTextInput';
 
 import Toast from 'react-native-root-toast';
 
-import * as yup from 'yup'; // for everything
-// or
-// import { string, object } from 'yup'; // for only what you need
+import * as yup from 'yup';
 
-import * as RNLocalize from "react-native-localize";
+// import * as RNLocalize from "react-native-localize";
  
 
+const reviewSchema = yup.object({
+  email: yup.string().required().email(),
+  password: yup.string().required().min(8)
+})
+
+
 class Login extends Component {
+  // appWithAllNavigation_V5_tsx
   constructor(props) {
-    // appWithAllNavigation_V5_tsx
     super(props);
 
     this.state = {
@@ -39,11 +44,11 @@ class Login extends Component {
 
       
       // company_id = 2
-      email: 'bijay@gmail.com',
-      password: 'password',
+      // email: 'bijay@gmail.com',
+      // password: 'password',
 
-      // email: 'biplab@gmail.com',                                    // comapy_id = 5
-      // password: 'password@2',
+      email: 'biplab@gmail.com',                                    // comapy_id = 5
+      password: 'password@2',
 
       // email: 'testuser1@yopmail.com',
       // password: 'password',
@@ -75,8 +80,6 @@ class Login extends Component {
       // email: 'mobile3@gmail.com',
       // password: 'password',
 
-
-
       validationStatus: false,
       loader: false,
       touchIdHasEnrolledFinger: true,
@@ -97,13 +100,6 @@ class Login extends Component {
 
   static navigationOptions = {
     headerShown: false
-  }
-
-
-  toggleSwitch = (value) => {
-    this.setState({
-      switchValue: value
-    })
   }
 
 
@@ -130,6 +126,13 @@ class Login extends Component {
 
   componentWillUnmount() {
     this.focusListener();
+  }
+
+
+  toggleSwitch = (value) => {
+    this.setState({
+      switchValue: value
+    })
   }
 
 
@@ -258,7 +261,7 @@ class Login extends Component {
   
 
   loginHandler = () => {
-    if(this.state.email != '' && this.state.password != '') {
+    // if(this.state.email != '' && this.state.password != '') {
       
       this.setState({
         validationStatus: false,
@@ -300,11 +303,11 @@ class Login extends Component {
         })
         console.log('Error ==> ', err);
       })
-    } else {
-      this.setState({
-        validationStatus: true,
-      })
-    }
+    // } else {
+    //   this.setState({
+    //     validationStatus: true,
+    //   })
+    // }
   }
 
 
@@ -320,6 +323,7 @@ class Login extends Component {
 
   render() {
     // console.log('this.props ==> ', this.props.login);
+
     return (
       <ScrollView>
         <View style={styles.viewContainer}>
@@ -330,21 +334,24 @@ class Login extends Component {
           </View>
 
           <View>
-            <TextInput style={styles.textInput1} placeholder="Username" onChangeText={(email) => this.setState({ email })} value={this.state.email} />
-            <TextInput secureTextEntry={true} style={styles.textInput2} placeholder="Password" onChangeText={(password) => this.setState({ password })} value={this.state.password} />
+            <NinetyNineTextInput placeholder="Username" onChangeText={(email) => this.setState({ email })} value={this.state.email} />
+            {/* <TextInput validationSchema={reviewSchema.email} style={styles.textInput1} placeholder="Username" onChangeText={(email) => this.setState({ email })} value={this.state.email} /> */}
+
+            <NinetyNineTextInput placeholder="Password" hideText={true} onChangeText={(password) => this.setState({ password })} value={this.state.password} />
+            {/* <TextInput validationSchema={reviewSchema.password} secureTextEntry={true} style={styles.textInput2} placeholder="Password" onChangeText={(password) => this.setState({ password })} value={this.state.password} /> */}
           </View>
 
           <View>
-            <ToggleButton
+            <NinetyNineToggleButton
               toggleSwitch = {this.toggleSwitch}
               switchValue = {this.state.switchValue}
               toggleText = 'Remember Me'
             />
           </View>
 
-          {
+          {/* {
             this.state.validationStatus ? <Text  style={{ marginTop: 10, textAlign: 'center', color: 'red' }}>Username / Password Incorrect</Text> : null
-          }
+          } */}
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
             <TouchableOpacity onPress={this.loginHandler} style={styles.buttonContainer}>
@@ -367,8 +374,6 @@ class Login extends Component {
             <Toast visible={this.state.loader} position={-40} shadow={true} animation={true} hideOnPress={false} >
               Updating data. Please wait
             </Toast>
-           
-            {/* { this.state.loader ? <ActivityIndicator  size="large" color="#0000ff" /> : null } */}
           </View>
         </View>
       </ScrollView>  
@@ -382,7 +387,7 @@ const styles = StyleSheet.create({
   },
   containerBody: {
     top: 230,
-    marginBottom: 320,
+    marginBottom: 310,
   },
   textAlign: {
     top: 50,

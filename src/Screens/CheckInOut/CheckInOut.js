@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, Alert, FlatList } from 'react-native';
 
 import { Day, Month } from '../../Helper/Constants/Constant';
-import { CustomHeader } from '../../Components/Layouts/CustomHeader';
+import { CustomHeader } from '../../Components/Layouts/Headers/CustomHeader';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
