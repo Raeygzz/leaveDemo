@@ -1,81 +1,100 @@
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import React, { Component } from "react";
+import { View, Text, StyleSheet, ActivityIndicator, Modal } from "react-native";
+
+import { connect } from 'react-redux';
 
 
-export class NinetyNineLoader extends Component {
+class NinetyNineLoader extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      loader: false
+      isShow: null
+    };
+  }
+
+  // componentDidUpdate(prevProps) {
+  //   if (this.props.loader !== prevProps.loader) {
+  //     this.setState({
+  //       isShow: this.props.loader
+  //     }, () => {
+  //       console.log('isShow ==> ', this.state);
+  //     });
+  //   }
+  // }
+
+
+  componentDidUpdate(prevProps) {
+    if (this.props.login.loaderStatus !== prevProps.login.loaderStatus) {
+      this.setState({
+        isShow: this.props.login.loaderStatus
+      }, () => {
+        // console.log('isShow ==> ', this.state);
+      });
     }
   }
 
 
-  // static getDerivedStateFromProps(props, state) {debugger
-  //   if(props.isLoading) {
-  //     return true;
-  //   } 
-  //   if(state.loader) {
-  //     return true
-  //   }
-  //   return null
-  // }
-
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (this.props.isLoading == nextProps.isLoading) {
-  //     return true;
-  //   }
-  //   if (this.state.isLoading == nextState.isLoading) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
-
-  // componentDidUpdate(prevProps) {debugger
-  //   if(prevProps.isLoading !== this.props.isLoading){
-      
-  //   }
-  // }
-
-
   render() {
-    return(
-      <View style={styles.container}>
-        <Text style={styles.text}>{this.props.message ? this.props.message : 'Updating data. Please wait'}</Text>
-        {
-          this.props.isLoading ? <ActivityIndicator size="large" color="#00ff00" /> : <Text style={styles.ok}>Ok</Text>
-        }
-      </View>
-    )
+    // console.log('this.props.login ==> ', this.props.login);
+
+    return (
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={this.state.isShow}
+        // style={{ }}
+        // onRequestClose={() => {
+        // Alert.alert('Important task happening, cannot exit.');
+        // this.setState({isShow: false})
+        // this.props.navigation.goBack()
+        // this.visible={false}
+        // }}
+      >
+        <View style={styles.container}>
+          <Text style={styles.text}>
+            {this.props.message ? this.props.message : "Updating data. Please wait"}
+          </Text>
+
+          { this.props.isLoading ? ( <ActivityIndicator size="large" color="#00ff00" /> ) : ( <Text style={styles.ok}>Ok</Text> ) }
+        </View>
+      </Modal>
+    );
   }
 }
 
-
 const styles = StyleSheet.create({
   container: {
-    width: "85%", 
-    backgroundColor: '#000', 
+    position: "absolute",
+    bottom: 40,
+    width: "85%",
+    backgroundColor: "#000",
     padding: 8,
-    flexDirection: 'row', 
-    justifyContent: 'space-around', 
-    alignItems: 'center', 
-    alignSelf: 'center',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    alignSelf: "center",
     elevation: 16,
-    borderRadius: 15,
-
+    borderRadius: 15
   },
   text: {
-    color: '#fff', 
-    fontSize: 18, 
-    fontWeight: 'bold'
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold"
   },
   ok: {
-    color: 'green', 
-    marginLeft: 20, 
-    fontSize: 25, 
+    color: "green",
+    marginLeft: 20,
+    fontSize: 25,
     fontWeight: "bold"
   }
-})
+});
+
+const mapStateToProps = state => {
+  return {
+    login: state.login
+  }
+}
+
+export default connect(mapStateToProps)(NinetyNineLoader);
+// export default NinetyNineLoader;

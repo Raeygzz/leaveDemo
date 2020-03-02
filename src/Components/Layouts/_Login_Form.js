@@ -3,12 +3,15 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 
 import { NinetyNineToggleButton } from '../Shared/Forms/NinetyNineToggleButton';
 import { NinetyNineButton } from '../Shared/Buttons/NinetyNineButton';
+import { NinetyNineText } from '../Shared/Forms/NinetyNineText';
 
 import { loginSchema } from '../../Authentication/Validations/_Login_FormValidation';
 import { Formik } from 'formik';
 
+import { connect } from 'react-redux';
 
-export class _Login_Form extends Component {
+
+class _Login_Form extends Component {
   constructor(props) {
     super(props);
 
@@ -26,6 +29,8 @@ export class _Login_Form extends Component {
 
 
   render() {
+    console.log('this.props.errorMsg  ==> ', this.props.errorMsg);
+
     return (
       <Formik
         initialValues={{
@@ -41,11 +46,11 @@ export class _Login_Form extends Component {
 
 
           // company_id = 2
-          // email: 'bijay@gmail.com',
-          // password: 'password',
+          email: 'bijay@gmail.com',
+          password: 'password',
 
-          email: 'biplab@gmail.com',                                    // comapy_id = 5
-          password: 'password@2',
+          // email: 'biplab@gmail.com',                                    // comapy_id = 5
+          // password: 'password@2',
 
           // email: 'testuser1@yopmail.com',
           // password: 'password',
@@ -91,6 +96,10 @@ export class _Login_Form extends Component {
             <TextInput secureTextEntry={true} style={[{ borderColor: touched.password && errors.password ? 'red' : null }, styles.textInput2]} placeholder="Password" onChangeText={handleChange('password')} value={values.password} onBlur={handleBlur('password')} />
             {/* <Text>{touched.password && errors.password}</Text> */}
 
+            {
+              this.props.errorMsg.error != '' ? <NinetyNineText text={this.props.errorMsg.error ? this.props.errorMsg.error : null} /> : null
+            }
+
             <View>
               <NinetyNineToggleButton
                 toggleSwitch={this.toggleSwitch}
@@ -98,9 +107,9 @@ export class _Login_Form extends Component {
                 toggleText='Remember Me'
               />
             </View>
-
-            <NinetyNineButton buttonTitle="Login" onItemPressed={handleSubmit} />
-
+            
+            <NinetyNineButton buttonTitle="Login" onItemPressed={handleSubmit} /> 
+            
             <TouchableOpacity style={{ marginTop: 5 }} onPress={this.forgotPassword}>
               <Text style={{ color: 'blue', textAlign: 'center' }}>Forgot Password?</Text>
             </TouchableOpacity>
@@ -126,3 +135,12 @@ const styles = StyleSheet.create({
     elevation: 1
   },
 })
+
+
+const mapStateToProps = state => {
+  return {
+    errorMsg: state.login
+  } 
+}
+
+export default connect(mapStateToProps)(_Login_Form);

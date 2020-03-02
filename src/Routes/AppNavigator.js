@@ -5,11 +5,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { AuthNavigator } from './Stacks/AuthStack';
 import { MainNavigator } from './Stacks/MainStack';
 
+import { navigationRef } from './RootNavigation';
+
 
 const Stack = createStackNavigator();
 
+
 export const AppNavigator = () => (
-  <NavigationContainer>
+  <NavigationContainer ref={navigationRef}>
     <Stack.Navigator headerMode='none'>
       <Stack.Screen name="Auth" component={AuthNavigator} />
       <Stack.Screen name="Main" component={MainNavigator} />

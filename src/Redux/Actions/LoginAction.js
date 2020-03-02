@@ -1,18 +1,11 @@
-import { LOGIN, LOGIN_POST_API_REQUEST, LOGIN_POST_API_SUCCESS, LOGIN_POST_API_FAILURE, EMPLOYEE_DETAIL_GET_API_REQUEST, EMPLOYEE_DETAIL_GET_API_SUCCESS, EMPLOYEE_DETAIL_GET_API_FAILURE } from './Constants/ActionsTypes';
+import { LOGIN_POST_API_REQUEST, LOGIN_POST_API_SUCCESS, LOGIN_POST_API_FAILURE, EMPLOYEE_DETAIL_GET_API_REQUEST, EMPLOYEE_DETAIL_GET_API_SUCCESS, EMPLOYEE_DETAIL_GET_API_FAILURE } from './Constants/ActionsTypes';
 
 import * as api from '../../Authentication/Api/Api';
 
 import * as Keychain from 'react-native-keychain';
 
-import { CommonActions } from '@react-navigation/native';
+import * as RootNavigation from '../../Routes/RootNavigation';
 
-
-// export const LoginAction = login => {
-//   return {
-//     type: LOGIN,
-//     payload: login
-//   }
-// }
 
 export const loginApiRequestAction = loginRequest => {
   return {
@@ -61,7 +54,12 @@ export const employeeDetailApiFailureAction = employeeDetailFailure => {
 
 
 export const loginApi = body => (dispatch, getState) => {
-  dispatch(loginApiRequestAction());
+  const options = {
+    error: '',
+    loaderStatus: true
+  }
+
+  dispatch(loginApiRequestAction(options));
   api.login("POST", body).then(res => res.json()).then(res => {
     if(res.statusCode == 200 && res.status == true) {
       const year = new Date().getFullYear();
@@ -72,15 +70,18 @@ export const loginApi = body => (dispatch, getState) => {
       const fullYear = year + '/' + month + '/' + date;
       res.dateAtTheTimeOfLogin = fullYear;
       res.countryCode = "NP";
-      res.loginApiSuccessStatus = true;
 
       dispatch(loginApiSuccessAction(res))
 
       Keychain.setGenericPassword(JSON.parse(body).email, JSON.parse(body).password);
+
+      dispatch(employeeDetailApi());
       
-      // this.props.navigation.navigate('Main', { screen: 'Dashboard' });
+      RootNavigation.navigate('Main', { screen: 'Dashboard' });
+
     } else {
-      res.loginApiSuccessStatus = false;
+      res.loaderStatus = false;
+      dispatch(loginApiFailureAction(res))
     }
 
   }).catch((error) => {
@@ -112,8 +113,11 @@ export const employeeDetailApi = () => (dispatch, getState) => {
   dispatch(employeeDetailApiRequestAction());
   api.employeeDetail("GET", paramObj, accessToken).then(res => res.json()).then(res => {
     if(res.statusCode == 200 && res.status == true) {
+      res.loaderStatus = false;
       // console.log('employeeDetail ==> ', res);
       dispatch(employeeDetailApiSuccessAction(res))
+    } else {
+      res.loaderStatus = false;
     }
 
   }).catch((error) => {
