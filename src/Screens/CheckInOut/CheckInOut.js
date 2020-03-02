@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Button, Alert, FlatList } from 'react-native';
 
 import { Day, Month } from '../../Helper/Constants/Constant';
 import { NinetyNineHeader } from '../../Components/Shared/Headers/NinetyNineHeader';
+import NinetyNineLoader from '../../Components/Shared/Loaders/NinetyNineLoader';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -10,7 +11,7 @@ import {PermissionsAndroid} from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 
 import { connect } from 'react-redux';
-import { checkInOutStatusApi, viewWeeklyReportApi, checkInApi, checkOutApi } from '../../Redux/Actions/CheckInOutAction';
+import { checkInOutApi, viewWeeklyReportApi, checkInApi, checkOutApi } from '../../Redux/Actions/CheckInOutAction';
 
 import ListItem from '../../Components/Layouts/ListItem';
 
@@ -144,7 +145,7 @@ class CheckInOut extends Component {
 
 
   checkInOutStatus = () => {
-    this.props.dispatch(checkInOutStatusApi());
+    this.props.dispatch(checkInOutApi());
 
     this.elapsedTime = setInterval(() => {
       if(this.props.check.checkInOut.checkInStatus && !this.props.check.checkInOut.checkOutStatus) {
@@ -224,7 +225,7 @@ class CheckInOut extends Component {
 
           setTimeout(() => {
             // this.props.check.checkInOut.viewReportResponseStatus ? this.viewReport(): null;
-            this.props.check.checkInOut.viewReportResponseStatusFromCheckInOut ? this.viewReport(): null;
+            // this.props.check.checkInOut.viewReportResponseStatusFromCheckInOut ? this.viewReport(): null;
           }, 1000)
 
           // fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + this.state.myLat + ',' + this.state.myLon + '&key=' + this.state.myApiKey)
@@ -266,7 +267,7 @@ class CheckInOut extends Component {
       clearInterval(this.elapsedTime);
 
       setTimeout(() => {
-        this.props.check.checkInOut.viewReportResponseStatusFromCheckInOut ? this.viewReport(): null;
+        // this.props.check.checkInOut.viewReportResponseStatusFromCheckInOut ? this.viewReport(): null;
       }, 1000)
     },
     (error) => Alert.alert('Permission Denied', 'Ninety leave app ' + error.message + ' for checkout.'),
@@ -349,6 +350,7 @@ class CheckInOut extends Component {
           </View>
 
 
+          <NinetyNineLoader message="Updating data. Please wait" isLoading={true} />
         </View>
       </View>
     )
