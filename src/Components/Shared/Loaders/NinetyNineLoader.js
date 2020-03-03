@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ActivityIndicator, Modal } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator, Modal, TouchableOpacity } from "react-native";
 
+import { netInfo } from '../../../Redux/Actions/LoginAction';
 import { connect } from 'react-redux';
-
 
 class NinetyNineLoader extends Component {
   constructor(props) {
@@ -23,6 +23,11 @@ class NinetyNineLoader extends Component {
 
     // Return null to indicate no change to state.
     return null;
+  }
+
+
+  okHandler = () => {
+    this.props.dispatch(netInfo(null));
   }
 
 
@@ -80,7 +85,7 @@ class NinetyNineLoader extends Component {
             {this.props.message ? this.props.message : "Updating data. Please wait"}
           </Text>
 
-          { this.props.isLoading ? ( <ActivityIndicator size="large" color="#00ff00" /> ) : ( <Text style={styles.ok}>Ok</Text> ) }
+          { this.props.isLoading ? ( <ActivityIndicator size="large" color="#00ff00" /> ) : ( <TouchableOpacity onPress={this.okHandler}><Text style={styles.ok}>Ok</Text></TouchableOpacity> ) }
         </View>
       </Modal>
     );

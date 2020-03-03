@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { Alert, StyleSheet, Text, View, ScrollView } from "react-native";
 
 import { connect } from "react-redux";
-import { loginApi } from "../../Redux/Actions/LoginAction";
+import { netInfo, loginApi } from "../../Redux/Actions/LoginAction";
 
 import AsyncStorage from "@react-native-community/async-storage";
+import NetInfo from "@react-native-community/netinfo";
 
 import TouchID from "react-native-touch-id";
 import * as Keychain from "react-native-keychain";
@@ -24,6 +25,8 @@ class Login extends Component {
 
     this.state = {
       loader: false,
+      isLoading: true,
+      loaderMessage: "Updating data. Please wait",
       biometryType: null
     };
 
@@ -49,6 +52,8 @@ class Login extends Component {
 
       this.setState({
         loader: false,
+        isLoading: true,
+        loaderMessage: "Updating data. Please wait",
         biometryType: null
       });
     });
@@ -206,30 +211,22 @@ class Login extends Component {
   };
 
   loginHandler =  (values) => {
-    // this.setState({
-    //   loader: true
-    // }, () => {
-    //   // console.log('this.state1.loader ==> ', this.state.loader);
-    // });
-
-    const obj = JSON.stringify({
-      email: values.email,
-      password: values.password
+    NetInfo.fetch().then(state => {
+      if(state.isConnected) {
+        const obj = JSON.stringify({
+          email: values.email,
+          password: values.password
+        });
+    
+        this.props.dispatch(loginApi(obj));
+      } else {
+        this.setState({
+          isLoading: false,
+          loaderMessage: 'No Internet Connection',
+        })
+        this.props.dispatch(netInfo(true));
+      }
     });
-
-     this.props.dispatch(loginApi(obj));
-
-    // setTimeout(() => {
-    //   this.props.dispatch(employeeDetailApi());
-    // }, 4000);
-
-    // setTimeout(() => {
-    // this.setState({
-    //     loader: false
-    //   }, () => {
-    //     // console.log("this.state2.loader ==> ", this.state.loader);
-    //   });
-    // }, 5000);
   };
 
 
@@ -257,11 +254,7 @@ class Login extends Component {
           </View>
 
           <View>
-            <NinetyNineLoader
-              // loader={this.state.loader}
-              message="Updating data. Please wait"
-              isLoading={true}
-            />
+            <NinetyNineLoader message={this.state.loaderMessage} isLoading={this.state.isLoading} />
           </View>
         </View>
       </ScrollView>
