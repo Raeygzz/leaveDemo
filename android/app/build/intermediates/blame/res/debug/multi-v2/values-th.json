@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/cloudyfox/Desktop/REGAN/EXAMPLEPROJECTS/ninetyNineLeaveApp_V5/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-th/values-th.xml",
+            "outputFile": "/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-th/values-th.xml",
             "map": [
                 {
                     "source": "/Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/6e0781d58b95860601cdf6d7740dcdaf/res/values-th/values-th.xml",

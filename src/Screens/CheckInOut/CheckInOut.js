@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Button, Alert, FlatList } from 'react-native';
 
 import { Day, Month } from '../../Helper/Constants/Constant';
 import { NinetyNineHeader } from '../../Components/Shared/Headers/NinetyNineHeader';
+import { NinetyNineButton } from '../../Components/Shared/Buttons/NinetyNineButton';
+import { NinetyNineOutlineButton } from '../../Components/Shared/Buttons/NinetyNineOutlineButton';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -327,12 +329,22 @@ class CheckInOut extends Component {
               <Text>&nbsp;</Text>
             </View>
 
-            <View style={{ marginBottom: 15, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+            {/* <View style={{ marginBottom: 15, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
               { this.props.check.checkInOut.checkInStatus && this.props.check.checkInOut.checkOutStatus ? <Button title="Check In" disabled={true} onPress={this.findGeoLocation} /> : this.props.check.checkInOut.checkInStatus ? <Button title="Check Out" onPress={this.checkOutHandler} /> : <Button title="Check In" onPress={this.findGeoLocation} /> }
               <Button color="lightgrey" title="View Report" onPress={() => this.props.navigation.navigate('Main', { screen: 'Reports' })} />
+            </View> */}
+
+            <View style={{ marginBottom: 15, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+              { 
+                this.props.check.checkInOut.checkInStatus && this.props.check.checkInOut.checkOutStatus ? 
+                <NinetyNineButton style={styles.ninetyNineButton} buttonTitle="Check In" disabled={true} onPress={this.findGeoLocation} />  : 
+                this.props.check.checkInOut.checkInStatus ? <NinetyNineButton style={styles.ninetyNineButton} buttonTitle="Check Out" onPress={this.checkOutHandler} />  : <NinetyNineButton style={styles.ninetyNineButton} buttonTitle="Check In" onPress={this.findGeoLocation} /> 
+              }
+
+              <NinetyNineOutlineButton style={styles.ninetyNineOutlineButton} outlineButtonTitle="View Report" onItemPressed={() => this.props.navigation.navigate('Main', { screen: 'Reports' })} />
             </View>
           </View>
-
+          
 
           <View style={{ height: 30 }}>
             <Text>&nbsp;</Text>
@@ -371,5 +383,19 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     marginTop: 30,
+  },
+  ninetyNineButton: {
+    fontSize: 18, 
+    fontWeight: 'bold', 
+    paddingHorizontal: 20, 
+    paddingVertical: 10, 
+    color: '#fff'
+  },
+  ninetyNineOutlineButton: { 
+    fontSize: 16, 
+    fontWeight: 'bold', 
+    paddingHorizontal: 20, 
+    paddingVertical: 10, 
+    color: '#000' 
   }
 })

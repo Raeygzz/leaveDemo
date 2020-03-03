@@ -108,7 +108,9 @@ class _Login_Form extends Component {
               />
             </View>
             
-            <NinetyNineButton buttonTitle="Login" onItemPressed={handleSubmit} /> 
+            <View style={{ marginTop: 40, marginRight: 10 }}>
+              <NinetyNineButton style={styles.ninetyNineButton} buttonTitle="Login" onItemPressed={handleSubmit} /> 
+            </View>
             
             <TouchableOpacity style={{ marginTop: 5 }} onPress={this.forgotPassword}>
               <Text style={{ color: 'blue', textAlign: 'center' }}>Forgot Password?</Text>
@@ -134,6 +136,13 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     elevation: 1
   },
+  ninetyNineButton: {
+    fontSize: 18, 
+    fontWeight: 'bold', 
+    paddingHorizontal: 60, 
+    paddingVertical: 20, 
+    color: '#fff'
+  }
 })
 
 

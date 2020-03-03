@@ -18,7 +18,7 @@ export class NinetyNineButton extends Component {
     return (
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
         <TouchableOpacity onPress={this.props.onItemPressed} style={styles.buttonContainer}>
-          <Text style={{ fontSize: 18, fontWeight: 'bold', paddingHorizontal: 60, paddingVertical: 20, color: '#fff' }}>{this.props.buttonTitle}</Text>
+          <Text style={this.props.style}>{this.props.buttonTitle}</Text>
         </TouchableOpacity>
         {
           this.state.fingerprintValidation ? <Icon style={styles.icon} name="fingerprint" size={30} color="#900" /> : null
@@ -32,8 +32,6 @@ export class NinetyNineButton extends Component {
 const styles = StyleSheet.create({
   buttonContainer: {
     backgroundColor: 'blue',
-    marginTop: 30,
-    marginRight: 10,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     borderBottomLeftRadius: 40,
