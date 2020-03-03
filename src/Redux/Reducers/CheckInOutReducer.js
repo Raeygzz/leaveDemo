@@ -14,8 +14,8 @@ const INITIAL_STATE = {
   elapsedTime: '',
   
   checkInOutReports: '',
-  viewReportResponseStatus: false,
-  viewReportResponseStatusFromCheckInOut: true,
+  // viewReportResponseStatus: false,
+  // viewReportResponseStatusFromCheckInOut: true,
   
   checkInAlready: false,
   
@@ -62,7 +62,7 @@ const checkInOutReducer = (state = INITIAL_STATE, action) => {
     case CHECKINOUT_GET_API_FAILURE:
       return {
         ...state,
-        error: action.payload.message,
+        error: action.payload.error,
         loaderStatus: action.payload.loaderStatus,
       }
 
@@ -123,13 +123,15 @@ const checkInOutReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         checkInOutReports: action.payload.checkInOutReports,
-        viewReportResponseStatus: action.payload.viewReportResponseStatus
+        // viewReportResponseStatus: action.payload.viewReportResponseStatus,
+        loaderStatus: action.payload.loaderStatus,
       }  
 
     case VIEW_REPORTS_API_FAILURE:
       return {
         ...state,
-        error: action.payload.message
+        error: action.payload.message,
+        loaderStatus: action.payload.loaderStatus,
       } 
 
     default:

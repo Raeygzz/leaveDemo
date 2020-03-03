@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, Alert, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Alert, FlatList } from 'react-native';
 
 import { Day, Month } from '../../Helper/Constants/Constant';
 import { NinetyNineHeader } from '../../Components/Shared/Headers/NinetyNineHeader';
@@ -338,8 +338,8 @@ class CheckInOut extends Component {
             <View style={{ marginBottom: 15, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
               { 
                 this.props.check.checkInOut.checkInStatus && this.props.check.checkInOut.checkOutStatus ? 
-                <NinetyNineButton style={styles.ninetyNineButton} buttonTitle="Check In" disabled={true} onPress={this.findGeoLocation} />  : 
-                this.props.check.checkInOut.checkInStatus ? <NinetyNineButton style={styles.ninetyNineButton} buttonTitle="Check Out" onPress={this.checkOutHandler} />  : <NinetyNineButton style={styles.ninetyNineButton} buttonTitle="Check In" onPress={this.findGeoLocation} /> 
+                <NinetyNineButton style={styles.ninetyNineButton} buttonTitle="Check In" disabled={true} onItemPressed={this.findGeoLocation} />  : 
+                this.props.check.checkInOut.checkInStatus ? <NinetyNineButton style={styles.ninetyNineButton} buttonTitle="Check Out" onItemPressed={this.checkOutHandler} />  : <NinetyNineButton style={styles.ninetyNineButton} buttonTitle="Check In" onItemPressed={this.findGeoLocation} /> 
               }
 
               <NinetyNineOutlineButton style={styles.ninetyNineOutlineButton} outlineButtonTitle="View Report" onItemPressed={() => this.props.navigation.navigate('Main', { screen: 'Reports' })} />
@@ -361,8 +361,10 @@ class CheckInOut extends Component {
             />
           </View>
 
-
-          <NinetyNineLoader message="Updating data. Please wait" isLoading={true} />
+          <View>
+            <NinetyNineLoader message="Updating data. Please wait" isLoading={true} />
+          </View>
+          
         </View>
       </View>
     )

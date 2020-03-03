@@ -9,34 +9,65 @@ class NinetyNineLoader extends Component {
     super(props);
 
     this.state = {
-      isShow: null
+      isShow: false
     };
+
+    this.propsValue = null;
   }
+  
 
-  // componentDidUpdate(prevProps) {
-  //   if (this.props.loader !== prevProps.loader) {
-  //     this.setState({
-  //       isShow: this.props.loader
-  //     }, () => {
-  //       console.log('isShow ==> ', this.state);
-  //     });
-  //   }
-  // }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.isShow !== nextProps.someValue) {
+      return {
+        derivedData: computeDerivedState(nextProps),
+        someMirroredValue: nextProps.someValue
+      };
+    }
 
+    // Return null to indicate no change to state.
+    return null;
+  }
+          
+          
+  componentDidUpdate(prevProps) {debugger
+    if(this.props.storeState.login.loaderStatus) {
+      this.propsValue = this.props.storeState.login.loaderStatus
 
-  componentDidUpdate(prevProps) {
-    if (this.props.login.loaderStatus !== prevProps.login.loaderStatus) {
+    } else if(this.props.storeState.checkInOut.loaderStatus) {
+      this.propsValue = this.props.storeState.checkInOut.loaderStatus
+    }
+
+    if (this.propsValue !== prevProps.storeState.login.loaderStatus) {
       this.setState({
-        isShow: this.props.login.loaderStatus
+        isShow: this.propsValue
       }, () => {
-        // console.log('isShow ==> ', this.state);
+        console.log('isShowForLogin ==> ', this.state);
       });
     }
+
+    // if(this.props.storeState.login.loaderStatus !== false) {
+    //   if (this.props.storeState.login.loaderStatus !== prevProps.storeState.login.loaderStatus) {
+    //     this.setState({
+    //       isShow: this.props.storeState.login.loaderStatus
+    //     }, () => {
+    //       console.log('isShowForLogin ==> ', this.state);
+    //     });
+    //   }
+
+    // } else if(this.props.storeState.checkInOut.loaderStatus !== false) {
+    //   if (this.props.storeState.checkInOut.loaderStatus !== prevProps.storeState.checkInOut.loaderStatus) {
+    //     this.setState({
+    //       isShow: this.props.storeState.checkInOut.loaderStatus 
+    //     }, () => {
+    //       console.log('isShowForCheckInOut ==> ', this.state);
+    //     });
+    //   }
+    // }
   }
 
 
   render() {
-    // console.log('this.props.login ==> ', this.props.login);
+    // console.log('this.props ==> ', this.props);
 
     return (
       <Modal
@@ -92,7 +123,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    login: state.login
+    storeState: state,
   }
 }
 

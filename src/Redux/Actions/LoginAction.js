@@ -118,6 +118,7 @@ export const employeeDetailApi = () => (dispatch, getState) => {
       dispatch(employeeDetailApiSuccessAction(res))
     } else {
       res.loaderStatus = false;
+      dispatch(employeeDetailApiFailureAction(res))
     }
 
   }).catch((error) => {

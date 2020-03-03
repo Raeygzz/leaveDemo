@@ -140,9 +140,9 @@ export const checkInOutApi = () => (dispatch, getState) => {
       // console.log('res ==> ', res);
       dispatch(checkInOutApiSuccessAction(res))
 
-      // dispatch(viewWeeklyReportApi())
     } else {
-
+      res.loaderStatus = false;
+      dispatch(checkInOutApiFailureAction(res))
     }
 
   }).catch((error) => {
@@ -182,7 +182,7 @@ export const checkInApi = body => (dispatch, getState) => {
 
   dispatch(checkInApiRequestAction());
   api.checkIn("POST", accessToken, body).then(res => res.json()).then(res => {
-    if(res.statusCode == 200 || res.status == true) {
+    if(res.statusCode == 200 && res.status == true) {
       if(res.object.check_in_detail.checkin_status) {
         res.checkInAlready = true;
       } else {
@@ -251,24 +251,28 @@ export const viewWeeklyReportApi = () => (dispatch, getState) => {
 
   dispatch(viewReportsApiRequestAction());
   api.viewReports("GET", paramObj, accessToken).then(res => res.json()).then(res => {
-    if(res.statusCode == 200 || res.status == true) {
+    if(res.statusCode == 200 && res.status == true) {
       // console.log('viewReport ==> ', res);
 
       let viewReportResponse = {
-        viewReportResponseStatus: '',
+        // viewReportResponseStatus: '',
         checkInOutReports: []
       }
       
       if(res.object.filter.length < 1) {
-        viewReportResponse.viewReportResponseStatus = true
+        // viewReportResponse.viewReportResponseStatus = true
       } else {
-        viewReportResponse.viewReportResponseStatus = false
+        // viewReportResponse.viewReportResponseStatus = false
         for(let i = 0; i < res.object.filter.length; i++) {
           viewReportResponse.checkInOutReports.push({ id: res.object.filter[i].id.toString(), date: res.object.filter[i].date, checkIn: res.object.filter[i].check_in, checkOut: res.object.filter[i].check_out })
         }
       }
-
+      viewReportResponse.loaderStatus = false;
       dispatch(viewReportsApiSuccessAction(viewReportResponse))
+
+    } else {
+      res.loaderStatus = false;
+      dispatch(viewReportsApiFailureAction(res))
     }
 
   }).catch((error) => {

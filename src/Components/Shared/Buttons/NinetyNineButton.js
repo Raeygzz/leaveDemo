@@ -17,7 +17,7 @@ export class NinetyNineButton extends Component {
   render() {
     return (
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-        <TouchableOpacity onPress={this.props.onItemPressed} style={styles.buttonContainer}>
+        <TouchableOpacity disabled={this.props.disabled} onPress={this.props.onItemPressed} style={[{backgroundColor: this.props.disabled ? 'lightgrey' : "blue"}, styles.buttonContainer]}>
           <Text style={this.props.style}>{this.props.buttonTitle}</Text>
         </TouchableOpacity>
         {
@@ -31,7 +31,6 @@ export class NinetyNineButton extends Component {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    backgroundColor: 'blue',
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     borderBottomLeftRadius: 40,

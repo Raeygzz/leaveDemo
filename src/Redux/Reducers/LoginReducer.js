@@ -67,7 +67,8 @@ const loginReducer = (state = INITIAL_STATE, action) => {
     case EMPLOYEE_DETAIL_GET_API_FAILURE:
       return {
         ...state,
-        error: action.payload.message
+        error: action.payload.message,
+        loaderStatus: action.payload.loaderStatus,
       }    
 
       
