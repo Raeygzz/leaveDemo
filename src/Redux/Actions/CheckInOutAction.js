@@ -1,14 +1,37 @@
-import { CHECKINOUT_STATUS, CHECKIN_POST_API_REQUEST, CHECKIN_POST_API_SUCCESS, CHECKIN_POST_API_FAILURE, CHECKOUT_POST_API_REQUEST, CHECKOUT_POST_API_SUCCESS, CHECKOUT_POST_API_FAILURE, VIEW_REPORTS_API_REQUEST, VIEW_REPORTS_API_SUCCESS, VIEW_REPORTS_API_FAILURE } from './Constants/ActionsTypes';
+import { CHECKINOUT_STATUS, CHECKINOUT_GET_API_REQUEST, CHECKINOUT_GET_API_SUCCESS, CHECKINOUT_GET_API_FAILURE, CHECKIN_POST_API_REQUEST, CHECKIN_POST_API_SUCCESS, CHECKIN_POST_API_FAILURE, CHECKOUT_POST_API_REQUEST, CHECKOUT_POST_API_SUCCESS, CHECKOUT_POST_API_FAILURE, VIEW_REPORTS_API_REQUEST, VIEW_REPORTS_API_SUCCESS, VIEW_REPORTS_API_FAILURE } from './Constants/ActionsTypes';
 
 import * as api from '../../Authentication/Api/Api';
 
 
-const checkInOutStatusAction = checkInOutStatus => {
+// const checkInOutStatusAction = checkInOutStatus => {
+//   return {
+//     type: CHECKINOUT_STATUS,
+//     payload: checkInOutStatus
+//   }
+// }
+const checkInOutApiRequestAction = checkInOutRequest => {
   return {
-    type: CHECKINOUT_STATUS,
-    payload: checkInOutStatus
+    type: CHECKINOUT_GET_API_REQUEST,
+    payload: checkInOutRequest
   }
 }
+
+
+const checkInOutApiSuccessAction = checkInOutSuccess => {
+  return {
+    type: CHECKINOUT_GET_API_SUCCESS,
+    payload: checkInOutSuccess
+  }
+}
+
+
+const checkInOutApiFailureAction = checkInOutFailure => {
+  return {
+    type: CHECKINOUT_GET_API_FAILURE,
+    payload: checkInOutFailure
+  }
+}
+
 
 
 const checkInApiRequestAction = checkInRequest => {
@@ -88,13 +111,17 @@ const viewReportsApiFailureAction = viewReportsFailure => {
 
 
 
-
-export const checkInOutStatusApi = () => (dispatch, getState) => {
+export const checkInOutApi = () => (dispatch, getState) => {
   const state = getState();
   const accessToken = state.login.accessToken;
   const userId = state.login.userId;
   const dateAtTheTimeOfLogin = state.login.dateAtTheTimeOfLogin;
   const countryCode = state.login.countryCode;
+
+  const options = {
+    error: '',
+    loaderStatus: true
+  }
 
   const paramObj = {
     userId: userId,
@@ -102,6 +129,7 @@ export const checkInOutStatusApi = () => (dispatch, getState) => {
     countryCode: countryCode
   }
 
+  dispatch(checkInOutApiRequestAction(options));
   api.checkInOutStatus("GET", paramObj, accessToken).then(res => res.json()).then(res => {
     if(res.statusCode == 200 && res.status == true) {
       if(res.object.checkin_details.checkin_status && !res.object.checkin_details.checkout_status) {
@@ -110,10 +138,42 @@ export const checkInOutStatusApi = () => (dispatch, getState) => {
         res.checkInAlready = false;
       }
       // console.log('res ==> ', res);
-      dispatch(checkInOutStatusAction(res))
+      dispatch(checkInOutApiSuccessAction(res))
+
+      // dispatch(viewWeeklyReportApi())
+    } else {
+
     }
+
+  }).catch((error) => {
+    dispatch(checkInOutApiFailureAction(error))
   })
 }
+// export const checkInOutStatusApi = () => (dispatch, getState) => {
+//   const state = getState();
+//   const accessToken = state.login.accessToken;
+//   const userId = state.login.userId;
+//   const dateAtTheTimeOfLogin = state.login.dateAtTheTimeOfLogin;
+//   const countryCode = state.login.countryCode;
+
+//   const paramObj = {
+//     userId: userId,
+//     dateAtTheTimeOfLogin: dateAtTheTimeOfLogin,
+//     countryCode: countryCode
+//   }
+
+//   api.checkInOutStatus("GET", paramObj, accessToken).then(res => res.json()).then(res => {
+//     if(res.statusCode == 200 && res.status == true) {
+//       if(res.object.checkin_details.checkin_status && !res.object.checkin_details.checkout_status) {
+//         res.checkInAlready = true;
+//       } else {
+//         res.checkInAlready = false;
+//       }
+//       // console.log('res ==> ', res);
+//       dispatch(checkInOutStatusAction(res))
+//     }
+//   })
+// }
 
 
 export const checkInApi = body => (dispatch, getState) => {
@@ -129,6 +189,8 @@ export const checkInApi = body => (dispatch, getState) => {
         res.checkInAlready = false;
       }
       dispatch(checkInApiSuccessAction(res))
+
+      dispatch(viewWeeklyReportApi())
     }
 
   }).catch((error) => {
@@ -151,6 +213,8 @@ export const checkOutApi = body => (dispatch, getState) => {
       }
       
       dispatch(checkOutApiSuccessAction(res))
+
+      dispatch(viewWeeklyReportApi())
     }
 
   }).catch((error) => {
