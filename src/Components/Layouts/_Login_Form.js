@@ -46,8 +46,8 @@ class _Login_Form extends Component {
 
 
           // company_id = 2
-          // email: 'bijay@gmail.com',
-          // password: 'password',
+          email: 'bijay@gmail.com',
+          password: 'password',
 
           // email: 'biplab@gmail.com',                                    // comapy_id = 5
           // password: 'password@2',
@@ -55,8 +55,8 @@ class _Login_Form extends Component {
           // email: 'testuser1@yopmail.com',
           // password: 'password',
 
-          email: 'mobile@gmail.com',
-          password: 'password',
+          // email: 'mobile@gmail.com',
+          // password: 'password',
 
           // email: 'testuser2@yopmail.com',
           // password: 'password',

@@ -80,7 +80,7 @@ export const loginApi = body => (dispatch, getState) => {
       RootNavigation.navigate('Main', { screen: 'Dashboard' });
 
     } else {
-      res.loaderStatus = false;
+      res.loaderStatus = null;
       dispatch(loginApiFailureAction(res))
     }
 
@@ -113,11 +113,11 @@ export const employeeDetailApi = () => (dispatch, getState) => {
   dispatch(employeeDetailApiRequestAction());
   api.employeeDetail("GET", paramObj, accessToken).then(res => res.json()).then(res => {
     if(res.statusCode == 200 && res.status == true) {
-      res.loaderStatus = false;
+      res.loaderStatus = null;
       // console.log('employeeDetail ==> ', res);
       dispatch(employeeDetailApiSuccessAction(res))
     } else {
-      res.loaderStatus = false;
+      res.loaderStatus = null;
       dispatch(employeeDetailApiFailureAction(res))
     }
 

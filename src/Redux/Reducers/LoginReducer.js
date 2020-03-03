@@ -13,8 +13,7 @@ const INITIAL_STATE = {
   fullName: '',
 
   error: '',
-  loaderStatus: false,
-  // loaderMessage: '',
+  loaderStatus: null,
   // isLoading: null,
   // apiValidationOrFailureMessage: '',
 }
