@@ -1,14 +1,10 @@
 {
     "logs": [
         {
-<<<<<<< HEAD
             "outputFile": "/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-h720dp-v13/values-h720dp-v13.xml",
-=======
-            "outputFile": "E:\\Company\\Cloudyfox Pvt Ltd\\Projects\\99Leave\\leaveDemo\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-h720dp-v13\\values-h720dp-v13.xml",
->>>>>>> e0cbc661026f0d3bee1d7ca3412878a818b59343
             "map": [
                 {
-                    "source": "C:\\Users\\Regan Timsina\\.gradle\\caches\\transforms-2\\files-2.1\\b4d0ed216b9cd1711a1fc8a0fcf86686\\res\\values-h720dp-v13\\values-h720dp-v13.xml",
+                    "source": "/Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/6e0781d58b95860601cdf6d7740dcdaf/res/values-h720dp-v13/values-h720dp-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
