@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TextInput, StyleSheet } from 'react-native';
 
 import { NinetyNineToggleButton } from '../Shared/Forms/NinetyNineToggleButton';
 import { NinetyNineButton } from '../Shared/Buttons/NinetyNineButton';
@@ -46,14 +46,14 @@ class _Login_Form extends Component {
 
 
           // company_id = 2
-          email: 'bijay@gmail.com',
-          password: 'password',
+          // email: 'bijay@gmail.com',
+          // password: 'password',
 
           // email: 'biplab@gmail.com',                                    // comapy_id = 5
           // password: 'password@2',
 
-          // email: 'testuser1@yopmail.com',
-          // password: 'password',
+          email: 'testuser1@yopmail.com',
+          password: 'password',
 
           // email: 'mobile@gmail.com',
           // password: 'password',
@@ -111,10 +111,6 @@ class _Login_Form extends Component {
             <View style={{ marginTop: 40, marginRight: 10 }}>
               <NinetyNineButton style={styles.ninetyNineButton} buttonTitle="Login" onItemPressed={handleSubmit} /> 
             </View>
-            
-            <TouchableOpacity style={{ marginTop: 5 }} onPress={this.forgotPassword}>
-              <Text style={{ color: 'blue', textAlign: 'center' }}>Forgot Password?</Text>
-            </TouchableOpacity>
           </View>
         )}
       </Formik>

@@ -13,9 +13,13 @@ import {PermissionsAndroid} from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 
 import { connect } from 'react-redux';
-import { checkInOutApi, viewWeeklyReportApi, checkInApi, checkOutApi } from '../../Redux/Actions/CheckInOutAction';
+import { netInfo, checkInOutApi, viewWeeklyReportApi, checkInApi, checkOutApi } from '../../Redux/Actions/CheckInOutAction';
 
 import ListItem from '../../Components/Layouts/ListItem';
+
+
+import { NetworkContext } from '../../Helper/NetworkProvider/NetworkProvider';
+// import NetInfo from "@react-native-community/netinfo";
 
 
 class CheckInOut extends Component {
@@ -39,8 +43,12 @@ class CheckInOut extends Component {
       todayDate: todayDate,
       currentTime: null,
       elapsedTime: null,
+
+      isLoading: null,
+      loaderMessage: "",
     }
   }
+  static contextType = NetworkContext;
 
   static navigationOptions = {
     headerShown: false
@@ -130,10 +138,16 @@ class CheckInOut extends Component {
         checkInLocation: '',
         fullYear: fullYear,
         myApiKey: 'AIzaSyAlLxofrXNceXHrdMbUQgwz6F1YF9WlKyE',
-        todayDate: todayDate
+        todayDate: todayDate,
+
+        isLoading: null,
+        loaderMessage: "",
       }, () => {
         // console.log('state ==>', this.state);
       });
+      // this.checkInOutStatus();
+      // this.viewReport();
+      // this.getCurrentTime();
     });
   }
 
@@ -145,18 +159,44 @@ class CheckInOut extends Component {
 
 
   checkInOutStatus = () => {
-    this.props.dispatch(checkInOutApi());
+    if(this.context.isConnected) {
+      this.setState({
+        isLoading: true,
+        loaderMessage: 'Updating data. Please wait',
+      })
 
-    this.elapsedTime = setInterval(() => {
-      if(this.props.check.checkInOut.checkInStatus && !this.props.check.checkInOut.checkOutStatus) {
-        this.showElapsedTime();
-      }
-    }, 1000);
+      this.props.dispatch(checkInOutApi());
+
+      this.elapsedTime = setInterval(() => {
+        if(this.props.check.checkInOut.checkInStatus && !this.props.check.checkInOut.checkOutStatus) {
+          this.showElapsedTime();
+        }
+      }, 1000);
+
+    } else {
+      this.setState({
+        isLoading: false,
+        loaderMessage: 'No Internet Connection',
+      }, () => {
+        console.log('this.state ==> ', this.state);
+      })
+      this.props.dispatch(netInfo(true));
+    }
+    
   }
 
 
   viewReport = () => {
-    this.props.dispatch(viewWeeklyReportApi());
+    if(this.context.isConnected) {
+      this.props.dispatch(viewWeeklyReportApi());
+
+    } else {
+      this.setState({
+        isLoading: false,
+        loaderMessage: 'No Internet Connection',
+      })
+      this.props.dispatch(netInfo(true));
+    }
   }
 
   
@@ -186,89 +226,111 @@ class CheckInOut extends Component {
 
 
   findGeoLocation = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        // {
-        //   title: 'Geo Location Access Permission',
-        //   message:
-        //     'Ninety nine leave needs access to your location ' +
-        //     'so you can checkin for today.',
-        //   // buttonNeutral: 'Ask Me Later',
-        //   // buttonNegative: 'Cancel',
-        //   // buttonPositive: 'OK',
-        // },
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('You can use the location');
-
-        Geolocation.getCurrentPosition((position) => {
-          const location = position;
-
-          let body = JSON.stringify({
-            user_id: this.props.check.login.userId,
-            date: this.state.fullYear,
-            country: "NP",
-            company_id: this.props.check.login.companyId,
-            checkin_location: JSON.stringify({
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
-            })
-          })
-          // console.log('body ==> ', body);
+    NetInfo.fetch().then(async state => {
+      if(state.isConnected) {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            // {
+            //   title: 'Geo Location Access Permission',
+            //   message:
+            //     'Ninety nine leave needs access to your location ' +
+            //     'so you can checkin for today.',
+            //   // buttonNeutral: 'Ask Me Later',
+            //   // buttonNegative: 'Cancel',
+            //   // buttonPositive: 'OK',
+            // },
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log('You can use the location');
     
-          this.props.dispatch(checkInApi(body));
-
-          this.elapsedTime = setInterval(() => {
-            this.showElapsedTime();
-          }, 1000);
-
-          // fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + this.state.myLat + ',' + this.state.myLon + '&key=' + this.state.myApiKey)
-          //   .then((response) => response.json())
-          //   .then((responseJson) => {
-          //   console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson));
-          // })
-
-        },
-        (error) => Alert.alert('Permission Denied', 'Ninety leave app ' + error.message + ' for checkin.'),
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-        );
+            Geolocation.getCurrentPosition((position) => {
+              const location = position;
+    
+              let body = JSON.stringify({
+                user_id: this.props.check.login.userId,
+                date: this.state.fullYear,
+                country: "NP",
+                company_id: this.props.check.login.companyId,
+                checkin_location: JSON.stringify({
+                  latitude: location.coords.latitude,
+                  longitude: location.coords.longitude,
+                })
+              })
+              // console.log('body ==> ', body);
+        
+              this.props.dispatch(checkInApi(body));
+    
+              this.elapsedTime = setInterval(() => {
+                this.showElapsedTime();
+              }, 1000);
+    
+              // fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + this.state.myLat + ',' + this.state.myLon + '&key=' + this.state.myApiKey)
+              //   .then((response) => response.json())
+              //   .then((responseJson) => {
+              //   console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson));
+              // })
+    
+            },
+            (error) => Alert.alert('Permission Denied', 'Ninety leave app ' + error.message + ' for checkin.'),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+            );
+    
+          } else {
+            console.log('location permission denied');
+          }
+        } catch (err) {
+          console.log(err);
+        }
 
       } else {
-        console.log('location permission denied');
+        this.setState({
+          isLoading: false,
+          loaderMessage: 'No Internet Connection',
+        })
+        this.props.dispatch(netInfo(true));
       }
-    } catch (err) {
-      console.log(err);
-    }
+  }) 
   }
 
 
   checkOutHandler = () => {
-    Geolocation.getCurrentPosition((position) => {
-      const location = position;
-
-      let body = JSON.stringify({
-        user_id: this.props.check.login.userId,
-        date: this.state.fullYear,
-        country: "NP",
-        checkin_location: JSON.stringify({
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
+    if(this.context.isConnected) {
+      Geolocation.getCurrentPosition((position) => {
+        const location = position;
+  
+        let body = JSON.stringify({
+          user_id: this.props.check.login.userId,
+          date: this.state.fullYear,
+          country: "NP",
+          checkin_location: JSON.stringify({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          })
         })
+  
+        this.props.dispatch(checkOutApi(body));
+  
+        clearInterval(this.elapsedTime);
+  
+      },
+      (error) => Alert.alert('Permission Denied', 'Ninety leave app ' + error.message + ' for checkout.'),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      );
+
+    } else {
+      this.setState({
+        isLoading: false,
+        loaderMessage: 'No Internet Connection',
       })
-
-      this.props.dispatch(checkOutApi(body));
-
-      clearInterval(this.elapsedTime);
-
-    },
-    (error) => Alert.alert('Permission Denied', 'Ninety leave app ' + error.message + ' for checkout.'),
-    { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    );
+      this.props.dispatch(netInfo(true));
+    }
   }
   
+
   render() {
     // console.log('this.props.check.checkInOut ==> ', this.props.check.checkInOut);
+    console.log('isConnection ==> ', this.context);
 
     return(
       <View style={{ flex: 1 }}>
@@ -346,7 +408,7 @@ class CheckInOut extends Component {
           </View>
 
           <View>
-            <NinetyNineLoader message="Updating data. Please wait" isLoading={true} />
+            <NinetyNineLoader message={this.state.loaderMessage} isLoading={this.state.isLoading} />
           </View>
           
         </View>
