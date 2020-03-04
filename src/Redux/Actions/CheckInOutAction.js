@@ -1,14 +1,8 @@
-import { CHECKINOUT_STATUS, CHECKINOUT_GET_API_REQUEST, CHECKINOUT_GET_API_SUCCESS, CHECKINOUT_GET_API_FAILURE, CHECKIN_POST_API_REQUEST, CHECKIN_POST_API_SUCCESS, CHECKIN_POST_API_FAILURE, CHECKOUT_POST_API_REQUEST, CHECKOUT_POST_API_SUCCESS, CHECKOUT_POST_API_FAILURE, VIEW_REPORTS_API_REQUEST, VIEW_REPORTS_API_SUCCESS, VIEW_REPORTS_API_FAILURE } from './Constants/ActionsTypes';
+import { CHECKINOUT_GET_API_REQUEST, CHECKINOUT_GET_API_SUCCESS, CHECKINOUT_GET_API_FAILURE, CHECKIN_POST_API_REQUEST, CHECKIN_POST_API_SUCCESS, CHECKIN_POST_API_FAILURE, CHECKOUT_POST_API_REQUEST, CHECKOUT_POST_API_SUCCESS, CHECKOUT_POST_API_FAILURE, VIEW_REPORTS_API_REQUEST, VIEW_REPORTS_API_SUCCESS, VIEW_REPORTS_API_FAILURE } from './Constants/ActionsTypes';
 
 import * as api from '../../Authentication/Api/Api';
 
 
-// const checkInOutStatusAction = checkInOutStatus => {
-//   return {
-//     type: CHECKINOUT_STATUS,
-//     payload: checkInOutStatus
-//   }
-// }
 const checkInOutApiRequestAction = checkInOutRequest => {
   return {
     type: CHECKINOUT_GET_API_REQUEST,
@@ -141,7 +135,7 @@ export const checkInOutApi = () => (dispatch, getState) => {
       dispatch(checkInOutApiSuccessAction(res))
 
     } else {
-      res.loaderStatus = false;
+      res.loaderStatus = null;
       dispatch(checkInOutApiFailureAction(res))
     }
 
@@ -149,38 +143,18 @@ export const checkInOutApi = () => (dispatch, getState) => {
     dispatch(checkInOutApiFailureAction(error))
   })
 }
-// export const checkInOutStatusApi = () => (dispatch, getState) => {
-//   const state = getState();
-//   const accessToken = state.login.accessToken;
-//   const userId = state.login.userId;
-//   const dateAtTheTimeOfLogin = state.login.dateAtTheTimeOfLogin;
-//   const countryCode = state.login.countryCode;
-
-//   const paramObj = {
-//     userId: userId,
-//     dateAtTheTimeOfLogin: dateAtTheTimeOfLogin,
-//     countryCode: countryCode
-//   }
-
-//   api.checkInOutStatus("GET", paramObj, accessToken).then(res => res.json()).then(res => {
-//     if(res.statusCode == 200 && res.status == true) {
-//       if(res.object.checkin_details.checkin_status && !res.object.checkin_details.checkout_status) {
-//         res.checkInAlready = true;
-//       } else {
-//         res.checkInAlready = false;
-//       }
-//       // console.log('res ==> ', res);
-//       dispatch(checkInOutStatusAction(res))
-//     }
-//   })
-// }
 
 
 export const checkInApi = body => (dispatch, getState) => {
   const storeState = getState();
   const accessToken = storeState.login.accessToken;
 
-  dispatch(checkInApiRequestAction());
+  const options = {
+    error: '',
+    loaderStatus: true
+  }
+
+  dispatch(checkInApiRequestAction(options));
   api.checkIn("POST", accessToken, body).then(res => res.json()).then(res => {
     if(res.statusCode == 200 && res.status == true) {
       if(res.object.check_in_detail.checkin_status) {
@@ -191,6 +165,10 @@ export const checkInApi = body => (dispatch, getState) => {
       dispatch(checkInApiSuccessAction(res))
 
       dispatch(viewWeeklyReportApi())
+
+    } else {
+      res.loaderStatus = null;
+      dispatch(checkInApiFailureAction(res))
     }
 
   }).catch((error) => {
@@ -203,7 +181,12 @@ export const checkOutApi = body => (dispatch, getState) => {
   const storeState = getState();
   const accessToken = storeState.login.accessToken;
 
-  dispatch(checkOutApiRequestAction());
+  const options = {
+    error: '',
+    loaderStatus: true
+  }
+
+  dispatch(checkOutApiRequestAction(options));
   api.checkOut("POST", accessToken, body).then(res => res.json()).then(res => {
     if(res.statusCode == 200 && res.status == true) {
       if(res.object.attendance.checkin_status && res.object.attendance.checkout_status) {
@@ -215,6 +198,10 @@ export const checkOutApi = body => (dispatch, getState) => {
       dispatch(checkOutApiSuccessAction(res))
 
       dispatch(viewWeeklyReportApi())
+
+    } else {
+      res.loaderStatus = null;
+      dispatch(checkOutApiFailureAction(res))
     }
 
   }).catch((error) => {
@@ -255,23 +242,19 @@ export const viewWeeklyReportApi = () => (dispatch, getState) => {
       // console.log('viewReport ==> ', res);
 
       let viewReportResponse = {
-        // viewReportResponseStatus: '',
         checkInOutReports: []
       }
       
-      if(res.object.filter.length < 1) {
-        // viewReportResponse.viewReportResponseStatus = true
-      } else {
-        // viewReportResponse.viewReportResponseStatus = false
-        for(let i = 0; i < res.object.filter.length; i++) {
-          viewReportResponse.checkInOutReports.push({ id: res.object.filter[i].id.toString(), date: res.object.filter[i].date, checkIn: res.object.filter[i].check_in, checkOut: res.object.filter[i].check_out })
-        }
+      for(let i = 0; i < res.object.filter.length; i++) {
+        viewReportResponse.checkInOutReports.push({ id: res.object.filter[i].id.toString(), date: res.object.filter[i].date, checkIn: res.object.filter[i].check_in, checkOut: res.object.filter[i].check_out })
       }
-      viewReportResponse.loaderStatus = false;
+      
+      viewReportResponse.loaderStatus = null;
+      viewReportResponse.checkInOutReports[0].backgroundColor = 'blue';
       dispatch(viewReportsApiSuccessAction(viewReportResponse))
 
     } else {
-      res.loaderStatus = false;
+      res.loaderStatus = null;
       dispatch(viewReportsApiFailureAction(res))
     }
 

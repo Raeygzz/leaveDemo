@@ -1,4 +1,4 @@
-import { LOGIN_POST_API_REQUEST, LOGIN_POST_API_SUCCESS, LOGIN_POST_API_FAILURE, EMPLOYEE_DETAIL_GET_API_REQUEST, EMPLOYEE_DETAIL_GET_API_SUCCESS, EMPLOYEE_DETAIL_GET_API_FAILURE } from '../Actions/Constants/ActionsTypes';
+import { NET_INFO, LOGIN_POST_API_REQUEST, LOGIN_POST_API_SUCCESS, LOGIN_POST_API_FAILURE, EMPLOYEE_DETAIL_GET_API_REQUEST, EMPLOYEE_DETAIL_GET_API_SUCCESS, EMPLOYEE_DETAIL_GET_API_FAILURE } from '../Actions/Constants/ActionsTypes';
 
 
 const INITIAL_STATE = {
@@ -13,8 +13,7 @@ const INITIAL_STATE = {
   fullName: '',
 
   error: '',
-  loaderStatus: false,
-  // loaderMessage: '',
+  loaderStatus: null,
   // isLoading: null,
   // apiValidationOrFailureMessage: '',
 }
@@ -23,6 +22,13 @@ const INITIAL_STATE = {
 
 const loginReducer = (state = INITIAL_STATE, action) => {
   switch(action.type) {
+    case NET_INFO:
+      return {
+        ...state,
+        loaderStatus: action.payload
+      }
+
+
     case LOGIN_POST_API_REQUEST:
       return {
         ...state,

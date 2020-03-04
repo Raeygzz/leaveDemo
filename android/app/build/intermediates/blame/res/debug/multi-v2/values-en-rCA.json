@@ -1,7 +1,11 @@
 {
     "logs": [
         {
+<<<<<<< HEAD
             "outputFile": "/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rCA/values-en-rCA.xml",
+=======
+            "outputFile": "E:\\Company\\Cloudyfox Pvt Ltd\\Projects\\99Leave\\leaveDemo\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-en-rCA\\values-en-rCA.xml",
+>>>>>>> bc919c59b5b55555bc454ecb52fd84fc09341b38
             "map": [
                 {
                     "source": "/Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/4d6effbb556f6015c16ad99179d51195/res/values-en-rCA/values-en-rCA.xml",

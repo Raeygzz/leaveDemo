@@ -1,69 +1,67 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ActivityIndicator, Modal } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator, Modal, TouchableOpacity } from "react-native";
 
+import { netInfo } from '../../../Redux/Actions/LoginAction';
 import { connect } from 'react-redux';
-
 
 class NinetyNineLoader extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isShow: false
+      isShow: null
     };
-
-    this.propsValue = null;
   }
   
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.isShow !== nextProps.someValue) {
+    if (prevState.isShow !== nextProps.storeState.login.loaderStatus || nextProps.storeState.checkInOut.loaderStatus) {
       return {
-        derivedData: computeDerivedState(nextProps),
-        someMirroredValue: nextProps.someValue
+        isShow: nextProps.storeState.login.loaderStatus || nextProps.storeState.checkInOut.loaderStatus
       };
     }
 
     // Return null to indicate no change to state.
     return null;
   }
-          
-          
-  componentDidUpdate(prevProps) {debugger
-    if(this.props.storeState.login.loaderStatus) {
-      this.propsValue = this.props.storeState.login.loaderStatus
 
-    } else if(this.props.storeState.checkInOut.loaderStatus) {
-      this.propsValue = this.props.storeState.checkInOut.loaderStatus
-    }
 
-    if (this.propsValue !== prevProps.storeState.login.loaderStatus) {
-      this.setState({
-        isShow: this.propsValue
-      }, () => {
-        console.log('isShowForLogin ==> ', this.state);
-      });
-    }
-
-    // if(this.props.storeState.login.loaderStatus !== false) {
-    //   if (this.props.storeState.login.loaderStatus !== prevProps.storeState.login.loaderStatus) {
-    //     this.setState({
-    //       isShow: this.props.storeState.login.loaderStatus
-    //     }, () => {
-    //       console.log('isShowForLogin ==> ', this.state);
-    //     });
-    //   }
-
-    // } else if(this.props.storeState.checkInOut.loaderStatus !== false) {
-    //   if (this.props.storeState.checkInOut.loaderStatus !== prevProps.storeState.checkInOut.loaderStatus) {
-    //     this.setState({
-    //       isShow: this.props.storeState.checkInOut.loaderStatus 
-    //     }, () => {
-    //       console.log('isShowForCheckInOut ==> ', this.state);
-    //     });
-    //   }
-    // }
+  okHandler = () => {
+    this.props.dispatch(netInfo(null));
   }
+
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (nextState.isShow !== nextProps.storeState.login.loaderStatus || nextProps.storeState.checkInOut.loaderStatus) {
+  //     return true;
+  //   }
+  //   if (this.state.isShow !== nextState.isShow) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
+
+
+  // componentDidUpdate() {    
+  //   if (this.shouldComponentUpdate) {
+  //     this.setState({
+  //       isShow: this.props.storeState.login.loaderStatus || this.props.storeState.checkInOut.loaderStatus
+  //     }, () => {
+  //       // console.log('isShow ==> ', this.state);
+  //     });
+  //   }
+  // }
+          
+          
+  // componentDidUpdate(prevProps) {    
+  //   if (this.props.storeState.login.loaderStatus !== prevProps.storeState.login.loaderStatus) {
+  //     this.setState({
+  //       isShow: this.props.storeState.login.loaderStatus
+  //     }, () => {
+  //       console.log('isShow ==> ', this.state);
+  //     });
+  //   }
+  // }
 
 
   render() {
@@ -87,7 +85,7 @@ class NinetyNineLoader extends Component {
             {this.props.message ? this.props.message : "Updating data. Please wait"}
           </Text>
 
-          { this.props.isLoading ? ( <ActivityIndicator size="large" color="#00ff00" /> ) : ( <Text style={styles.ok}>Ok</Text> ) }
+          { this.props.isLoading ? ( <ActivityIndicator size="large" color="#00ff00" /> ) : ( <TouchableOpacity onPress={this.okHandler}><Text style={styles.ok}>Ok</Text></TouchableOpacity> ) }
         </View>
       </Modal>
     );

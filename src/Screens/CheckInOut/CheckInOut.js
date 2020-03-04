@@ -134,8 +134,6 @@ class CheckInOut extends Component {
       }, () => {
         // console.log('state ==>', this.state);
       });
-      // this.checkInOutStatus();
-      // this.viewReport();
     });
   }
 
@@ -225,11 +223,6 @@ class CheckInOut extends Component {
             this.showElapsedTime();
           }, 1000);
 
-          setTimeout(() => {
-            // this.props.check.checkInOut.viewReportResponseStatus ? this.viewReport(): null;
-            // this.props.check.checkInOut.viewReportResponseStatusFromCheckInOut ? this.viewReport(): null;
-          }, 1000)
-
           // fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + this.state.myLat + ',' + this.state.myLon + '&key=' + this.state.myApiKey)
           //   .then((response) => response.json())
           //   .then((responseJson) => {
@@ -245,7 +238,7 @@ class CheckInOut extends Component {
         console.log('location permission denied');
       }
     } catch (err) {
-      console.warn(err);
+      console.log(err);
     }
   }
 
@@ -268,9 +261,6 @@ class CheckInOut extends Component {
 
       clearInterval(this.elapsedTime);
 
-      setTimeout(() => {
-        // this.props.check.checkInOut.viewReportResponseStatusFromCheckInOut ? this.viewReport(): null;
-      }, 1000)
     },
     (error) => Alert.alert('Permission Denied', 'Ninety leave app ' + error.message + ' for checkout.'),
     { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
@@ -279,7 +269,6 @@ class CheckInOut extends Component {
   
   render() {
     // console.log('this.props.check.checkInOut ==> ', this.props.check.checkInOut);
-    // console.log('this.state ==> ', this.state);
 
     return(
       <View style={{ flex: 1 }}>
@@ -307,7 +296,6 @@ class CheckInOut extends Component {
 
               <View>
                 <Text>Time Elapsed</Text>
-                {/* <Text>{ this.state.elapsedTime == 'NaN:NaN:NaN' ? 'n/a' : this.state.elapsedTime }</Text> */}
                 <Text>
                   { this.state.elapsedTime == null || this.state.elapsedTime == "NaN:NaN:NaN" ? 
                     this.props.check.checkInOut.elapsedTime != "" ? this.props.check.checkInOut.elapsedTime : 'n/a' 
@@ -330,11 +318,6 @@ class CheckInOut extends Component {
               <Text>&nbsp;</Text>
             </View>
 
-            {/* <View style={{ marginBottom: 15, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-              { this.props.check.checkInOut.checkInStatus && this.props.check.checkInOut.checkOutStatus ? <Button title="Check In" disabled={true} onPress={this.findGeoLocation} /> : this.props.check.checkInOut.checkInStatus ? <Button title="Check Out" onPress={this.checkOutHandler} /> : <Button title="Check In" onPress={this.findGeoLocation} /> }
-              <Button color="lightgrey" title="View Report" onPress={() => this.props.navigation.navigate('Main', { screen: 'Reports' })} />
-            </View> */}
-
             <View style={{ marginBottom: 15, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
               { 
                 this.props.check.checkInOut.checkInStatus && this.props.check.checkInOut.checkOutStatus ? 
@@ -350,6 +333,7 @@ class CheckInOut extends Component {
           <View style={{ height: 30 }}>
             <Text>&nbsp;</Text>
           </View>
+
 
           <View>
             <FlatList

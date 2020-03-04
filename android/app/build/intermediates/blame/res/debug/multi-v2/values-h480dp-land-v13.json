@@ -1,7 +1,11 @@
 {
     "logs": [
         {
+<<<<<<< HEAD
             "outputFile": "/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-h480dp-land-v13/values-h480dp-land-v13.xml",
+=======
+            "outputFile": "E:\\Company\\Cloudyfox Pvt Ltd\\Projects\\99Leave\\leaveDemo\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-h480dp-land-v13\\values-h480dp-land-v13.xml",
+>>>>>>> bc919c59b5b55555bc454ecb52fd84fc09341b38
             "map": [
                 {
                     "source": "/Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/b76a097ddc0fc2cef81a24ab5bee1032/res/values-h480dp-land-v13/values-h480dp-land-v13.xml",

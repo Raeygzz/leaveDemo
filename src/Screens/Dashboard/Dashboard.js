@@ -56,7 +56,10 @@ class Dashboard extends Component {
 
 
   showElapsedTime = () => {
+    // console.warn('dateNTime1 ==> ', this.props.storeState.checkInOut.checkInDate);
+    // console.warn('dateNTime2 ==> ', this.props.storeState.checkInOut.checkInTime);
     let dateNTime = new Date(this.props.storeState.checkInOut.checkInDate + ' ' + this.props.storeState.checkInOut.checkInTime);
+    // console.warn('dateNTime ==> ', dateNTime);
     let startStamp = dateNTime.getTime();
 
     let newStamp = new Date().getTime();
@@ -72,7 +75,11 @@ class Dashboard extends Component {
     let s = diff;
     if(s < 10) { s = '0' + s; }
 
-    this.setState({ elapsedTime: h + ':' + m + ':' + s });
+    this.setState({ 
+      elapsedTime: h + ':' + m + ':' + s 
+    }, () => {
+      // console.warn('elapsedTime ==> ', this.state.elapsedTime);
+    });
   }
 
   
@@ -93,7 +100,12 @@ class Dashboard extends Component {
 
               <View>
                 <Text style={styles.textColor}>Time Elapsed</Text>
-                <Text style={styles.textColor}>{this.state.elapsedTime}</Text>
+                <Text style={styles.textColor}>
+                  { this.state.elapsedTime == null || this.state.elapsedTime == "NaN:NaN:NaN" ? 
+                    this.props.storeState.checkInOut.elapsedTime != "" ? this.props.storeState.checkInOut.elapsedTime : 'n/a' 
+                    : this.state.elapsedTime 
+                  }
+                </Text>
               </View>
             </View> : null
           }

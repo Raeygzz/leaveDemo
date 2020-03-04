@@ -14,31 +14,17 @@ const INITIAL_STATE = {
   elapsedTime: '',
   
   checkInOutReports: '',
-  // viewReportResponseStatus: false,
-  // viewReportResponseStatusFromCheckInOut: true,
   
   checkInAlready: false,
   
   error: '',
-  loaderStatus: false,
+  loaderStatus: null,
 }
 
 
 
 const checkInOutReducer = (state = INITIAL_STATE, action) => {
   switch(action.type) {
-    // case CHECKINOUT_STATUS:
-    //   return {
-    //     ...state,
-    //     checkInDate: action.payload.object.checkin_details.date,
-    //     checkInTime: action.payload.object.checkin_details.check_in,
-    //     checkInStatus: action.payload.object.checkin_details.checkin_status,
-    //     checkOutStatus: action.payload.object.checkin_details.checkout_status,
-    //     elapsedTime: action.payload.object.checkin_details.elapsed_time,
-    //     checkInAlready: action.payload.checkInAlready,
-    //     myLat: JSON.parse(action.payload.object.checkin_details.checkin_location).latitude,
-    //     myLon: JSON.parse(action.payload.object.checkin_details.checkin_location).longitude,
-    //   } 
     case CHECKINOUT_GET_API_REQUEST:
       return {
         ...state,
@@ -70,7 +56,8 @@ const checkInOutReducer = (state = INITIAL_STATE, action) => {
     case CHECKIN_POST_API_REQUEST:
       return {
         ...state,
-        error: action.payload
+        error: action.payload,
+        loaderStatus: action.payload.loaderStatus
       }
 
     case CHECKIN_POST_API_SUCCESS:
@@ -88,14 +75,16 @@ const checkInOutReducer = (state = INITIAL_STATE, action) => {
     case CHECKIN_POST_API_FAILURE:
       return {
         ...state,
-        error: action.payload.message
+        error: action.payload.message,
+        loaderStatus: action.payload.loaderStatus
       }  
 
        
       case CHECKOUT_POST_API_REQUEST:
       return {
         ...state,
-        error: action.payload
+        error: action.payload,
+        loaderStatus: action.payload.loaderStatus
       }
 
     case CHECKOUT_POST_API_SUCCESS:
@@ -109,7 +98,8 @@ const checkInOutReducer = (state = INITIAL_STATE, action) => {
     case CHECKOUT_POST_API_FAILURE:
       return {
         ...state,
-        error: action.payload.message
+        error: action.payload.message,
+        loaderStatus: action.payload.loaderStatus
       } 
 
 
@@ -123,7 +113,6 @@ const checkInOutReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         checkInOutReports: action.payload.checkInOutReports,
-        // viewReportResponseStatus: action.payload.viewReportResponseStatus,
         loaderStatus: action.payload.loaderStatus,
       }  
 
