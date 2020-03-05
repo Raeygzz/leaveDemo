@@ -24,6 +24,22 @@ export function setEmployeeDetails(employeeDetail) {
 }
 
 
+// export const renewToken = () => {
+//   return fetch(url + '/identity/renewtoken', {
+//     method: "POST",
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({
+//       refresh_token: authDetails.refreshToken
+//     })
+
+//   }).then(res => res.json()).then((resJson) => {
+//     console.group('renewToken ==> ', resJson);
+//   })
+// }
+
+
 export const login = (method = {}, body = {}) => {
   return fetch(url + '/identity/login', {
     method: method,

@@ -27,8 +27,6 @@ class Login extends Component {
 
     this.state = {
       loader: false,
-      isLoading: true,
-      loaderMessage: "Updating data. Please wait",
       biometryType: null
     };
 
@@ -56,8 +54,6 @@ class Login extends Component {
 
       this.setState({
         loader: false,
-        isLoading: true,
-        loaderMessage: "Updating data. Please wait",
         biometryType: null
       });
     });
@@ -132,10 +128,7 @@ class Login extends Component {
       .then(success => {
         this.setState({ touchIdHasenrolledFinger: false }, () => {
           // console.log('touchid authentication ==> ', success)
-          AsyncStorage.setItem(
-            "touchIdHasenrolledFinger",
-            JSON.stringify(this.state.touchIdHasenrolledFinger)
-          ).then(() => {
+          AsyncStorage.setItem("touchIdHasenrolledFinger", JSON.stringify(this.state.touchIdHasenrolledFinger)).then(() => {
             // AsyncStorage.getItem('touchIdHasenrolledFinger', (err, val) => {
             //   console.log('authenticate method Asynstorage getItem ==> ', JSON.parse(val));
             // })
@@ -215,29 +208,7 @@ class Login extends Component {
   };
 
   loginHandler =  (values) => {
-    // NetInfo.fetch().then(state => {
-    //   if(state.isConnected) {
-    //     const obj = JSON.stringify({
-    //       email: values.email,
-    //       password: values.password
-    //     });
-    
-    //     this.props.dispatch(loginApi(obj));
-    //   } else {
-    //     this.setState({
-    //       isLoading: false,
-    //       loaderMessage: 'No Internet Connection',
-    //     })
-    //     this.props.dispatch(netInfo(true));
-    //   }
-    // });
-
     if(this.context.isConnected) {
-      this.setState({
-        isLoading: true,
-        loaderMessage: 'Updating data. Please wait',
-      })
-
       const obj = JSON.stringify({
         email: values.email,
         password: values.password
@@ -246,11 +217,13 @@ class Login extends Component {
       this.props.dispatch(loginApi(obj));
 
     } else {
-      this.setState({
-        isLoading: false,
-        loaderMessage: 'No Internet Connection',
-      })
-      this.props.dispatch(netInfo(true));
+      obj = {
+        activityIndicatorOrOkay: false,
+        loaderStatus: true,
+        loaderMessage: 'No Internet Connection'
+      }
+      
+      this.props.dispatch(netInfo(obj));
     }
   };
 
@@ -282,7 +255,7 @@ class Login extends Component {
           </View>
 
           <View>
-            <NinetyNineLoader message={this.state.loaderMessage} isLoading={this.state.isLoading} />
+            <NinetyNineLoader />
           </View>
         </View>
       </ScrollView>

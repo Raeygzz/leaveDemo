@@ -1,4 +1,4 @@
-import { NET_INFO, LOGIN_POST_API_REQUEST, LOGIN_POST_API_SUCCESS, LOGIN_POST_API_FAILURE, EMPLOYEE_DETAIL_GET_API_REQUEST, EMPLOYEE_DETAIL_GET_API_SUCCESS, EMPLOYEE_DETAIL_GET_API_FAILURE } from './Constants/ActionsTypes';
+import { NET_INFO, SET_TOKENS, LOGIN_POST_API_REQUEST, LOGIN_POST_API_SUCCESS, LOGIN_POST_API_FAILURE, EMPLOYEE_DETAIL_GET_API_REQUEST, EMPLOYEE_DETAIL_GET_API_SUCCESS, EMPLOYEE_DETAIL_GET_API_FAILURE } from './Constants/ActionsTypes';
 
 import * as api from '../../Authentication/Api/Api';
 
@@ -13,6 +13,15 @@ export const netInfo = netInfo => {
     payload: netInfo
   }
 }
+
+
+export const setToken = newToken => {
+  return {
+    type: SET_TOKENS,
+    payload: newToken
+  }
+}
+
 
 export const loginApiRequestAction = loginRequest => {
   return {
@@ -63,7 +72,9 @@ export const employeeDetailApiFailureAction = employeeDetailFailure => {
 export const loginApi = body => (dispatch, getState) => {
   const options = {
     error: '',
-    loaderStatus: true
+    activityIndicatorOrOkay: true,
+    loaderStatus: true,
+    loaderMessage: 'Updating data. Please wait'
   }
 
   dispatch(loginApiRequestAction(options));
@@ -87,7 +98,9 @@ export const loginApi = body => (dispatch, getState) => {
       RootNavigation.navigate('Main', { screen: 'Dashboard' });
 
     } else {
-      res.loaderStatus = null;
+      res.activityIndicatorOrOkay = null,
+      res.loaderStatus = null,
+      res.loaderMessage = ''
       dispatch(loginApiFailureAction(res))
     }
 
@@ -120,11 +133,16 @@ export const employeeDetailApi = () => (dispatch, getState) => {
   dispatch(employeeDetailApiRequestAction());
   api.employeeDetail("GET", paramObj, accessToken).then(res => res.json()).then(res => {
     if(res.statusCode == 200 && res.status == true) {
-      res.loaderStatus = null;
+      res.activityIndicatorOrOkay = null,
+      res.loaderStatus = null,
+      res.loaderMessage = ''
       // console.log('employeeDetail ==> ', res);
       dispatch(employeeDetailApiSuccessAction(res))
+      
     } else {
-      res.loaderStatus = null;
+      res.activityIndicatorOrOkay = null,
+      res.loaderStatus = null,
+      res.loaderMessage = ''
       dispatch(employeeDetailApiFailureAction(res))
     }
 

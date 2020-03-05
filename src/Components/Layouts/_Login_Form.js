@@ -5,8 +5,8 @@ import { NinetyNineToggleButton } from '../Shared/Forms/NinetyNineToggleButton';
 import { NinetyNineButton } from '../Shared/Buttons/NinetyNineButton';
 import { NinetyNineText } from '../Shared/Forms/NinetyNineText';
 
-import { loginSchema } from '../../Authentication/Validations/_Login_FormValidation';
 import { Formik } from 'formik';
+import { loginSchema } from '../../Authentication/Validations/_Login_FormValidation';
 
 import { connect } from 'react-redux';
 
@@ -52,11 +52,11 @@ class _Login_Form extends Component {
           // email: 'biplab@gmail.com',                                    // comapy_id = 5
           // password: 'password@2',
 
-          email: 'testuser1@yopmail.com',
-          password: 'password',
-
-          // email: 'mobile@gmail.com',
+          // email: 'testuser1@yopmail.com',
           // password: 'password',
+
+          email: 'mobile@gmail.com',
+          password: 'password',
 
           // email: 'testuser2@yopmail.com',
           // password: 'password',

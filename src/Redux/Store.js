@@ -4,6 +4,7 @@ import Thunk from 'redux-thunk';
 import Logger from 'redux-logger';
 import { setAuthDetails } from './Middleware/authDetail';
 import { setEmployeeDetails } from './Middleware/employeeDetail';
+import { renewToken } from './Middleware/renewToken';
 
 import LoginReducer from './Reducers/LoginReducer';
 import checkInOutReducer from './Reducers/CheckInOutReducer';
@@ -15,7 +16,7 @@ const rootReducer = combineReducers({
 })
 
 const configureStore = () => {
-  return createStore(rootReducer, applyMiddleware(Thunk, Logger, setAuthDetails, setEmployeeDetails));
+  return createStore(rootReducer, applyMiddleware(Thunk, Logger, setAuthDetails, setEmployeeDetails, renewToken));
 }
 
 

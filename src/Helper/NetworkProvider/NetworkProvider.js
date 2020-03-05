@@ -16,7 +16,7 @@ export class NetworkProvider extends React.PureComponent {
       this.setState({
         isConnected: state.isConnected
       }, () => {
-        console.log('state ==> ', this.state);
+        // console.log('NetworkProvider state ==> ', this.state);
       })
     });
   }

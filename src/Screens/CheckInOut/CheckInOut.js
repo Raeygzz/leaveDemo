@@ -15,11 +15,10 @@ import Geolocation from '@react-native-community/geolocation';
 import { connect } from 'react-redux';
 import { netInfo, checkInOutApi, viewWeeklyReportApi, checkInApi, checkOutApi } from '../../Redux/Actions/CheckInOutAction';
 
-import ListItem from '../../Components/Layouts/ListItem';
+import { _ListItem } from '../../Components/Layouts/_ListItem';
 
 
 import { NetworkContext } from '../../Helper/NetworkProvider/NetworkProvider';
-// import NetInfo from "@react-native-community/netinfo";
 
 
 class CheckInOut extends Component {
@@ -43,9 +42,6 @@ class CheckInOut extends Component {
       todayDate: todayDate,
       currentTime: null,
       elapsedTime: null,
-
-      isLoading: null,
-      loaderMessage: "",
     }
   }
   static contextType = NetworkContext;
@@ -55,10 +51,57 @@ class CheckInOut extends Component {
   };
 
 
-  UNSAFE_componentWillMount() {
-    this.checkInOutStatus();
-    this.viewReport();
-    this.getCurrentTime();
+  // UNSAFE_componentWillMount() {
+  //   this.checkInOutStatus();
+  //   this.viewReport();
+  //   this.getCurrentTime();
+  // }
+
+
+  componentDidMount = () => {
+    this.timer = setInterval(() => {
+      this.getCurrentTime();
+    }, 1000);
+
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('focus', () => {
+
+      const year = new Date().getFullYear();
+      let month = new Date().getMonth() + 1;
+      month.toString().length <= 1 ? month = '0' + month : month;
+      let date = new Date().getDate();
+      date.toString().length <= 1 ? date = '0' + date : date;
+      const fullYear = year + '/' + month + '/' + date;
+
+
+      const todayDateYear = new Date().getFullYear();
+      const todayDateMonthNum = new Date().getMonth();
+      const todayDateMonth = Month[todayDateMonthNum];
+      const todayDateDate = new Date().getDate();
+      const todayDateDayNum = new Date().getDay();
+      const todayDateDay = Month[todayDateDayNum];
+      const todayDate = todayDateDay + ', ' + todayDateDate + ' ' + todayDateMonth + ' ' + todayDateYear;
+
+      this.setState({
+        myLat: '',
+        myLon: '',
+        checkInLocation: '',
+        fullYear: fullYear,
+        myApiKey: 'AIzaSyAlLxofrXNceXHrdMbUQgwz6F1YF9WlKyE',
+        todayDate: todayDate,
+      }, () => {
+        // console.log('state ==>', this.state);
+      });
+      this.checkInOutStatus();
+      this.viewReport();
+      this.getCurrentTime();
+    });
+  }
+
+  componentWillUnmount = () => {
+    this.focusListener();
+    clearInterval(this.timer, this.elapsedTime);
+    // clearInterval(this.elapsedTime);
   }
 
 
@@ -108,63 +151,8 @@ class CheckInOut extends Component {
   }
 
 
-  componentDidMount = () => {
-    this.timer = setInterval(() => {
-      this.getCurrentTime();
-    }, 1000);
-
-    const { navigation } = this.props;
-    this.focusListener = navigation.addListener('focus', () => {
-
-      const year = new Date().getFullYear();
-      let month = new Date().getMonth() + 1;
-      month.toString().length <= 1 ? month = '0' + month : month;
-      let date = new Date().getDate();
-      date.toString().length <= 1 ? date = '0' + date : date;
-      const fullYear = year + '/' + month + '/' + date;
-
-
-      const todayDateYear = new Date().getFullYear();
-      const todayDateMonthNum = new Date().getMonth();
-      const todayDateMonth = Month[todayDateMonthNum];
-      const todayDateDate = new Date().getDate();
-      const todayDateDayNum = new Date().getDay();
-      const todayDateDay = Month[todayDateDayNum];
-      const todayDate = todayDateDay + ', ' + todayDateDate + ' ' + todayDateMonth + ' ' + todayDateYear;
-
-      this.setState({
-        myLat: '',
-        myLon: '',
-        checkInLocation: '',
-        fullYear: fullYear,
-        myApiKey: 'AIzaSyAlLxofrXNceXHrdMbUQgwz6F1YF9WlKyE',
-        todayDate: todayDate,
-
-        isLoading: null,
-        loaderMessage: "",
-      }, () => {
-        // console.log('state ==>', this.state);
-      });
-      // this.checkInOutStatus();
-      // this.viewReport();
-      // this.getCurrentTime();
-    });
-  }
-
-  componentWillUnmount = () => {
-    this.focusListener();
-    clearInterval(this.timer, this.elapsedTime);
-    // clearInterval(this.elapsedTime);
-  }
-
-
   checkInOutStatus = () => {
     if(this.context.isConnected) {
-      this.setState({
-        isLoading: true,
-        loaderMessage: 'Updating data. Please wait',
-      })
-
       this.props.dispatch(checkInOutApi());
 
       this.elapsedTime = setInterval(() => {
@@ -174,13 +162,12 @@ class CheckInOut extends Component {
       }, 1000);
 
     } else {
-      this.setState({
-        isLoading: false,
-        loaderMessage: 'No Internet Connection',
-      }, () => {
-        console.log('this.state ==> ', this.state);
-      })
-      this.props.dispatch(netInfo(true));
+      obj = {
+        activityIndicatorOrOkay: false,
+        loaderStatus: true,
+        loaderMessage: 'No Internet Connection'
+      }
+      this.props.dispatch(netInfo(obj));
     }
     
   }
@@ -191,11 +178,13 @@ class CheckInOut extends Component {
       this.props.dispatch(viewWeeklyReportApi());
 
     } else {
-      this.setState({
-        isLoading: false,
-        loaderMessage: 'No Internet Connection',
-      })
-      this.props.dispatch(netInfo(true));
+      obj = {
+        activityIndicatorOrOkay: false,
+        loaderStatus: true,
+        loaderMessage: 'No Internet Connection'
+      }
+
+      this.props.dispatch(netInfo(obj));
     }
   }
 
@@ -226,8 +215,7 @@ class CheckInOut extends Component {
 
 
   findGeoLocation = async () => {
-    NetInfo.fetch().then(async state => {
-      if(state.isConnected) {
+    if(this.context.isConnected) {
         try {
           const granted = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -283,14 +271,15 @@ class CheckInOut extends Component {
           console.log(err);
         }
 
-      } else {
-        this.setState({
-          isLoading: false,
-          loaderMessage: 'No Internet Connection',
-        })
-        this.props.dispatch(netInfo(true));
+    } else {
+      obj = {
+        activityIndicatorOrOkay: false,
+        loaderStatus: true,
+        loaderMessage: 'No Internet Connection'
       }
-  }) 
+
+      this.props.dispatch(netInfo(obj));
+    }
   }
 
 
@@ -319,18 +308,20 @@ class CheckInOut extends Component {
       );
 
     } else {
-      this.setState({
-        isLoading: false,
-        loaderMessage: 'No Internet Connection',
-      })
-      this.props.dispatch(netInfo(true));
+      obj = {
+        activityIndicatorOrOkay: false,
+        loaderStatus: true,
+        loaderMessage: 'No Internet Connection'
+      }
+
+      this.props.dispatch(netInfo(obj));
     }
   }
   
 
   render() {
     // console.log('this.props.check.checkInOut ==> ', this.props.check.checkInOut);
-    console.log('isConnection ==> ', this.context);
+    // console.log('isConnection ==> ', this.context);
 
     return(
       <View style={{ flex: 1 }}>
@@ -401,14 +392,14 @@ class CheckInOut extends Component {
             <FlatList
               data={this.props.check.checkInOut.checkInOutReports}
               renderItem={({ item }) => (
-                <ListItem title={item} />
+                <_ListItem title={item} />
               )}
               keyExtractor={item => item.id}
             />
           </View>
 
           <View>
-            <NinetyNineLoader message={this.state.loaderMessage} isLoading={this.state.isLoading} />
+            <NinetyNineLoader />
           </View>
           
         </View>

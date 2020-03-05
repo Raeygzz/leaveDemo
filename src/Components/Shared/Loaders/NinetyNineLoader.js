@@ -9,7 +9,7 @@ class NinetyNineLoader extends Component {
     super(props);
 
     this.state = {
-      isShow: null
+      isShow: null,
     };
   }
   
@@ -27,7 +27,13 @@ class NinetyNineLoader extends Component {
 
 
   okHandler = () => {
-    this.props.dispatch(netInfo(null));
+    obj = {
+      activityIndicatorOrOkay: null,
+      loaderStatus: null,
+      loaderMessage: ''
+    }
+
+    this.props.dispatch(netInfo(obj));
   }
 
 
@@ -82,10 +88,17 @@ class NinetyNineLoader extends Component {
       >
         <View style={styles.container}>
           <Text style={styles.text}>
-            {this.props.message ? this.props.message : "Updating data. Please wait"}
+            {
+              this.props.storeState.login.loaderMessage != '' ? this.props.storeState.login.loaderMessage : 
+              this.props.storeState.checkInOut.loaderMessage != '' ? this.props.storeState.checkInOut.loaderMessage : 
+              null
+            }
           </Text>
 
-          { this.props.isLoading ? ( <ActivityIndicator size="large" color="#00ff00" /> ) : ( <TouchableOpacity onPress={this.okHandler}><Text style={styles.ok}>Ok</Text></TouchableOpacity> ) }
+          { 
+            this.props.storeState.login.activityIndicatorOrOkay || this.props.storeState.checkInOut.activityIndicatorOrOkay ? ( <ActivityIndicator size="large" color="#00ff00" /> ) : 
+            ( <TouchableOpacity onPress={this.okHandler}><Text style={styles.ok}>Ok</Text></TouchableOpacity> ) 
+          }
         </View>
       </Modal>
     );
@@ -126,4 +139,3 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps)(NinetyNineLoader);
-// export default NinetyNineLoader;
