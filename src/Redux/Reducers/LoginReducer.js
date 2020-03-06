@@ -3,6 +3,7 @@ import { NET_INFO, SET_TOKENS, LOGIN_POST_API_REQUEST, LOGIN_POST_API_SUCCESS, L
 
 const INITIAL_STATE = {
   dateAtTheTimeOfLogin: '',
+  dateNTimeAtTheTimeOfLoginForRenewToken: '',
   countryCode: '',
   accessToken: '',
   refreshToken: '',
@@ -57,6 +58,7 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         expiresIn: action.payload.object.token.expires_in,
         tokenType: action.payload.object.token.token_type,
         userId: action.payload.object.id,
+        dateNTimeAtTheTimeOfLoginForRenewToken: new Date(),
       }  
 
     case LOGIN_POST_API_FAILURE:
