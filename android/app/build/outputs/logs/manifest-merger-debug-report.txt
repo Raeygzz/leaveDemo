@@ -44,7 +44,7 @@ MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\Regan Timsina\.g
 MERGED from [androidx.customview:customview:1.0.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\d39f95ddef722ccf34f80d7d7ac1fa97\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.transition:transition:1.2.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\69b8d57f64f9d8784bee702dea920e1f\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\aeab5a1af8d877e3e1f1c455ca2633f1\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.core:core:1.3.0-alpha01] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\2fa02740fc3aef49c1327b9c2b641bac\AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.core:core:1.3.0-alpha02] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\acef74b8d445e90370cfb47206a81b45\AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\36a8acfd0c8699393196335a9617f3ba\AndroidManifest.xml:17:1-27:12
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\0a3d78c97f96ada21b4c37e80df89305\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\ce74a3c0104daec949dc22ad3587c0f2\AndroidManifest.xml:17:1-24:12
@@ -103,12 +103,12 @@ MERGED from [com.google.android.material:material:1.1.0] C:\Users\Regan Timsina\
 MERGED from [com.google.android.material:material:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\17f56a15d732a68fa2f8b3a018bab7c9\AndroidManifest.xml:22:5-20
 MERGED from [com.facebook.soloader:soloader:0.6.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\80b3aca071e403b08a58cf72cd43f0fd\AndroidManifest.xml:11:5-20
 MERGED from [com.facebook.soloader:soloader:0.6.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\80b3aca071e403b08a58cf72cd43f0fd\AndroidManifest.xml:11:5-20
-MERGED from [androidx.core:core:1.3.0-alpha01] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\2fa02740fc3aef49c1327b9c2b641bac\AndroidManifest.xml:24:5-89
-MERGED from [androidx.core:core:1.3.0-alpha01] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\2fa02740fc3aef49c1327b9c2b641bac\AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.3.0-alpha02] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\acef74b8d445e90370cfb47206a81b45\AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.3.0-alpha02] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\acef74b8d445e90370cfb47206a81b45\AndroidManifest.xml:24:5-89
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\36a8acfd0c8699393196335a9617f3ba\AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\36a8acfd0c8699393196335a9617f3ba\AndroidManifest.xml:24:5-25:19
 	android:appComponentFactory
-		ADDED from [androidx.core:core:1.3.0-alpha01] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\2fa02740fc3aef49c1327b9c2b641bac\AndroidManifest.xml:24:18-86
+		ADDED from [androidx.core:core:1.3.0-alpha02] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\acef74b8d445e90370cfb47206a81b45\AndroidManifest.xml:24:18-86
 	android:label
 		ADDED from E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\android\app\src\main\AndroidManifest.xml:10:7-39
 		ADDED from E:\Company\Cloudyfox Pvt Ltd\Projects\99Leave\leaveDemo\android\app\src\main\AndroidManifest.xml:10:7-39
@@ -239,8 +239,8 @@ MERGED from [androidx.transition:transition:1.2.0] C:\Users\Regan Timsina\.gradl
 MERGED from [androidx.transition:transition:1.2.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\69b8d57f64f9d8784bee702dea920e1f\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\aeab5a1af8d877e3e1f1c455ca2633f1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\aeab5a1af8d877e3e1f1c455ca2633f1\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.core:core:1.3.0-alpha01] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\2fa02740fc3aef49c1327b9c2b641bac\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.core:core:1.3.0-alpha01] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\2fa02740fc3aef49c1327b9c2b641bac\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.3.0-alpha02] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\acef74b8d445e90370cfb47206a81b45\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.3.0-alpha02] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\acef74b8d445e90370cfb47206a81b45\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\36a8acfd0c8699393196335a9617f3ba\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\36a8acfd0c8699393196335a9617f3ba\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Regan Timsina\.gradle\caches\transforms-2\files-2.1\0a3d78c97f96ada21b4c37e80df89305\AndroidManifest.xml:20:5-44
