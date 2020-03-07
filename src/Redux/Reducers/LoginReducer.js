@@ -1,8 +1,9 @@
-import { NET_INFO, LOGIN_POST_API_REQUEST, LOGIN_POST_API_SUCCESS, LOGIN_POST_API_FAILURE, EMPLOYEE_DETAIL_GET_API_REQUEST, EMPLOYEE_DETAIL_GET_API_SUCCESS, EMPLOYEE_DETAIL_GET_API_FAILURE } from '../Actions/Constants/ActionsTypes';
+import { NET_INFO, SET_TOKENS, LOGIN_POST_API_REQUEST, LOGIN_POST_API_SUCCESS, LOGIN_POST_API_FAILURE, EMPLOYEE_DETAIL_GET_API_REQUEST, EMPLOYEE_DETAIL_GET_API_SUCCESS, EMPLOYEE_DETAIL_GET_API_FAILURE } from '../Actions/Constants/ActionsTypes';
 
 
 const INITIAL_STATE = {
   dateAtTheTimeOfLogin: '',
+  dateNTimeAtTheTimeOfLoginForRenewToken: '',
   countryCode: '',
   accessToken: '',
   refreshToken: '',
@@ -14,8 +15,8 @@ const INITIAL_STATE = {
 
   error: '',
   loaderStatus: null,
-  // isLoading: null,
-  // apiValidationOrFailureMessage: '',
+  activityIndicatorOrOkay: null,
+  loaderMessage: ''
 }
 
 
@@ -25,15 +26,26 @@ const loginReducer = (state = INITIAL_STATE, action) => {
     case NET_INFO:
       return {
         ...state,
-        loaderStatus: action.payload
+        loaderStatus: action.payload.loaderStatus,
+        activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
+        loaderMessage: action.payload.loaderMessage
       }
+
+
+    case SET_TOKENS:
+      return {
+        ...state,
+        accessToken: action.payload.object.token.id_token
+      }  
 
 
     case LOGIN_POST_API_REQUEST:
       return {
         ...state,
         error: action.payload.error,
-        loaderStatus: action.payload.loaderStatus
+        loaderStatus: action.payload.loaderStatus,
+        activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
+        loaderMessage: action.payload.loaderMessage
       }
 
     case LOGIN_POST_API_SUCCESS:
@@ -46,6 +58,7 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         expiresIn: action.payload.object.token.expires_in,
         tokenType: action.payload.object.token.token_type,
         userId: action.payload.object.id,
+        dateNTimeAtTheTimeOfLoginForRenewToken: new Date(),
       }  
 
     case LOGIN_POST_API_FAILURE:
@@ -53,6 +66,8 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         ...state,
         error: action.payload.message,
         loaderStatus: action.payload.loaderStatus,
+        activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
+        loaderMessage: action.payload.loaderMessage
       }   
 
 
@@ -68,6 +83,8 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         fullName: action.payload.object.details.first_name + ' ' + action.payload.object.details.last_name,
         companyId: action.payload.object.details.company_id,
         loaderStatus: action.payload.loaderStatus,
+        activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
+        loaderMessage: action.payload.loaderMessage
       }  
 
     case EMPLOYEE_DETAIL_GET_API_FAILURE:
@@ -75,6 +92,8 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         ...state,
         error: action.payload.message,
         loaderStatus: action.payload.loaderStatus,
+        activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
+        loaderMessage: action.payload.loaderMessage
       }    
 
       

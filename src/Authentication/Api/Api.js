@@ -3,6 +3,41 @@
 const url = 'https://microservices.99leave.com';
 
 
+let authDetails = {};
+export function setAuthDetails(auth) {
+  authDetails.dateAtTheTimeOfLogin = auth.dateAtTheTimeOfLogin;
+  authDetails.countryCode = auth.countryCode;
+  authDetails.accessToken = auth.object.token.id_token;
+  authDetails.refreshToken = auth.object.token.refresh_token;
+  authDetails.expiresIn = auth.object.token.expires_in;
+  authDetails.tokenType = auth.object.token.token_type;
+  authDetails.userId = auth.object.id;
+
+  // console.log('auth ==> ', authDetails);
+}
+
+export function setEmployeeDetails(employeeDetail) {
+  authDetails.fullName = employeeDetail.object.details.first_name + ' ' + employeeDetail.object.details.last_name;
+  authDetails.companyId = employeeDetail.object.details.company_id;
+
+  // console.log('employeeDetail ==> ', authDetails);
+}
+
+
+// export const renewToken = () => {
+//   return fetch(url + '/identity/renewtoken', {
+//     method: "POST",
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({
+//       refresh_token: authDetails.refreshToken
+//     })
+
+//   }).then(res => res.json()).then((resJson) => {
+//     console.group('renewToken ==> ', resJson);
+//   })
+// }
 
 
 export const login = (method = {}, body = {}) => {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 
 
-export default class ListItem extends Component {
+export class _ListItem extends Component {
   render() {
     // console.log('this.props  ==> ', this.props);
 

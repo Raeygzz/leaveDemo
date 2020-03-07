@@ -1,6 +1,14 @@
-import { CHECKINOUT_GET_API_REQUEST, CHECKINOUT_GET_API_SUCCESS, CHECKINOUT_GET_API_FAILURE, CHECKIN_POST_API_REQUEST, CHECKIN_POST_API_SUCCESS, CHECKIN_POST_API_FAILURE, CHECKOUT_POST_API_REQUEST, CHECKOUT_POST_API_SUCCESS, CHECKOUT_POST_API_FAILURE, VIEW_REPORTS_API_REQUEST, VIEW_REPORTS_API_SUCCESS, VIEW_REPORTS_API_FAILURE } from './Constants/ActionsTypes';
+import { NET_INFO, CHECKINOUT_GET_API_REQUEST, CHECKINOUT_GET_API_SUCCESS, CHECKINOUT_GET_API_FAILURE, CHECKIN_POST_API_REQUEST, CHECKIN_POST_API_SUCCESS, CHECKIN_POST_API_FAILURE, CHECKOUT_POST_API_REQUEST, CHECKOUT_POST_API_SUCCESS, CHECKOUT_POST_API_FAILURE, VIEW_REPORTS_API_REQUEST, VIEW_REPORTS_API_SUCCESS, VIEW_REPORTS_API_FAILURE } from './Constants/ActionsTypes';
 
 import * as api from '../../Authentication/Api/Api';
+
+
+export const netInfo = netInfo => {
+  return {
+    type: NET_INFO,
+    payload: netInfo
+  }
+}
 
 
 const checkInOutApiRequestAction = checkInOutRequest => {
@@ -114,7 +122,9 @@ export const checkInOutApi = () => (dispatch, getState) => {
 
   const options = {
     error: '',
-    loaderStatus: true
+    activityIndicatorOrOkay: true,
+    loaderStatus: true,
+    loaderMessage: 'Updating data. Please wait'
   }
 
   const paramObj = {
@@ -135,7 +145,9 @@ export const checkInOutApi = () => (dispatch, getState) => {
       dispatch(checkInOutApiSuccessAction(res))
 
     } else {
-      res.loaderStatus = null;
+      res.activityIndicatorOrOkay = null,
+      res.loaderStatus = null,
+      res.loaderMessage = ''
       dispatch(checkInOutApiFailureAction(res))
     }
 
@@ -151,7 +163,9 @@ export const checkInApi = body => (dispatch, getState) => {
 
   const options = {
     error: '',
-    loaderStatus: true
+    activityIndicatorOrOkay: true,
+    loaderStatus: true,
+    loaderMessage: 'Updating data. Please wait'
   }
 
   dispatch(checkInApiRequestAction(options));
@@ -167,7 +181,9 @@ export const checkInApi = body => (dispatch, getState) => {
       dispatch(viewWeeklyReportApi())
 
     } else {
-      res.loaderStatus = null;
+      res.activityIndicatorOrOkay = null,
+      res.loaderStatus = null,
+      res.loaderMessage = ''
       dispatch(checkInApiFailureAction(res))
     }
 
@@ -183,7 +199,9 @@ export const checkOutApi = body => (dispatch, getState) => {
 
   const options = {
     error: '',
-    loaderStatus: true
+    activityIndicatorOrOkay: true,
+    loaderStatus: true,
+    loaderMessage: 'Updating data. Please wait'
   }
 
   dispatch(checkOutApiRequestAction(options));
@@ -200,7 +218,9 @@ export const checkOutApi = body => (dispatch, getState) => {
       dispatch(viewWeeklyReportApi())
 
     } else {
-      res.loaderStatus = null;
+      res.activityIndicatorOrOkay = null,
+      res.loaderStatus = null,
+      res.loaderMessage = ''
       dispatch(checkOutApiFailureAction(res))
     }
 
@@ -249,12 +269,16 @@ export const viewWeeklyReportApi = () => (dispatch, getState) => {
         viewReportResponse.checkInOutReports.push({ id: res.object.filter[i].id.toString(), date: res.object.filter[i].date, checkIn: res.object.filter[i].check_in, checkOut: res.object.filter[i].check_out })
       }
       
-      viewReportResponse.loaderStatus = null;
+      viewReportResponse.activityIndicatorOrOkay = null,
+      viewReportResponse.loaderStatus = null,
+      viewReportResponse.loaderMessage = ''
       viewReportResponse.checkInOutReports[0].backgroundColor = 'blue';
       dispatch(viewReportsApiSuccessAction(viewReportResponse))
 
     } else {
-      res.loaderStatus = null;
+      res.activityIndicatorOrOkay = null,
+      res.loaderStatus = null,
+      res.loaderMessage = ''
       dispatch(viewReportsApiFailureAction(res))
     }
 

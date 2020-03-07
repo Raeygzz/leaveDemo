@@ -13,9 +13,12 @@ import {PermissionsAndroid} from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 
 import { connect } from 'react-redux';
-import { checkInOutApi, viewWeeklyReportApi, checkInApi, checkOutApi } from '../../Redux/Actions/CheckInOutAction';
+import { netInfo, checkInOutApi, viewWeeklyReportApi, checkInApi, checkOutApi } from '../../Redux/Actions/CheckInOutAction';
 
-import ListItem from '../../Components/Layouts/ListItem';
+import { _ListItem } from '../../Components/Layouts/_ListItem';
+
+
+import { NetworkContext } from '../../Helper/NetworkProvider/NetworkProvider';
 
 
 class CheckInOut extends Component {
@@ -41,16 +44,64 @@ class CheckInOut extends Component {
       elapsedTime: null,
     }
   }
+  static contextType = NetworkContext;
 
   static navigationOptions = {
     headerShown: false
   };
 
 
-  UNSAFE_componentWillMount() {
-    this.checkInOutStatus();
-    this.viewReport();
-    this.getCurrentTime();
+  // UNSAFE_componentWillMount() {
+  //   this.checkInOutStatus();
+  //   this.viewReport();
+  //   this.getCurrentTime();
+  // }
+
+
+  componentDidMount = () => {
+    this.timer = setInterval(() => {
+      this.getCurrentTime();
+    }, 1000);
+
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('focus', () => {
+
+      const year = new Date().getFullYear();
+      let month = new Date().getMonth() + 1;
+      month.toString().length <= 1 ? month = '0' + month : month;
+      let date = new Date().getDate();
+      date.toString().length <= 1 ? date = '0' + date : date;
+      const fullYear = year + '/' + month + '/' + date;
+
+
+      const todayDateYear = new Date().getFullYear();
+      const todayDateMonthNum = new Date().getMonth();
+      const todayDateMonth = Month[todayDateMonthNum];
+      const todayDateDate = new Date().getDate();
+      const todayDateDayNum = new Date().getDay();
+      const todayDateDay = Month[todayDateDayNum];
+      const todayDate = todayDateDay + ', ' + todayDateDate + ' ' + todayDateMonth + ' ' + todayDateYear;
+
+      this.setState({
+        myLat: '',
+        myLon: '',
+        checkInLocation: '',
+        fullYear: fullYear,
+        myApiKey: 'AIzaSyAlLxofrXNceXHrdMbUQgwz6F1YF9WlKyE',
+        todayDate: todayDate,
+      }, () => {
+        // console.log('state ==>', this.state);
+      });
+      this.checkInOutStatus();
+      this.viewReport();
+      this.getCurrentTime();
+    });
+  }
+
+  componentWillUnmount = () => {
+    this.focusListener();
+    clearInterval(this.timer, this.elapsedTime);
+    // clearInterval(this.elapsedTime);
   }
 
 
@@ -100,63 +151,41 @@ class CheckInOut extends Component {
   }
 
 
-  componentDidMount = () => {
-    this.timer = setInterval(() => {
-      this.getCurrentTime();
-    }, 1000);
-
-    const { navigation } = this.props;
-    this.focusListener = navigation.addListener('focus', () => {
-
-      const year = new Date().getFullYear();
-      let month = new Date().getMonth() + 1;
-      month.toString().length <= 1 ? month = '0' + month : month;
-      let date = new Date().getDate();
-      date.toString().length <= 1 ? date = '0' + date : date;
-      const fullYear = year + '/' + month + '/' + date;
-
-
-      const todayDateYear = new Date().getFullYear();
-      const todayDateMonthNum = new Date().getMonth();
-      const todayDateMonth = Month[todayDateMonthNum];
-      const todayDateDate = new Date().getDate();
-      const todayDateDayNum = new Date().getDay();
-      const todayDateDay = Month[todayDateDayNum];
-      const todayDate = todayDateDay + ', ' + todayDateDate + ' ' + todayDateMonth + ' ' + todayDateYear;
-
-      this.setState({
-        myLat: '',
-        myLon: '',
-        checkInLocation: '',
-        fullYear: fullYear,
-        myApiKey: 'AIzaSyAlLxofrXNceXHrdMbUQgwz6F1YF9WlKyE',
-        todayDate: todayDate
-      }, () => {
-        // console.log('state ==>', this.state);
-      });
-    });
-  }
-
-  componentWillUnmount = () => {
-    this.focusListener();
-    clearInterval(this.timer, this.elapsedTime);
-    // clearInterval(this.elapsedTime);
-  }
-
-
   checkInOutStatus = () => {
-    this.props.dispatch(checkInOutApi());
+    if(this.context.isConnected) {
+      this.props.dispatch(checkInOutApi());
 
-    this.elapsedTime = setInterval(() => {
-      if(this.props.check.checkInOut.checkInStatus && !this.props.check.checkInOut.checkOutStatus) {
-        this.showElapsedTime();
+      this.elapsedTime = setInterval(() => {
+        if(this.props.check.checkInOut.checkInStatus && !this.props.check.checkInOut.checkOutStatus) {
+          this.showElapsedTime();
+        }
+      }, 1000);
+
+    } else {
+      obj = {
+        activityIndicatorOrOkay: false,
+        loaderStatus: true,
+        loaderMessage: 'No Internet Connection'
       }
-    }, 1000);
+      this.props.dispatch(netInfo(obj));
+    }
+    
   }
 
 
   viewReport = () => {
-    this.props.dispatch(viewWeeklyReportApi());
+    if(this.context.isConnected) {
+      this.props.dispatch(viewWeeklyReportApi());
+
+    } else {
+      obj = {
+        activityIndicatorOrOkay: false,
+        loaderStatus: true,
+        loaderMessage: 'No Internet Connection'
+      }
+
+      this.props.dispatch(netInfo(obj));
+    }
   }
 
   
@@ -186,89 +215,113 @@ class CheckInOut extends Component {
 
 
   findGeoLocation = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        // {
-        //   title: 'Geo Location Access Permission',
-        //   message:
-        //     'Ninety nine leave needs access to your location ' +
-        //     'so you can checkin for today.',
-        //   // buttonNeutral: 'Ask Me Later',
-        //   // buttonNegative: 'Cancel',
-        //   // buttonPositive: 'OK',
-        // },
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('You can use the location');
-
-        Geolocation.getCurrentPosition((position) => {
-          const location = position;
-
-          let body = JSON.stringify({
-            user_id: this.props.check.login.userId,
-            date: this.state.fullYear,
-            country: "NP",
-            company_id: this.props.check.login.companyId,
-            checkin_location: JSON.stringify({
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
-            })
-          })
-          // console.log('body ==> ', body);
+    if(this.context.isConnected) {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            // {
+            //   title: 'Geo Location Access Permission',
+            //   message:
+            //     'Ninety nine leave needs access to your location ' +
+            //     'so you can checkin for today.',
+            //   // buttonNeutral: 'Ask Me Later',
+            //   // buttonNegative: 'Cancel',
+            //   // buttonPositive: 'OK',
+            // },
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log('You can use the location');
     
-          this.props.dispatch(checkInApi(body));
+            Geolocation.getCurrentPosition((position) => {
+              const location = position;
+    
+              let body = JSON.stringify({
+                user_id: this.props.check.login.userId,
+                date: this.state.fullYear,
+                country: "NP",
+                company_id: this.props.check.login.companyId,
+                checkin_location: JSON.stringify({
+                  latitude: location.coords.latitude,
+                  longitude: location.coords.longitude,
+                })
+              })
+              // console.log('body ==> ', body);
+        
+              this.props.dispatch(checkInApi(body));
+    
+              this.elapsedTime = setInterval(() => {
+                this.showElapsedTime();
+              }, 1000);
+    
+              // fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + this.state.myLat + ',' + this.state.myLon + '&key=' + this.state.myApiKey)
+              //   .then((response) => response.json())
+              //   .then((responseJson) => {
+              //   console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson));
+              // })
+    
+            },
+            (error) => Alert.alert('Permission Denied', 'Ninety leave app ' + error.message + ' for checkin.'),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+            );
+    
+          } else {
+            console.log('location permission denied');
+          }
+        } catch (err) {
+          console.log(err);
+        }
 
-          this.elapsedTime = setInterval(() => {
-            this.showElapsedTime();
-          }, 1000);
-
-          // fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + this.state.myLat + ',' + this.state.myLon + '&key=' + this.state.myApiKey)
-          //   .then((response) => response.json())
-          //   .then((responseJson) => {
-          //   console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson));
-          // })
-
-        },
-        (error) => Alert.alert('Permission Denied', 'Ninety leave app ' + error.message + ' for checkin.'),
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-        );
-
-      } else {
-        console.log('location permission denied');
+    } else {
+      obj = {
+        activityIndicatorOrOkay: false,
+        loaderStatus: true,
+        loaderMessage: 'No Internet Connection'
       }
-    } catch (err) {
-      console.log(err);
+
+      this.props.dispatch(netInfo(obj));
     }
   }
 
 
   checkOutHandler = () => {
-    Geolocation.getCurrentPosition((position) => {
-      const location = position;
-
-      let body = JSON.stringify({
-        user_id: this.props.check.login.userId,
-        date: this.state.fullYear,
-        country: "NP",
-        checkin_location: JSON.stringify({
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
+    if(this.context.isConnected) {
+      Geolocation.getCurrentPosition((position) => {
+        const location = position;
+  
+        let body = JSON.stringify({
+          user_id: this.props.check.login.userId,
+          date: this.state.fullYear,
+          country: "NP",
+          checkin_location: JSON.stringify({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          })
         })
-      })
+  
+        this.props.dispatch(checkOutApi(body));
+  
+        clearInterval(this.elapsedTime);
+  
+      },
+      (error) => Alert.alert('Permission Denied', 'Ninety leave app ' + error.message + ' for checkout.'),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      );
 
-      this.props.dispatch(checkOutApi(body));
+    } else {
+      obj = {
+        activityIndicatorOrOkay: false,
+        loaderStatus: true,
+        loaderMessage: 'No Internet Connection'
+      }
 
-      clearInterval(this.elapsedTime);
-
-    },
-    (error) => Alert.alert('Permission Denied', 'Ninety leave app ' + error.message + ' for checkout.'),
-    { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    );
+      this.props.dispatch(netInfo(obj));
+    }
   }
   
+
   render() {
     // console.log('this.props.check.checkInOut ==> ', this.props.check.checkInOut);
+    // console.log('isConnection ==> ', this.context);
 
     return(
       <View style={{ flex: 1 }}>
@@ -339,14 +392,14 @@ class CheckInOut extends Component {
             <FlatList
               data={this.props.check.checkInOut.checkInOutReports}
               renderItem={({ item }) => (
-                <ListItem title={item} />
+                <_ListItem title={item} />
               )}
               keyExtractor={item => item.id}
             />
           </View>
 
           <View>
-            <NinetyNineLoader message="Updating data. Please wait" isLoading={true} />
+            <NinetyNineLoader />
           </View>
           
         </View>

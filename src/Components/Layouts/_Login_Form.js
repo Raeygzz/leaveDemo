@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TextInput, StyleSheet } from 'react-native';
 
 import { NinetyNineToggleButton } from '../Shared/Forms/NinetyNineToggleButton';
 import { NinetyNineButton } from '../Shared/Buttons/NinetyNineButton';
 import { NinetyNineText } from '../Shared/Forms/NinetyNineText';
 
-import { loginSchema } from '../../Authentication/Validations/_Login_FormValidation';
 import { Formik } from 'formik';
+import { loginSchema } from '../../Authentication/Validations/_Login_FormValidation';
 
 import { connect } from 'react-redux';
 
@@ -46,8 +46,8 @@ class _Login_Form extends Component {
 
 
           // company_id = 2
-          email: 'bijay@gmail.com',
-          password: 'password',
+          // email: 'bijay@gmail.com',
+          // password: 'password',
 
           // email: 'biplab@gmail.com',                                    // comapy_id = 5
           // password: 'password@2',
@@ -55,8 +55,8 @@ class _Login_Form extends Component {
           // email: 'testuser1@yopmail.com',
           // password: 'password',
 
-          // email: 'mobile@gmail.com',
-          // password: 'password',
+          email: 'mobile@gmail.com',
+          password: 'password',
 
           // email: 'testuser2@yopmail.com',
           // password: 'password',
@@ -111,10 +111,6 @@ class _Login_Form extends Component {
             <View style={{ marginTop: 40, marginRight: 10 }}>
               <NinetyNineButton style={styles.ninetyNineButton} buttonTitle="Login" onItemPressed={handleSubmit} /> 
             </View>
-            
-            <TouchableOpacity style={{ marginTop: 5 }} onPress={this.forgotPassword}>
-              <Text style={{ color: 'blue', textAlign: 'center' }}>Forgot Password?</Text>
-            </TouchableOpacity>
           </View>
         )}
       </Formik>

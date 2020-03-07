@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { Alert, StyleSheet, Text, View, ScrollView } from "react-native";
+import { Alert, StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
 
 import { connect } from "react-redux";
 import { netInfo, loginApi } from "../../Redux/Actions/LoginAction";
 
 import AsyncStorage from "@react-native-community/async-storage";
-import NetInfo from "@react-native-community/netinfo";
 
 import TouchID from "react-native-touch-id";
 import * as Keychain from "react-native-keychain";
@@ -18,6 +17,9 @@ import NinetyNineLoader from "../../Components/Shared/Loaders/NinetyNineLoader";
 
 // import * as RNLocalize from "react-native-localize";
 
+import { NetworkContext } from '../../Helper/NetworkProvider/NetworkProvider';
+
+
 class Login extends Component {
   // appWithAllNavigation_V5_tsx
   constructor(props) {
@@ -25,8 +27,6 @@ class Login extends Component {
 
     this.state = {
       loader: false,
-      isLoading: true,
-      loaderMessage: "Updating data. Please wait",
       biometryType: null
     };
 
@@ -38,10 +38,12 @@ class Login extends Component {
     // console.log("getTimeZone ==> ", RNLocalize.getTimeZone());
     // console.log("uses24HourClock ==> ", RNLocalize.uses24HourClock());
   }
+  static contextType = NetworkContext;
 
   static navigationOptions = {
     headerShown: false
   };
+
 
   componentDidMount() {
     const { navigation } = this.props;
@@ -52,8 +54,6 @@ class Login extends Component {
 
       this.setState({
         loader: false,
-        isLoading: true,
-        loaderMessage: "Updating data. Please wait",
         biometryType: null
       });
     });
@@ -128,10 +128,7 @@ class Login extends Component {
       .then(success => {
         this.setState({ touchIdHasenrolledFinger: false }, () => {
           // console.log('touchid authentication ==> ', success)
-          AsyncStorage.setItem(
-            "touchIdHasenrolledFinger",
-            JSON.stringify(this.state.touchIdHasenrolledFinger)
-          ).then(() => {
+          AsyncStorage.setItem("touchIdHasenrolledFinger", JSON.stringify(this.state.touchIdHasenrolledFinger)).then(() => {
             // AsyncStorage.getItem('touchIdHasenrolledFinger', (err, val) => {
             //   console.log('authenticate method Asynstorage getItem ==> ', JSON.parse(val));
             // })
@@ -211,29 +208,29 @@ class Login extends Component {
   };
 
   loginHandler =  (values) => {
-    NetInfo.fetch().then(state => {
-      if(state.isConnected) {
-        const obj = JSON.stringify({
-          email: values.email,
-          password: values.password
-        });
-    
-        this.props.dispatch(loginApi(obj));
-      } else {
-        this.setState({
-          isLoading: false,
-          loaderMessage: 'No Internet Connection',
-        })
-        this.props.dispatch(netInfo(true));
+    if(this.context.isConnected) {
+      const obj = JSON.stringify({
+        email: values.email,
+        password: values.password
+      });
+  
+      this.props.dispatch(loginApi(obj));
+
+    } else {
+      obj = {
+        activityIndicatorOrOkay: false,
+        loaderStatus: true,
+        loaderMessage: 'No Internet Connection'
       }
-    });
+      
+      this.props.dispatch(netInfo(obj));
+    }
   };
 
 
   forgotPassword = () => {
     this.props.navigation.navigate("ForgotPassword");
   };
-
 
 
   render() {
@@ -249,12 +246,16 @@ class Login extends Component {
 
           <_Login_Form onPress={this.loginHandler} />
 
+          <TouchableOpacity style={{ marginTop: 5 }} onPress={this.forgotPassword}>
+            <Text style={{ color: 'blue', textAlign: 'center' }}>Forgot Password?</Text>
+          </TouchableOpacity>
+
           <View style={{ height: 30 }}>
             <Text>&nbsp;</Text>
           </View>
 
           <View>
-            <NinetyNineLoader message={this.state.loaderMessage} isLoading={this.state.isLoading} />
+            <NinetyNineLoader />
           </View>
         </View>
       </ScrollView>

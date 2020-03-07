@@ -1,4 +1,4 @@
-import { CHECKINOUT_GET_API_REQUEST, CHECKINOUT_GET_API_SUCCESS, CHECKINOUT_GET_API_FAILURE, CHECKIN_POST_API_REQUEST, CHECKIN_POST_API_SUCCESS, CHECKIN_POST_API_FAILURE, CHECKOUT_POST_API_REQUEST, CHECKOUT_POST_API_SUCCESS, CHECKOUT_POST_API_FAILURE, VIEW_REPORTS_API_REQUEST, VIEW_REPORTS_API_SUCCESS, VIEW_REPORTS_API_FAILURE } from '../Actions/Constants/ActionsTypes';
+import { NET_INFO, CHECKINOUT_GET_API_REQUEST, CHECKINOUT_GET_API_SUCCESS, CHECKINOUT_GET_API_FAILURE, CHECKIN_POST_API_REQUEST, CHECKIN_POST_API_SUCCESS, CHECKIN_POST_API_FAILURE, CHECKOUT_POST_API_REQUEST, CHECKOUT_POST_API_SUCCESS, CHECKOUT_POST_API_FAILURE, VIEW_REPORTS_API_REQUEST, VIEW_REPORTS_API_SUCCESS, VIEW_REPORTS_API_FAILURE } from '../Actions/Constants/ActionsTypes';
 
 
 const INITIAL_STATE = {
@@ -19,17 +19,30 @@ const INITIAL_STATE = {
   
   error: '',
   loaderStatus: null,
+  activityIndicatorOrOkay: null,
+  loaderMessage: ''
 }
 
 
 
 const checkInOutReducer = (state = INITIAL_STATE, action) => {
   switch(action.type) {
+    case NET_INFO:
+      return {
+        ...state,
+        loaderStatus: action.payload.loaderStatus,
+        activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
+        loaderMessage: action.payload.loaderMessage
+      }
+    
+      
     case CHECKINOUT_GET_API_REQUEST:
       return {
         ...state,
         error: action.payload.error,
-        loaderStatus: action.payload.loaderStatus
+        loaderStatus: action.payload.loaderStatus,
+        activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
+        loaderMessage: action.payload.loaderMessage
       }
 
     case CHECKINOUT_GET_API_SUCCESS:
@@ -50,6 +63,8 @@ const checkInOutReducer = (state = INITIAL_STATE, action) => {
         ...state,
         error: action.payload.error,
         loaderStatus: action.payload.loaderStatus,
+        activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
+        loaderMessage: action.payload.loaderMessage
       }
 
 
@@ -57,7 +72,9 @@ const checkInOutReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: action.payload,
-        loaderStatus: action.payload.loaderStatus
+        loaderStatus: action.payload.loaderStatus,
+        activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
+        loaderMessage: action.payload.loaderMessage
       }
 
     case CHECKIN_POST_API_SUCCESS:
@@ -76,7 +93,9 @@ const checkInOutReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: action.payload.message,
-        loaderStatus: action.payload.loaderStatus
+        loaderStatus: action.payload.loaderStatus,
+        activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
+        loaderMessage: action.payload.loaderMessage
       }  
 
        
@@ -84,7 +103,9 @@ const checkInOutReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: action.payload,
-        loaderStatus: action.payload.loaderStatus
+        loaderStatus: action.payload.loaderStatus,
+        activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
+        loaderMessage: action.payload.loaderMessage
       }
 
     case CHECKOUT_POST_API_SUCCESS:
@@ -99,7 +120,9 @@ const checkInOutReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: action.payload.message,
-        loaderStatus: action.payload.loaderStatus
+        loaderStatus: action.payload.loaderStatus,
+        activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
+        loaderMessage: action.payload.loaderMessage
       } 
 
 
@@ -114,6 +137,8 @@ const checkInOutReducer = (state = INITIAL_STATE, action) => {
         ...state,
         checkInOutReports: action.payload.checkInOutReports,
         loaderStatus: action.payload.loaderStatus,
+        activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
+        loaderMessage: action.payload.loaderMessage
       }  
 
     case VIEW_REPORTS_API_FAILURE:
@@ -121,6 +146,8 @@ const checkInOutReducer = (state = INITIAL_STATE, action) => {
         ...state,
         error: action.payload.message,
         loaderStatus: action.payload.loaderStatus,
+        activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
+        loaderMessage: action.payload.loaderMessage
       } 
 
     default:
