@@ -13,12 +13,13 @@ export const renewToken = ({ dispatch, getState }) => next => action => {
 
     const state = getState();
     const refreshToken = state.login.refreshToken;
+    const expiresIn = state.login.expiresIn;
 
     // 1 minutes from now
     const refreshThreshold = (new Date().getTime() + 60000);
-    debugger
-    if (refreshToken && refreshThreshold > new Date().getTime()) {
-      debugger
+    
+    if (refreshToken && refreshThreshold > expiresIn) {
+      
       return fetch('https://microservices.99leave.com/identity/renewtoken', {
         method: "POST",
         headers: {
@@ -34,6 +35,7 @@ export const renewToken = ({ dispatch, getState }) => next => action => {
       })
     }
     // return request(tokens);
+    return next(action);
   // };
 }
 
