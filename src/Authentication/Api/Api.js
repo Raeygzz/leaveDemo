@@ -127,3 +127,14 @@ export const viewReports = (method = {}, paramObj = {}, accessToken = {}) => {
     }
   });
 }
+
+
+export const events = (method = {}, paramObj = {}, accessToken = {}) => {
+  return fetch(url + '/events/event?company_id=' + paramObj.company_id + '&start_date=' + paramObj.start_date + '&end_date=' + paramObj.end_date + '&limit=' + paramObj.limit, {
+    method: method,
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    }
+  });
+}

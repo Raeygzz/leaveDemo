@@ -17,6 +17,7 @@ MERGED from [:react-native-safe-area-context] /Users/cloudyfox/Desktop/REGAN/PRO
 MERGED from [:react-native-screens] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-screens/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-touch-id] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-touch-id/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-13:12
 MERGED from [:react-native-vector-icons] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
+MERGED from [:react-native-webview] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-webview/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-23:12
 MERGED from [com.facebook.react:react-native:0.61.5] /Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/37dd8743ea94bbc052940980e517f91a/AndroidManifest.xml:2:1-13:12
 MERGED from [com.google.android.material:material:1.1.0] /Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/b76a097ddc0fc2cef81a24ab5bee1032/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat:1.1.0] /Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/6e0781d58b95860601cdf6d7740dcdaf/AndroidManifest.xml:17:1-24:12
@@ -97,6 +98,8 @@ application
 ADDED from /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/src/main/AndroidManifest.xml:8:5-26:19
 MERGED from /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/src/main/AndroidManifest.xml:8:5-26:19
 MERGED from /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/src/main/AndroidManifest.xml:8:5-26:19
+MERGED from [:react-native-webview] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-webview/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-21:19
+MERGED from [:react-native-webview] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-webview/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-21:19
 MERGED from [com.facebook.react:react-native:0.61.5] /Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/37dd8743ea94bbc052940980e517f91a/AndroidManifest.xml:11:5-20
 MERGED from [com.facebook.react:react-native:0.61.5] /Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/37dd8743ea94bbc052940980e517f91a/AndroidManifest.xml:11:5-20
 MERGED from [com.google.android.material:material:1.1.0] /Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/b76a097ddc0fc2cef81a24ab5bee1032/AndroidManifest.xml:22:5-20
@@ -185,6 +188,8 @@ MERGED from [:react-native-touch-id] /Users/cloudyfox/Desktop/REGAN/PROJECTS/nin
 MERGED from [:react-native-touch-id] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-touch-id/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-vector-icons] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-vector-icons] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-webview] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-webview/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-webview] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-webview/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.61.5] /Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/37dd8743ea94bbc052940980e517f91a/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.61.5] /Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/37dd8743ea94bbc052940980e517f91a/AndroidManifest.xml:7:5-9:41
 MERGED from [com.google.android.material:material:1.1.0] /Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/b76a097ddc0fc2cef81a24ab5bee1032/AndroidManifest.xml:20:5-44
@@ -285,3 +290,19 @@ uses-permission#android.permission.ACCESS_WIFI_STATE
 ADDED from [:react-native-community_netinfo] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-76
 	android:name
 		ADDED from [:react-native-community_netinfo] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:10:22-73
+provider#com.reactnativecommunity.webview.RNCWebViewFileProvider
+ADDED from [:react-native-webview] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-webview/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:9-20:20
+	android:grantUriPermissions
+		ADDED from [:react-native-webview] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-webview/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:13-47
+	android:authorities
+		ADDED from [:react-native-webview] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-webview/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:14:13-64
+	android:exported
+		ADDED from [:react-native-webview] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-webview/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:13-37
+	android:name
+		ADDED from [:react-native-webview] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-webview/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-83
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from [:react-native-webview] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-webview/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:13-19:63
+	android:resource
+		ADDED from [:react-native-webview] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-webview/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:19:17-60
+	android:name
+		ADDED from [:react-native-webview] /Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/node_modules/react-native-webview/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:17-67
