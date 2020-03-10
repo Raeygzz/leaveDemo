@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, ActivityIndicator, Modal, TouchableOpacity } from "react-native";
 
-import { netInfo } from '../../../Redux/Actions/LoginAction';
 import { connect } from 'react-redux';
+import { netInfo } from '../../../Redux/Actions/LoginAction';
+
 
 class NinetyNineLoader extends Component {
   constructor(props) {
@@ -15,9 +16,9 @@ class NinetyNineLoader extends Component {
   
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.isShow !== nextProps.storeState.login.loaderStatus || nextProps.storeState.checkInOut.loaderStatus) {
+    if (prevState.isShow !== nextProps.storeState.login.loaderStatus || nextProps.storeState.checkInOut.loaderStatus || nextProps.storeState.events.loaderStatus) {
       return {
-        isShow: nextProps.storeState.login.loaderStatus || nextProps.storeState.checkInOut.loaderStatus
+        isShow: nextProps.storeState.login.loaderStatus || nextProps.storeState.checkInOut.loaderStatus || nextProps.storeState.events.loaderStatus
       };
     }
 
@@ -91,12 +92,13 @@ class NinetyNineLoader extends Component {
             {
               this.props.storeState.login.loaderMessage != '' ? this.props.storeState.login.loaderMessage : 
               this.props.storeState.checkInOut.loaderMessage != '' ? this.props.storeState.checkInOut.loaderMessage : 
+              this.props.storeState.events.loaderMessage != '' ? this.props.storeState.events.loaderMessage :
               null
             }
           </Text>
 
           { 
-            this.props.storeState.login.activityIndicatorOrOkay || this.props.storeState.checkInOut.activityIndicatorOrOkay ? ( <ActivityIndicator size="large" color="#00ff00" /> ) : 
+            this.props.storeState.login.activityIndicatorOrOkay || this.props.storeState.checkInOut.activityIndicatorOrOkay || this.props.storeState.events.activityIndicatorOrOkay ? ( <ActivityIndicator size="large" color="#00ff00" /> ) : 
             ( <TouchableOpacity onPress={this.okHandler}><Text style={styles.ok}>Ok</Text></TouchableOpacity> ) 
           }
         </View>
