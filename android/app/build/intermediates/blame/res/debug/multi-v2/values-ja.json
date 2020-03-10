@@ -14,7 +14,11 @@
                     }
                 },
                 {
+<<<<<<< HEAD
+                    "source": "C:\\Users\\Regan Timsina\\.gradle\\caches\\transforms-2\\files-2.1\\acef74b8d445e90370cfb47206a81b45\\res\\values-ja\\values-ja.xml",
+=======
                     "source": "/Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/ba3b2314086107f9162f786378e8c3d4/res/values-ja/values-ja.xml",
+>>>>>>> d1daaf30b2a93dd01d63b6773f221f74906b066d
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

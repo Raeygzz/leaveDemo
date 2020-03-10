@@ -1,5 +1,13 @@
 #Internal package file, do not edit.
+<<<<<<< HEAD
 #Tue Mar 10 17:48:31 NPT 2020
+=======
+<<<<<<< HEAD
+#Sat Mar 07 11:48:53 NPT 2020
+=======
+#Fri Mar 06 17:31:56 NPT 2020
+>>>>>>> d1daaf30b2a93dd01d63b6773f221f74906b066d
+>>>>>>> 62b85bca16725910a50eaa16866396c002a0023f
 60.set=NATIVE_RESOURCE
 52.set=NATIVE_RESOURCE
 53.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0

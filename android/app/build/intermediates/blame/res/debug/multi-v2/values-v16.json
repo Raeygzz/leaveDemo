@@ -4,7 +4,21 @@
             "outputFile": "/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v16/values-v16.xml",
             "map": [
                 {
+<<<<<<< HEAD
+                    "source": "C:\\Users\\Regan Timsina\\.gradle\\caches\\transforms-2\\files-2.1\\acef74b8d445e90370cfb47206a81b45\\res\\values-v16\\values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Regan Timsina\\.gradle\\caches\\transforms-2\\files-2.1\\b4d0ed216b9cd1711a1fc8a0fcf86686\\res\\values-v16\\values-v16.xml",
+=======
                     "source": "/Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/6e0781d58b95860601cdf6d7740dcdaf/res/values-v16/values-v16.xml",
+>>>>>>> d1daaf30b2a93dd01d63b6773f221f74906b066d
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

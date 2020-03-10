@@ -4,7 +4,30 @@
             "outputFile": "/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v21/values-v21.xml",
             "map": [
                 {
+<<<<<<< HEAD
+                    "source": "C:\\Users\\Regan Timsina\\.gradle\\caches\\transforms-2\\files-2.1\\acef74b8d445e90370cfb47206a81b45\\res\\values-v21\\values-v21.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,13",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,159,223,290,354,470,596,722,850,1022",
+                        "endLines": "2,3,4,5,6,7,8,9,12,17",
+                        "endColumns": "103,63,66,63,115,125,125,127,12,12",
+                        "endOffsets": "154,218,285,349,465,591,717,845,1017,1355"
+                    },
+                    "to": {
+                        "startLines": "2,13,14,15,303,304,305,306,347,350",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,1006,1070,1137,22423,22539,22665,22791,25580,25752",
+                        "endLines": "2,13,14,15,303,304,305,306,349,354",
+                        "endColumns": "103,63,66,63,115,125,125,127,12,12",
+                        "endOffsets": "154,1065,1132,1196,22534,22660,22786,22914,25747,26085"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Regan Timsina\\.gradle\\caches\\transforms-2\\files-2.1\\17f56a15d732a68fa2f8b3a018bab7c9\\res\\values-v21\\values-v21.xml",
+=======
                     "source": "/Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/b76a097ddc0fc2cef81a24ab5bee1032/res/values-v21/values-v21.xml",
+>>>>>>> d1daaf30b2a93dd01d63b6773f221f74906b066d
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,15,16,19,24,35,41,47,53,59,65,69,72,75,78,81,85",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
