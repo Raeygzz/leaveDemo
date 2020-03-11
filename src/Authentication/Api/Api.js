@@ -138,3 +138,14 @@ export const events = (method = {}, paramObj = {}, accessToken = {}) => {
     }
   });
 }
+
+
+export const eventDetail = (method = {}, paramObj = {}, accessToken = {}) => {
+  return fetch(url + '/events/event/' + paramObj.eventId, {
+    method: method,
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    }
+  });
+}

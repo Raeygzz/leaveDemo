@@ -1,4 +1,4 @@
-import { NET_INFO, EVENTS_GET_API_REQUEST, EVENTS_GET_API_SUCCESS, EVENTS_GET_API_FAILURE } from './Constants/ActionsTypes';
+import { NET_INFO, EVENTS_GET_API_REQUEST, EVENTS_GET_API_SUCCESS, EVENTS_GET_API_FAILURE, EVENT_DETAIL_GET_API_REQUEST, EVENT_DETAIL_GET_API_SUCCESS, EVENT_DETAIL_GET_API_FAILURE } from './Constants/ActionsTypes';
 
 import * as api from '../../Authentication/Api/Api';
 
@@ -35,6 +35,32 @@ const eventsApiFailureAction = eventsFailure => {
 }
 
 
+
+const eventDetailApiRequestAction = eventDetailRequest => {
+  return {
+    type: EVENT_DETAIL_GET_API_REQUEST,
+    payload: eventDetailRequest
+  }
+}
+
+
+const eventDetailApiSuccessAction = eventDetailSuccess => {
+  return {
+    type: EVENT_DETAIL_GET_API_SUCCESS,
+    payload: eventDetailSuccess
+  }
+}
+
+
+const eventDetailApiFailureAction = eventDetailFailure => {
+  return {
+    type: EVENT_DETAIL_GET_API_FAILURE,
+    payload: eventDetailFailure
+  }
+}
+
+
+
 export const eventsApi = () => (dispatch, getState) => {
   const state = getState();
 
@@ -50,7 +76,7 @@ export const eventsApi = () => (dispatch, getState) => {
   const companyId = state.login.companyId;
   const startDate = startFullYear;
   const endDate = state.login.dateAtTheTimeOfLogin;
-  const limit = 5;
+  const limit = 10;
 
   const options = {
     error: '',
@@ -61,7 +87,7 @@ export const eventsApi = () => (dispatch, getState) => {
 
   const paramObj = {
     // company_id: companyId,
-    company_id: 1,
+    company_id: 1,                            // only for certain time being 
     start_date: startDate,
     end_date: endDate,
     limit: limit
@@ -76,7 +102,13 @@ export const eventsApi = () => (dispatch, getState) => {
       }
       
       for(let i = 0; i < res.object.events.length; i++) {
-        eventsResponse.eventsDetail.push({ id: res.object.events[i].id.toString(), datail: res.object.events[i].detail, startDate: res.object.events[i].start_date })
+        eventsResponse.eventsDetail.push({ 
+          id: res.object.events[i].id.toString(),
+          companyId: res.object.events[i].company_id,
+          title: res.object.events[i].title, 
+          type: res.object.events[i].type, 
+          startDate: res.object.events[i].start_date,
+        })
       }
       
       eventsResponse.activityIndicatorOrOkay = null;
@@ -95,5 +127,60 @@ export const eventsApi = () => (dispatch, getState) => {
 
   }).catch((error) => {
     dispatch(eventsApiFailureAction(error))
+  })
+}
+
+
+
+export const eventDetailApi = (eventId) => (dispatch, getState) => {
+  const state = getState();
+  const accessToken = state.login.accessToken;
+
+  const options = {
+    error: '',
+    activityIndicatorOrOkay: true,
+    loaderStatus: true,
+    loaderMessage: 'Updating data. Please wait'
+  }
+
+  const paramObj = {
+    eventId: eventId
+  }
+
+  dispatch(eventDetailApiRequestAction(options));
+  api.eventDetail("GET", paramObj, accessToken).then(res => res.json()).then(res => {
+    if(res.statusCode == 200 && res.status == true) {
+
+      let eventDetailResponse = {
+        eventDetail: []
+      }
+      
+      eventDetailResponse.eventDetail.push({ 
+        id: res.object.data.id.toString(),
+        companyId: res.object.data.company_id,
+        title: res.object.data.title, 
+        type: res.object.data.type, 
+        startDate: res.object.data.start_date,
+        endDate: res.object.data.end_date,
+        detail: res.object.data.detail,
+        image: res.object.data.event_image
+      })
+
+      eventDetailResponse.activityIndicatorOrOkay = null;
+      eventDetailResponse.loaderStatus = null;
+      eventDetailResponse.loaderMessage = '';
+
+      // console.log('eventDetail ==> ', eventDetailResponse);
+      dispatch(eventDetailApiSuccessAction(eventDetailResponse))
+
+    } else {
+      res.activityIndicatorOrOkay = null,
+      res.loaderStatus = null,
+      res.loaderMessage = ''
+      dispatch(eventDetailApiFailureAction(res))
+    }
+
+  }).catch((error) => {
+    dispatch(eventDetailApiFailureAction(error))
   })
 }

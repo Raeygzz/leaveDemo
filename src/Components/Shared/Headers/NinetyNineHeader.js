@@ -19,7 +19,7 @@ export class NinetyNineHeader extends Component {
             </TouchableOpacity> :
 
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <Icon name="long-arrow-alt-left" size={30} color="#900" />
+              <Icon name="long-arrow-alt-left" size={this.props.size ? this.props.size : 30} color={this.props.color ? this.props.color : '#900'} />
             </TouchableOpacity>
           }
         </View>

@@ -19,8 +19,16 @@ class Events extends Component {
   constructor(props) {
     super(props);
 
+    const year = new Date().getFullYear();
+    let month = new Date().getMonth() + 1;
+    month.toString().length <= 1 ? month = '0' + month : month;
+    let date = new Date().getDate();
+    date.toString().length <= 1 ? date = '0' + date : date;
+    const fullDate = year + '-' + month + '-' + date;
+
     this.state = {
-      items: {}
+      items: {},
+      fullDate: fullDate
     };
   }
   static contextType = NetworkContext;
@@ -29,8 +37,17 @@ class Events extends Component {
   componentDidMount = () => {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('focus', () => {
+
+      const year = new Date().getFullYear();
+      let month = new Date().getMonth() + 1;
+      month.toString().length <= 1 ? month = '0' + month : month;
+      let date = new Date().getDate();
+      date.toString().length <= 1 ? date = '0' + date : date;
+      const fullDate = year + '-' + month + '-' + date;
+
       this.setState({
-        items: {}
+        items: {},
+        fullDate: fullDate
       });
       this.events();
     });
@@ -67,7 +84,7 @@ class Events extends Component {
 
 
   render() {
-    console.log('this.props ==> ', this.props.events.events);
+    // console.log('this.props ==> ', this.props.storeState.events.events);
 
     return (
       <View style={{ flex: 1 }}>
@@ -104,7 +121,7 @@ class Events extends Component {
           </View>
 
           <CalendarProvider
-            date={"2020-03-10"}
+            date={this.state.fullDate}
             onDateChanged={this.onDateChanged}
             onMonthChange={this.onMonthChange}
             disabledOpacity={0.6}
@@ -127,9 +144,9 @@ class Events extends Component {
 
 
           <FlatList
-            data={this.props.events.events}
+            data={this.props.storeState.events.events}
             renderItem={({ item }) => (
-              <_Events_ListItem listItem={item} />
+              <_Events_ListItem navigation={this.props.navigation} listItem={item} />
             )}
             keyExtractor={item => item.id}
           />
@@ -156,7 +173,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    events: state.events
+    storeState: state
   }
 }
 
