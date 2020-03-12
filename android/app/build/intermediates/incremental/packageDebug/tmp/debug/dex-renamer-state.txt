@@ -1,18 +1,4 @@
-<<<<<<< HEAD
-#Mon Mar 09 18:25:42 NPT 2020
-base.0=E\:\\Company\\Cloudyfox Pvt Ltd\\Projects\\99Leave\\leaveDemo\\android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
-=======
-<<<<<<< HEAD
-#Tue Mar 10 17:48:30 NPT 2020
-=======
-<<<<<<< HEAD
-#Sat Mar 07 11:48:52 NPT 2020
-base.0=E\:\\Company\\Cloudyfox Pvt Ltd\\Projects\\99Leave\\leaveDemo\\android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
-=======
-#Fri Mar 06 17:31:56 NPT 2020
->>>>>>> 62b85bca16725910a50eaa16866396c002a0023f
+#Thu Mar 12 15:09:23 NPT 2020
 base.0=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/dexMerger/debug/0
->>>>>>> d1daaf30b2a93dd01d63b6773f221f74906b066d
->>>>>>> c919924658aa5d0b771f1cb1bb20d6641692cd2e
 path.0=classes.dex
 renamed.0=classes.dex

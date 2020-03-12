@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Alert, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Alert, FlatList, Platform } from 'react-native';
 
 import { Day, Month } from '../../Helper/Constants/Constant';
 import { NinetyNineHeader } from '../../Components/Shared/Headers/NinetyNineHeader';
@@ -217,21 +217,59 @@ class CheckInOut extends Component {
   findGeoLocation = async () => {
     if(this.context.isConnected) {
         try {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            // {
-            //   title: 'Geo Location Access Permission',
-            //   message:
-            //     'Ninety nine leave needs access to your location ' +
-            //     'so you can checkin for today.',
-            //   // buttonNeutral: 'Ask Me Later',
-            //   // buttonNegative: 'Cancel',
-            //   // buttonPositive: 'OK',
-            // },
-          );
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            console.log('You can use the location');
-    
+          if(Platform.OS === 'android') {
+            const granted = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+              // {
+              //   title: 'Geo Location Access Permission',
+              //   message:
+              //     'Ninety nine leave needs access to your location ' +
+              //     'so you can checkin for today.',
+              //   // buttonNeutral: 'Ask Me Later',
+              //   // buttonNegative: 'Cancel',
+              //   // buttonPositive: 'OK',
+              // },
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+              console.log('You can use the location');
+      
+              Geolocation.getCurrentPosition((position) => {
+                const location = position;
+      
+                let body = JSON.stringify({
+                  user_id: this.props.check.login.userId,
+                  date: this.state.fullYear,
+                  country: "NP",
+                  company_id: this.props.check.login.companyId,
+                  checkin_location: JSON.stringify({
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude,
+                  })
+                })
+                // console.log('body ==> ', body);
+          
+                this.props.dispatch(checkInApi(body));
+      
+                this.elapsedTime = setInterval(() => {
+                  this.showElapsedTime();
+                }, 1000);
+      
+                // fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + this.state.myLat + ',' + this.state.myLon + '&key=' + this.state.myApiKey)
+                //   .then((response) => response.json())
+                //   .then((responseJson) => {
+                //   console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson));
+                // })
+      
+              },
+              (error) => Alert.alert('Permission Denied', 'Ninety leave app ' + error.message + ' for checkin.'),
+              { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+              );
+      
+            } else {
+              console.log('location permission denied');
+            }
+
+          } else {
             Geolocation.getCurrentPosition((position) => {
               const location = position;
     
@@ -263,10 +301,8 @@ class CheckInOut extends Component {
             (error) => Alert.alert('Permission Denied', 'Ninety leave app ' + error.message + ' for checkin.'),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
             );
-    
-          } else {
-            console.log('location permission denied');
           }
+
         } catch (err) {
           console.log(err);
         }
