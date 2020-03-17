@@ -3,8 +3,14 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-nati
 
 import { MonthShortcut } from '../../Helper/Constants/Constant';
 import { NinetyNineHeader } from '../../Components/Shared/Headers/NinetyNineHeader';
+import NinetyNineLoader from '../../Components/Shared/Loaders/NinetyNineLoader';
 
 import { VictoryLine, VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
+
+import { connect } from 'react-redux';
+import { netInfo, viewTimelyReportApi } from '../../Redux/Actions/ReportsAction';
+
+import { NetworkContext } from '../../Helper/NetworkProvider/NetworkProvider';
 
 
 const data = [
@@ -17,7 +23,7 @@ const data = [
 ];
 
 
-export default class Reports extends Component {
+class Reports extends Component {
   constructor(props) {
     super(props);
 
@@ -36,6 +42,7 @@ export default class Reports extends Component {
     const last7Days_Date_Month = MonthShortcut[last7Days_monthNum];
     let last7Days_Date = new Date(convertedForLast7Days_Date).getDate();
     last7Days_Date.toString().length <= 1 ? last7Days_Date = '0' + last7Days_Date : last7Days_Date;
+    const attendaceReport_FOR_7Days_Api_Data = last7Days_Date_Year + '/' + Number(last7Days_monthNum+1) + '/' + last7Days_Date;
     const attendaceReport_FOR_7Days = last7Days_Date_Month + ' ' + last7Days_Date + ', ' + last7Days_Date_Year;
     // console.log('attendaceReport_FOR_7Days ==> ', attendaceReport_FOR_7Days);
 
@@ -47,6 +54,7 @@ export default class Reports extends Component {
     const last15Days_Date_Month = MonthShortcut[last15Days_monthNum];
     let last15Days_Date = new Date(convertedForLast15Days_Date).getDate();
     last15Days_Date.toString().length <= 1 ? last15Days_Date = '0' + last15Days_Date : last15Days_Date;
+    const attendaceReport_FOR_15Days_Api_Data = last15Days_Date_Year + '/' + Number(last15Days_monthNum+1) + '/' + last15Days_Date;
     const attendaceReport_FOR_15Days = last15Days_Date_Month + ' ' + last15Days_Date + ', ' + last15Days_Date_Year;
     // console.log('attendaceReport_FOR_15Days ==> ', attendaceReport_FOR_15Days);
 
@@ -58,6 +66,7 @@ export default class Reports extends Component {
     const last30Days_Date_Month = MonthShortcut[last30Days_monthNum];
     let last30Days_Date = new Date(convertedForLast30Days_Date).getDate();
     last30Days_Date.toString().length <= 1 ? last30Days_Date = '0' + last30Days_Date : last30Days_Date;
+    const attendaceReport_FOR_30Days_Api_Data = last30Days_Date_Year + '/' + Number(last30Days_monthNum+1) + '/' + last30Days_Date;
     const attendaceReport_FOR_30Days = last30Days_Date_Month + ' ' + last30Days_Date + ', ' + last30Days_Date_Year;
     // console.log('attendaceReport_FOR_30Days ==> ', attendaceReport_FOR_30Days);
 
@@ -68,10 +77,14 @@ export default class Reports extends Component {
       last15DaysButtonDesign: false, 
       last30DaysButtonDesign: false, 
       last7DaysDate: attendaceReport_FOR_7Days,
+      attendaceReport_FOR_7Days_Api_Data: attendaceReport_FOR_7Days_Api_Data,
       last15DaysDate: attendaceReport_FOR_15Days,
-      last30DaysDate: attendaceReport_FOR_30Days
+      attendaceReport_FOR_15Days_Api_Data: attendaceReport_FOR_15Days_Api_Data,
+      last30DaysDate: attendaceReport_FOR_30Days,
+      attendaceReport_FOR_30Days_Api_Data: attendaceReport_FOR_30Days_Api_Data
     }
   }
+  static contextType = NetworkContext;
   
 
   componentDidMount = () => {
@@ -93,6 +106,7 @@ export default class Reports extends Component {
       const last7Days_Date_Month = MonthShortcut[last7Days_monthNum];
       let last7Days_Date = new Date(convertedForLast7Days_Date).getDate();
       last7Days_Date.toString().length <= 1 ? last7Days_Date = '0' + last7Days_Date : last7Days_Date;
+      const attendaceReport_FOR_7Days_Api_Data = last7Days_Date_Year + '/' + Number(last7Days_monthNum+1) + '/' + last7Days_Date;
       const attendaceReport_FOR_7Days = last7Days_Date_Month + ' ' + last7Days_Date + ', ' + last7Days_Date_Year;
       // console.log('attendaceReport_FOR_7Days ==> ', attendaceReport_FOR_7Days);
 
@@ -104,6 +118,7 @@ export default class Reports extends Component {
       const last15Days_Date_Month = MonthShortcut[last15Days_monthNum];
       let last15Days_Date = new Date(convertedForLast15Days_Date).getDate();
       last15Days_Date.toString().length <= 1 ? last15Days_Date = '0' + last15Days_Date : last15Days_Date;
+      const attendaceReport_FOR_15Days_Api_Data = last15Days_Date_Year + '/' + Number(last15Days_monthNum+1) + '/' + last15Days_Date;
       const attendaceReport_FOR_15Days = last15Days_Date_Month + ' ' + last15Days_Date + ', ' + last15Days_Date_Year;
       // console.log('attendaceReport_FOR_15Days ==> ', attendaceReport_FOR_15Days);
 
@@ -115,6 +130,7 @@ export default class Reports extends Component {
       const last30Days_Date_Month = MonthShortcut[last30Days_monthNum];
       let last30Days_Date = new Date(convertedForLast30Days_Date).getDate();
       last30Days_Date.toString().length <= 1 ? last30Days_Date = '0' + last30Days_Date : last30Days_Date;
+      const attendaceReport_FOR_30Days_Api_Data = last30Days_Date_Year + '/' + Number(last30Days_monthNum+1) + '/' + last30Days_Date;
       const attendaceReport_FOR_30Days = last30Days_Date_Month + ' ' + last30Days_Date + ', ' + last30Days_Date_Year;
       // console.log('attendaceReport_FOR_30Days ==> ', attendaceReport_FOR_30Days);
 
@@ -125,9 +141,14 @@ export default class Reports extends Component {
         last15DaysButtonDesign: false, 
         last30DaysButtonDesign: false, 
         last7DaysDate: attendaceReport_FOR_7Days,
+        attendaceReport_FOR_7Days_Api_Data: attendaceReport_FOR_7Days_Api_Data,
         last15DaysDate: attendaceReport_FOR_15Days,
-        last30DaysDate: attendaceReport_FOR_30Days
+        attendaceReport_FOR_15Days_Api_Data: attendaceReport_FOR_15Days_Api_Data,
+        last30DaysDate: attendaceReport_FOR_30Days,
+        attendaceReport_FOR_30Days_Api_Data: attendaceReport_FOR_30Days_Api_Data
       });
+
+      this.thisWeekReportHandler();
     });
   }
 
@@ -141,6 +162,19 @@ export default class Reports extends Component {
       thisWeekButtonDesign: true,
       last15DaysButtonDesign: false, 
       last30DaysButtonDesign: false, 
+    }, () => {
+      if(this.context.isConnected) {
+        this.props.dispatch(viewTimelyReportApi(this.state.attendaceReport_FOR_7Days_Api_Data));
+  
+      } else {
+        obj = {
+          activityIndicatorOrOkay: false,
+          loaderStatus: true,
+          loaderMessage: 'No Internet Connection'
+        }
+  
+        this.props.dispatch(netInfo(obj));
+      }
     })
     // console.log('this week report handler')
   }
@@ -150,6 +184,19 @@ export default class Reports extends Component {
       thisWeekButtonDesign: false,
       last15DaysButtonDesign: true, 
       last30DaysButtonDesign: false, 
+    }, () => {
+      if(this.context.isConnected) {
+        this.props.dispatch(viewTimelyReportApi(this.state.attendaceReport_FOR_15Days_Api_Data));
+  
+      } else {
+        obj = {
+          activityIndicatorOrOkay: false,
+          loaderStatus: true,
+          loaderMessage: 'No Internet Connection'
+        }
+  
+        this.props.dispatch(netInfo(obj));
+      }
     })
     // console.log('last fifteen days report handler')
   }
@@ -159,12 +206,27 @@ export default class Reports extends Component {
       thisWeekButtonDesign: false,
       last15DaysButtonDesign: false, 
       last30DaysButtonDesign: true, 
+    }, () => {
+      if(this.context.isConnected) {
+        this.props.dispatch(viewTimelyReportApi(this.state.attendaceReport_FOR_30Days_Api_Data));
+  
+      } else {
+        obj = {
+          activityIndicatorOrOkay: false,
+          loaderStatus: true,
+          loaderMessage: 'No Internet Connection'
+        }
+  
+        this.props.dispatch(netInfo(obj));
+      }
     })
     // console.log('last thirty days report handler')
   }
 
 
   render() {
+    // console.log('this.props.reports ==> ', this.props.reports);
+
     return(
       <View style={{ flex: 1 }}>
         <NinetyNineHeader title="Reports" isHome={true} navigation={this.props.navigation}  />
@@ -199,19 +261,30 @@ export default class Reports extends Component {
               </TouchableOpacity>
             </View>
 
-            <VictoryChart width={380} height={250} theme={VictoryTheme.material}>
-              <VictoryLine
-                interpolation="natural"
-                data={[
-                  { x: 1, y: 1 },
-                  { x: 1, y: 1.5 },
-                  { x: 1.5, y: 1.5 },
-                  { x: 3, y: 5 },
-                  { x: 4, y: 4 },
-                  { x: 5, y: 6 }
-                ]}
-              />
-            </VictoryChart>
+            {
+              this.props.reports.viewReportLineChart ? 
+              <VictoryChart width={380} height={250} theme={VictoryTheme.material}>
+                <VictoryLine
+                  interpolation="natural"
+                  data={this.props.reports.viewReportLineChart}
+                />
+              </VictoryChart> : 
+
+              <VictoryChart width={380} height={250} theme={VictoryTheme.material}>
+                <VictoryLine
+                  interpolation="natural"
+                  data={[
+                    { x: '03-16', y: 12.8 },
+                    { x: '03-13', y: 11.5 },
+                    { x: '03-12', y: 11.1 },
+                    { x: '03-11', y: 14.1 },
+                    { x: '03-10', y: 9.3 },
+                    { x: '02-29', y: 13.0 }
+                  ]}
+                />
+              </VictoryChart>
+            }
+            
             
             <View style={{ height: 10 }}> 
               <Text>&nbsp;</Text>
@@ -219,9 +292,17 @@ export default class Reports extends Component {
 
             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Leave Report</Text>
 
-            <VictoryChart width={380} height={250} theme={VictoryTheme.material}>
-              <VictoryBar data={data} x="quarter" y="earnings" />
-            </VictoryChart>
+            {
+              this.props.reports.viewReportLineChart ?
+              <VictoryChart width={380} height={250} theme={VictoryTheme.material}>
+                <VictoryBar data={this.props.reports.viewReportLineChart} x="x" y="y" />
+              </VictoryChart> :
+
+              <VictoryChart width={380} height={250} theme={VictoryTheme.material}>
+                <VictoryBar data={data} x="quarter" y="earnings" />
+              </VictoryChart>
+            }
+            
 
             <View>
               <View style={{ paddingBottom: 10, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
@@ -294,6 +375,8 @@ export default class Reports extends Component {
             
           </View>
         </ScrollView>
+
+        <NinetyNineLoader />
       </View>
     )
   }
@@ -343,3 +426,11 @@ const styles = StyleSheet.create({
     alignItems: 'center' 
   }
 })
+
+const mapStateToProps = state => {
+  return {
+    reports: state.reports
+  }
+}
+
+export default connect(mapStateToProps)(Reports);

@@ -16,9 +16,9 @@ class NinetyNineLoader extends Component {
   
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.isShow !== nextProps.storeState.login.loaderStatus || nextProps.storeState.checkInOut.loaderStatus || nextProps.storeState.events.loaderStatus) {
+    if (prevState.isShow !== nextProps.storeState.login.loaderStatus || nextProps.storeState.checkInOut.loaderStatus || nextProps.storeState.events.loaderStatus || nextProps.storeState.reports.loaderStatus) {
       return {
-        isShow: nextProps.storeState.login.loaderStatus || nextProps.storeState.checkInOut.loaderStatus || nextProps.storeState.events.loaderStatus
+        isShow: nextProps.storeState.login.loaderStatus || nextProps.storeState.checkInOut.loaderStatus || nextProps.storeState.events.loaderStatus || nextProps.storeState.reports.loaderStatus
       };
     }
 
@@ -93,12 +93,13 @@ class NinetyNineLoader extends Component {
               this.props.storeState.login.loaderMessage != '' ? this.props.storeState.login.loaderMessage : 
               this.props.storeState.checkInOut.loaderMessage != '' ? this.props.storeState.checkInOut.loaderMessage : 
               this.props.storeState.events.loaderMessage != '' ? this.props.storeState.events.loaderMessage :
+              this.props.storeState.reports.loaderMessage != '' ? this.props.storeState.reports.loaderMessage :
               null
             }
           </Text>
 
           { 
-            this.props.storeState.login.activityIndicatorOrOkay || this.props.storeState.checkInOut.activityIndicatorOrOkay || this.props.storeState.events.activityIndicatorOrOkay ? ( <ActivityIndicator size="large" color="#00ff00" /> ) : 
+            this.props.storeState.login.activityIndicatorOrOkay || this.props.storeState.checkInOut.activityIndicatorOrOkay || this.props.storeState.events.activityIndicatorOrOkay || this.props.storeState.reports.activityIndicatorOrOkay ? ( <ActivityIndicator size="large" color="#00ff00" /> ) : 
             ( <TouchableOpacity onPress={this.okHandler}><Text style={styles.ok}>Ok</Text></TouchableOpacity> ) 
           }
         </View>

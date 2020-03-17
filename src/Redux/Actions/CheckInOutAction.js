@@ -272,7 +272,11 @@ export const viewWeeklyReportApi = () => (dispatch, getState) => {
       viewReportResponse.activityIndicatorOrOkay = null,
       viewReportResponse.loaderStatus = null,
       viewReportResponse.loaderMessage = ''
-      viewReportResponse.checkInOutReports[0].backgroundColor = 'blue';
+
+      if(res.object.filter.length > 0) {
+        viewReportResponse.checkInOutReports[0].backgroundColor = 'blue';
+      }
+
       dispatch(viewReportsApiSuccessAction(viewReportResponse))
 
     } else {

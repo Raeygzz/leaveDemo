@@ -9,12 +9,14 @@ import { renewToken } from './Middleware/renewToken';
 import LoginReducer from './Reducers/LoginReducer';
 import checkInOutReducer from './Reducers/CheckInOutReducer';
 import eventsReducer from './Reducers/eventsReducer';
+import ReportsReducer from './Reducers/ReportsReducer';
 
 
 const rootReducer = combineReducers({
   login: LoginReducer,
   checkInOut: checkInOutReducer,
-  events: eventsReducer
+  events: eventsReducer,
+  reports: ReportsReducer
 })
 
 const configureStore = () => {
