@@ -8,7 +8,7 @@ import NinetyNineLoader from '../../Components/Shared/Loaders/NinetyNineLoader';
 import { VictoryLine, VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
 
 import { connect } from 'react-redux';
-import { netInfo, viewTimelyReportApi } from '../../Redux/Actions/ReportsAction';
+import { netInfo, viewTimelyAttendanceReportApi, leaveTypeApi, viewTimelyLeaveReportApi } from '../../Redux/Actions/ReportsAction';
 
 import { NetworkContext } from '../../Helper/NetworkProvider/NetworkProvider';
 
@@ -148,7 +148,9 @@ class Reports extends Component {
         attendaceReport_FOR_30Days_Api_Data: attendaceReport_FOR_30Days_Api_Data
       });
 
-      this.thisWeekReportHandler();
+      this.leaveType();
+      this.thisWeekAttendanceReportHandler();
+      // this.thisWeekLeaveReportHandler();
     });
   }
 
@@ -157,14 +159,14 @@ class Reports extends Component {
   }
 
 
-  thisWeekReportHandler = () => {
+  thisWeekAttendanceReportHandler = () => {
     this.setState({
       thisWeekButtonDesign: true,
       last15DaysButtonDesign: false, 
       last30DaysButtonDesign: false, 
     }, () => {
       if(this.context.isConnected) {
-        this.props.dispatch(viewTimelyReportApi(this.state.attendaceReport_FOR_7Days_Api_Data));
+        this.props.dispatch(viewTimelyAttendanceReportApi(this.state.attendaceReport_FOR_7Days_Api_Data));
   
       } else {
         obj = {
@@ -179,14 +181,14 @@ class Reports extends Component {
     // console.log('this week report handler')
   }
 
-  lastFifteenDaysReportHandler = () => {
+  lastFifteenDaysAttendanceReportHandler = () => {
     this.setState({
       thisWeekButtonDesign: false,
       last15DaysButtonDesign: true, 
       last30DaysButtonDesign: false, 
     }, () => {
       if(this.context.isConnected) {
-        this.props.dispatch(viewTimelyReportApi(this.state.attendaceReport_FOR_15Days_Api_Data));
+        this.props.dispatch(viewTimelyAttendanceReportApi(this.state.attendaceReport_FOR_15Days_Api_Data));
   
       } else {
         obj = {
@@ -201,14 +203,14 @@ class Reports extends Component {
     // console.log('last fifteen days report handler')
   }
 
-  lastThirtyDaysReportHandler = () => {
+  lastThirtyDaysAttendanceReportHandler = () => {
     this.setState({
       thisWeekButtonDesign: false,
       last15DaysButtonDesign: false, 
       last30DaysButtonDesign: true, 
     }, () => {
       if(this.context.isConnected) {
-        this.props.dispatch(viewTimelyReportApi(this.state.attendaceReport_FOR_30Days_Api_Data));
+        this.props.dispatch(viewTimelyAttendanceReportApi(this.state.attendaceReport_FOR_30Days_Api_Data));
   
       } else {
         obj = {
@@ -221,6 +223,39 @@ class Reports extends Component {
       }
     })
     // console.log('last thirty days report handler')
+  }
+
+
+
+  leaveType = () => {
+    if(this.context.isConnected) {
+      this.props.dispatch(leaveTypeApi());
+
+    } else {
+      obj = {
+        activityIndicatorOrOkay: false,
+        loaderStatus: true,
+        loaderMessage: 'No Internet Connection'
+      }
+
+      this.props.dispatch(netInfo(obj));
+    }
+  }
+
+
+  thisWeekLeaveReportHandler = () => {
+    if(this.context.isConnected) {
+      this.props.dispatch(viewTimelyLeaveReportApi(this.state.attendaceReport_FOR_7Days_Api_Data));
+
+    } else {
+      obj = {
+        activityIndicatorOrOkay: false,
+        loaderStatus: true,
+        loaderMessage: 'No Internet Connection'
+      }
+
+      this.props.dispatch(netInfo(obj));
+    }
   }
 
 
@@ -242,19 +277,19 @@ class Reports extends Component {
             </View>
 
             <View style={styles.reportButtonsHorizontal}>
-              <TouchableOpacity onPress={this.thisWeekReportHandler}>
+              <TouchableOpacity onPress={this.thisWeekAttendanceReportHandler}>
                 <View style={this.state.thisWeekButtonDesign ? styles.reportButton : null}>
                   <Text style={{ color: this.state.thisWeekButtonDesign ? '#fff' : '#000' }}>This Week</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={this.lastFifteenDaysReportHandler}>
+              <TouchableOpacity onPress={this.lastFifteenDaysAttendanceReportHandler}>
               <View style={this.state.last15DaysButtonDesign ? styles.reportButton : null}>
                 <Text style={{ color: this.state.last15DaysButtonDesign ? '#fff' : '#000' }}>Last 15 Days</Text>
               </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={this.lastThirtyDaysReportHandler}>
+              <TouchableOpacity onPress={this.lastThirtyDaysAttendanceReportHandler}>
               <View style={this.state.last30DaysButtonDesign ? styles.reportButton : null}>
                 <Text style={{ color: this.state.last30DaysButtonDesign ? '#fff' : '#000' }}>Last 30 Days</Text>
               </View>

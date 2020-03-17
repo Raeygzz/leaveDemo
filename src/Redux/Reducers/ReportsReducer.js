@@ -1,7 +1,8 @@
-import { NET_INFO, VIEW_TIMELY_REPORTS_GET_API_REQUEST, VIEW_TIMELY_REPORTS_GET_API_SUCCESS, VIEW_TIMELY_REPORTS_GET_API_FAILURE } from '../Actions/Constants/ActionsTypes';
+import { NET_INFO, LEAVE_TYPE_GET_API_REQUEST, LEAVE_TYPE_GET_API_SUCCESS, LEAVE_TYPE_GET_API_FAILURE, VIEW_TIMELY_ATTENDANCE_REPORTS_GET_API_REQUEST, VIEW_TIMELY_ATTENDANCE_REPORTS_GET_API_SUCCESS, VIEW_TIMELY_ATTENDANCE_REPORTS_GET_API_FAILURE } from '../Actions/Constants/ActionsTypes';
 
 
 const INITIAL_STATE = {
+  leaveTypeArr: '',
   viewReportLineChart: '',
 
   error: '',
@@ -21,8 +22,8 @@ const ReportsReducer = (state = INITIAL_STATE, action) => {
         activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
         loaderMessage: action.payload.loaderMessage
       }
-
-    case VIEW_TIMELY_REPORTS_GET_API_REQUEST:
+      
+    case LEAVE_TYPE_GET_API_REQUEST:
       return {
         ...state,
         error: action.payload.error,
@@ -31,7 +32,32 @@ const ReportsReducer = (state = INITIAL_STATE, action) => {
         loaderMessage: action.payload.loaderMessage
       }
 
-    case VIEW_TIMELY_REPORTS_GET_API_SUCCESS:
+    case LEAVE_TYPE_GET_API_SUCCESS:
+      return {
+        ...state,
+        leaveTypeArr: action.payload.leaveTypeArr
+      }  
+
+    case LEAVE_TYPE_GET_API_FAILURE:
+      return {
+        ...state,
+        error: action.payload.message,
+        loaderStatus: action.payload.loaderStatus,
+        activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
+        loaderMessage: action.payload.loaderMessage
+      }  
+
+
+    case VIEW_TIMELY_ATTENDANCE_REPORTS_GET_API_REQUEST:
+      return {
+        ...state,
+        error: action.payload.error,
+        loaderStatus: action.payload.loaderStatus,
+        activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
+        loaderMessage: action.payload.loaderMessage
+      }
+
+    case VIEW_TIMELY_ATTENDANCE_REPORTS_GET_API_SUCCESS:
       return {
         ...state,
         viewReportLineChart: action.payload.viewReportLineChart,
@@ -40,14 +66,14 @@ const ReportsReducer = (state = INITIAL_STATE, action) => {
         loaderMessage: action.payload.loaderMessage
       }  
 
-    case VIEW_TIMELY_REPORTS_GET_API_FAILURE:
+    case VIEW_TIMELY_ATTENDANCE_REPORTS_GET_API_FAILURE:
       return {
         ...state,
         error: action.payload.message,
         loaderStatus: action.payload.loaderStatus,
         activityIndicatorOrOkay: action.payload.activityIndicatorOrOkay,
         loaderMessage: action.payload.loaderMessage
-      } 
+      }
 
     default:
       return state;  

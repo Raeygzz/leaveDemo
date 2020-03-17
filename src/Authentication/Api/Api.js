@@ -151,8 +151,30 @@ export const eventDetail = (method = {}, paramObj = {}, accessToken = {}) => {
 }
 
 
-export const viewTimelyReports = (method = {}, paramObj = {}, accessToken = {}) => {
+export const viewTimelyAttendanceReports = (method = {}, paramObj = {}, accessToken = {}) => {
   return fetch(url + '/attendance/attendance?company_id=' + paramObj.company_id + '&employee_id=' + paramObj.employee_id + '&start_date=' + paramObj.start_date + '&end_date=' + paramObj.end_date + '&group=' + paramObj.group, {
+    method: method,
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    }
+  });
+}
+
+
+export const leaveType = (method = {}, paramObj = {}, accessToken = {}) => {
+  return fetch(url + '/leave/leavetype?company_id=' + paramObj.company_id, {
+    method: method,
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    }
+  });
+}
+
+
+export const viewTimelyLeaveReports = (method = {}, paramObj = {}, accessToken = {}) => {
+  return fetch(url + '/leave/leave?company_id=' + paramObj.company_id + '&employee_id=' + paramObj.employee_id + '&start_date=' + paramObj.start_date + '&end_date=' + paramObj.end_date, {
     method: method,
     headers: {
       'Authorization': `Bearer ${accessToken}`,
