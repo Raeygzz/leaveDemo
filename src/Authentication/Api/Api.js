@@ -173,8 +173,19 @@ export const leaveType = (method = {}, paramObj = {}, accessToken = {}) => {
 }
 
 
-export const viewTimelyLeaveReports = (method = {}, paramObj = {}, accessToken = {}) => {
-  return fetch(url + '/leave/leave?company_id=' + paramObj.company_id + '&employee_id=' + paramObj.employee_id + '&start_date=' + paramObj.start_date + '&end_date=' + paramObj.end_date, {
+export const leaveReports = (method = {}, paramObj = {}, accessToken = {}) => {
+  return fetch(url + '/leave/leave?company_id=' + paramObj.company_id + '&employee_id=' + paramObj.employee_id, {
+    method: method,
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    }
+  });
+}
+
+
+export const usersWithHandleLeaveCapabilities = (method = {}, paramObj = {}, accessToken = {}) => {
+  return fetch(url + '/identity/user/handleleave?company_id=' + paramObj.company_id, {
     method: method,
     headers: {
       'Authorization': `Bearer ${accessToken}`,

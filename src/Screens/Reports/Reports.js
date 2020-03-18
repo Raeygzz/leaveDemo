@@ -8,7 +8,7 @@ import NinetyNineLoader from '../../Components/Shared/Loaders/NinetyNineLoader';
 import { VictoryLine, VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
 
 import { connect } from 'react-redux';
-import { netInfo, viewTimelyAttendanceReportApi, leaveTypeApi, viewTimelyLeaveReportApi } from '../../Redux/Actions/ReportsAction';
+import { netInfo, leaveTypeApi, viewTimelyAttendanceReportApi } from '../../Redux/Actions/ReportsAction';
 
 import { NetworkContext } from '../../Helper/NetworkProvider/NetworkProvider';
 
@@ -150,7 +150,6 @@ class Reports extends Component {
 
       this.leaveType();
       this.thisWeekAttendanceReportHandler();
-      // this.thisWeekLeaveReportHandler();
     });
   }
 
@@ -178,7 +177,6 @@ class Reports extends Component {
         this.props.dispatch(netInfo(obj));
       }
     })
-    // console.log('this week report handler')
   }
 
   lastFifteenDaysAttendanceReportHandler = () => {
@@ -200,7 +198,6 @@ class Reports extends Component {
         this.props.dispatch(netInfo(obj));
       }
     })
-    // console.log('last fifteen days report handler')
   }
 
   lastThirtyDaysAttendanceReportHandler = () => {
@@ -222,9 +219,7 @@ class Reports extends Component {
         this.props.dispatch(netInfo(obj));
       }
     })
-    // console.log('last thirty days report handler')
   }
-
 
 
   leaveType = () => {
@@ -243,24 +238,30 @@ class Reports extends Component {
   }
 
 
-  thisWeekLeaveReportHandler = () => {
-    if(this.context.isConnected) {
-      this.props.dispatch(viewTimelyLeaveReportApi(this.state.attendaceReport_FOR_7Days_Api_Data));
-
-    } else {
-      obj = {
-        activityIndicatorOrOkay: false,
-        loaderStatus: true,
-        loaderMessage: 'No Internet Connection'
-      }
-
-      this.props.dispatch(netInfo(obj));
-    }
-  }
-
-
   render() {
     // console.log('this.props.reports ==> ', this.props.reports);
+
+    const leaveReportList = this.props.reports.leaveTypeArr.length > 0 ? this.props.reports.leaveTypeArr.map((obj, id) => {
+      return (
+        <View key={id} style={{ marginBottom: 12, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', width:"50%" }}>
+          <Text style={{ paddingHorizontal: 9, backgroundColor: obj.color }}></Text>
+          <Text style={{ marginLeft: 15 }}>{obj.leaveName}</Text>
+        </View>
+      )
+    }) : null;
+
+    const leaveReportTable = this.props.reports.leaveTypeArr.length > 0 ? this.props.reports.leaveTypeArr.map((item, id) => {
+      return (
+        <View key={id}>
+          <View style={styles.tableRow}>
+            <Text style={{ textAlign: 'left' }}>{item.leaveName}</Text>
+            <Text style={{ textAlign: 'left' }}>{item.remainingLeaveAllocatedDays != '' ? item.remainingLeaveAllocatedDays : item.leaveAllocatedDays}</Text>
+            <Text style={{ textAlign: 'center' }}>{item.remainingLeaveAllocatedDays != '' ? item.leaveAllocatedDays - item.remainingLeaveAllocatedDays : 0}</Text>
+          </View>
+        </View>
+      )
+    }) : null;
+
 
     return(
       <View style={{ flex: 1 }}>
@@ -328,85 +329,33 @@ class Reports extends Component {
             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Leave Report</Text>
 
             {
-              this.props.reports.viewReportLineChart ?
+              this.props.reports.leaveReportBarChart ?
               <VictoryChart width={380} height={250} theme={VictoryTheme.material}>
-                <VictoryBar data={this.props.reports.viewReportLineChart} x="x" y="y" />
+                <VictoryBar data={this.props.reports.leaveReportBarChart} x="leaveName" y="allocatedDays" />
               </VictoryChart> :
 
               <VictoryChart width={380} height={250} theme={VictoryTheme.material}>
                 <VictoryBar data={data} x="quarter" y="earnings" />
               </VictoryChart>
             }
-            
 
-            <View>
-              <View style={{ paddingBottom: 10, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                  <Text style={{ paddingHorizontal: 9, backgroundColor: 'blue' }}></Text>
-                  <Text style={{ marginLeft: 15 }}>Annual Paid</Text>
-                </View>
 
-                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                  <Text style={{ paddingHorizontal: 9, backgroundColor: 'darkorange' }}></Text>
-                  <Text style={{ marginLeft: 15 }}>Annual Unpaid</Text>
-                </View>
-              </View>
-
-              <View style={{ paddingBottom: 10, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                  <Text style={{ paddingHorizontal: 9, backgroundColor: 'lightpink' }}></Text>
-                  <Text style={{ marginLeft: 15 }}>Annual Sick</Text>
-                </View>
-
-                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                  <Text style={{ paddingHorizontal: 9, backgroundColor: 'crimson' }}></Text>
-                  <Text style={{ marginLeft: 15 }}>Marriage Leave</Text>
-                </View>
-              </View>
-
-              <View style={{ marginBottom: 20, marginLeft: 25, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                <Text style={{ paddingHorizontal: 9, backgroundColor: 'purple' }}></Text>
-                <Text style={{ marginLeft: 15 }}>Mourning Leave</Text>
-              </View>
+            <View style={{ padding: 10, flexDirection: "row", justifyContent: 'flex-start', alignItems: 'center', flexWrap: "wrap" }}>
+              { leaveReportList }
             </View>
 
-            <View style={{ paddingLeft: 20 }}>
-              <View style={styles.tableHead}>
-                <Text style={{ color: '#fff' }}>Leave Type</Text>
-                <Text style={{ color: '#fff' }}>Available</Text>
-                <Text style={{ color: '#fff' }}>Taken</Text>
-              </View>
-
-              <View style={styles.tableRow}>
-                <Text style={{ textAlign: 'left' }}>Annual Paid</Text>
-                <Text style={{ textAlign: 'left' }}>8</Text>
-                <Text style={{ textAlign: 'center' }}>2</Text>
-              </View>
-
-              <View style={styles.tableRow}>
-                <Text style={{ textAlign: 'left' }}>Annual Unpaid</Text>
-                <Text style={{ textAlign: 'left' }}>8</Text>
-                <Text style={{ textAlign: 'center' }}>2</Text>
-              </View>
-
-              <View style={styles.tableRow}>
-                <Text style={{ textAlign: 'left' }}>Annual Sick</Text>
-                <Text style={{ textAlign: 'left' }}>8</Text>
-                <Text style={{ textAlign: 'center' }}>2</Text>
-              </View>
-
-              <View style={styles.tableRow}>
-                <Text style={{ textAlign: 'left' }}>Marriage Leave</Text>
-                <Text style={{ textAlign: 'left' }}>8</Text>
-                <Text style={{ textAlign: 'center' }}>2</Text>
-              </View>
-
-              <View style={styles.tableRow}>
-                <Text style={{ textAlign: 'left' }}>Mourning Leave</Text>
-                <Text style={{ textAlign: 'left' }}>8</Text>
-                <Text style={{ textAlign: 'center' }}>2</Text>
-              </View>
-            </View>
+            {
+              leaveReportTable ?
+              <View style={{ padding: 10 }}>
+                <View style={styles.tableHead}>
+                  <Text style={{ color: '#fff' }}>Leave Type</Text>
+                  <Text style={{ color: '#fff' }}>Available</Text>
+                  <Text style={{ color: '#fff' }}>Taken</Text>
+                </View>
+                { leaveReportTable }
+              </View> :
+              null
+            }
             
           </View>
         </ScrollView>
