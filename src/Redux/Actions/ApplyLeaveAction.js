@@ -1,4 +1,4 @@
-import { NET_INFO, USERS_HANDLE_LEAVE_CAPABILITIES_GET_API_REQUEST, USERS_HANDLE_LEAVE_CAPABILITIES_GET_API_SUCCESS, USERS_HANDLE_LEAVE_CAPABILITIES_GET_API_FAILURE } from './Constants/ActionsTypes';
+import { NET_INFO, USERS_HANDLE_LEAVE_CAPABILITIES_GET_API_REQUEST, USERS_HANDLE_LEAVE_CAPABILITIES_GET_API_SUCCESS, USERS_HANDLE_LEAVE_CAPABILITIES_GET_API_FAILURE, EMPLOYEE_LEAVE_TYPE_GET_API_REQUEST, EMPLOYEE_LEAVE_TYPE_GET_API_SUCCESS, EMPLOYEE_LEAVE_TYPE_GET_API_FAILURE, EMPLOYEE_LEAVE_REPORTS_GET_API_REQUEST, EMPLOYEE_LEAVE_REPORTS_GET_API_SUCCESS, EMPLOYEE_LEAVE_REPORTS_GET_API_FAILURE } from './Constants/ActionsTypes';
 
 import * as api from '../../Authentication/Api/Api';
 
@@ -35,6 +35,54 @@ const usersWithHandleLeaveCapabilitiesApiFailureAction = usersWithHandleLeaveCap
 }
 
 
+const employeeLeaveTypeApiRequestAction = employeeLeaveTypeRequest => {
+  return {
+    type: EMPLOYEE_LEAVE_TYPE_GET_API_REQUEST,
+    payload: employeeLeaveTypeRequest
+  }
+}
+
+
+const employeeLeaveTypeApiSuccessAction = employeeLeaveTypeSuccess => {
+  return {
+    type: EMPLOYEE_LEAVE_TYPE_GET_API_SUCCESS,
+    payload: employeeLeaveTypeSuccess
+  }
+}
+
+
+const employeeLeaveTypeApiFailureAction = employeeLeaveTypeFailure => {
+  return {
+    type: EMPLOYEE_LEAVE_TYPE_GET_API_FAILURE,
+    payload: employeeLeaveTypeFailure
+  }
+}
+
+
+const leaveReportsApiRequestAction = leaveReportsRequest => {
+  return {
+    type: EMPLOYEE_LEAVE_REPORTS_GET_API_REQUEST,
+    payload: leaveReportsRequest
+  }
+}
+
+
+const leaveReportsApiSuccessAction = leaveReportsSuccess => {
+  return {
+    type: EMPLOYEE_LEAVE_REPORTS_GET_API_SUCCESS,
+    payload: leaveReportsSuccess
+  }
+}
+
+
+const leaveReportsApiFailureAction = leaveReportsFailure => {
+  return {
+    type: EMPLOYEE_LEAVE_REPORTS_GET_API_FAILURE,
+    payload: leaveReportsFailure
+  }
+}
+
+
 
 export const usersWithHandleLeaveCapabilitiesApi = () => (dispatch, getState) => {
   const state = getState();
@@ -57,40 +105,14 @@ export const usersWithHandleLeaveCapabilitiesApi = () => (dispatch, getState) =>
   api.usersWithHandleLeaveCapabilities("GET", paramObj, accessToken).then(res => res.json()).then(res => {
     if(res.statusCode == 200 && res.status == true) {
       
-      // let viewTimelyAttendanceReportResponse = {
-      //   viewReportLineChart: []
-      // }
-      
-      // if(res.object.filter.length > 7 && res.object.filter.length < 11) {
-      //   for(let i = 0; i < res.object.filter.length; i += 2) {
-      //     viewTimelyAttendanceReportResponse.viewReportLineChart.push({ x: res.object.filter[i].date.slice(5, 10), y: Number(res.object.filter[i].check_in.slice(0, 2) + '.' + res.object.filter[i].check_in.slice(3, 5)) })
-      //   }
+      let usersWithHandleLeaveAuthorities = [];
+    
+      for(let i = 0; i < res.object.users.length; i++) {
+        usersWithHandleLeaveAuthorities.push({ authorityId: res.object.users[i].id, fullName: res.object.users[i].first_name + ' ' + res.object.users[i].last_name })
+      }
 
-      //   viewTimelyAttendanceReportResponse.viewReportLineChart.push({ x: res.object.filter[res.object.filter.length - 1].date.slice(5, 10), y: Number(res.object.filter[res.object.filter.length - 1].check_in.slice(0, 2) + '.' + res.object.filter[res.object.filter.length - 1].check_in.slice(3, 5)) })
-
-      // } else if(res.object.filter.length > 10) {
-      //   for(let i = 0; i < res.object.filter.length; i += 3) {
-      //     viewTimelyAttendanceReportResponse.viewReportLineChart.push({ x: res.object.filter[i].date.slice(5, 10), y: Number(res.object.filter[i].check_in.slice(0, 2) + '.' + res.object.filter[i].check_in.slice(3, 5)) })
-      //   }
-
-      //   viewTimelyAttendanceReportResponse.viewReportLineChart.push({ x: res.object.filter[res.object.filter.length - 1].date.slice(5, 10), y: Number(res.object.filter[res.object.filter.length - 1].check_in.slice(0, 2) + '.' + res.object.filter[res.object.filter.length - 1].check_in.slice(3, 5)) })
-
-      // } else {
-      //   for(let i = 0; i < res.object.filter.length; i++) {
-      //     viewTimelyAttendanceReportResponse.viewReportLineChart.push({ x: res.object.filter[i].date.slice(5, 10), y: Number(res.object.filter[i].check_in.slice(0, 2) + '.' + res.object.filter[i].check_in.slice(3, 5)) })
-      //   }
-      // }
-
-      // if(viewTimelyAttendanceReportResponse.viewReportLineChart.length == 1) {
-      //   viewTimelyAttendanceReportResponse.viewReportLineChart.push({ x: 0, y: 0 });
-      // }
-
-      res.activityIndicatorOrOkay = null,
-      res.loaderStatus = null,
-      res.loaderMessage = ''
-
-      console.log('res ==> ', res);
-      dispatch(usersWithHandleLeaveCapabilitiesApiSuccessAction(res))
+      // console.log('usersWithHandleLeaveAuthorities ==> ', usersWithHandleLeaveAuthorities);
+      dispatch(usersWithHandleLeaveCapabilitiesApiSuccessAction(usersWithHandleLeaveAuthorities))
 
     } else {
       res.activityIndicatorOrOkay = null,
@@ -101,5 +123,105 @@ export const usersWithHandleLeaveCapabilitiesApi = () => (dispatch, getState) =>
 
   }).catch((error) => {
     dispatch(usersWithHandleLeaveCapabilitiesApiFailureAction(error))
+  })
+}
+
+
+
+export const employeeLeaveTypeApi = () => (dispatch, getState) => {
+  const state = getState();
+
+  const accessToken = state.login.accessToken;
+  const companyId = state.login.companyId;
+
+  const paramObj = {
+    company_id: companyId
+  }
+
+  dispatch(employeeLeaveTypeApiRequestAction());
+  api.employeeLeaveType("GET", paramObj, accessToken).then(res => res.json()).then(res => {
+    if(res.statusCode == 200 && res.status == true) {
+      
+      let employeeLeaveTypeResponse = {
+        employeeLeaveTypeArr: []
+      }
+      
+      for(let i = 0; i < res.object.leave_types.length; i++) {
+        employeeLeaveTypeResponse.employeeLeaveTypeArr.push({ id: res.object.leave_types[i].id, leaveName: res.object.leave_types[i].name, paidLeave: res.object.leave_types[i].paid, leaveAllocatedDays: res.object.leave_types[i].allocated_days, remainingLeaveAllocatedDays: '' })
+      }
+
+      // console.log('employeeLeaveTypeResponse ==> ', employeeLeaveTypeResponse);
+      dispatch(employeeLeaveTypeApiSuccessAction(employeeLeaveTypeResponse))
+
+      dispatch(leaveReportApi());
+
+    } else {
+      res.activityIndicatorOrOkay = null,
+      res.loaderStatus = null,
+      res.loaderMessage = ''
+      dispatch(employeeLeaveTypeApiFailureAction(res))
+    }
+
+  }).catch((error) => {
+    dispatch(employeeLeaveTypeApiFailureAction(error))
+  })
+}
+
+
+
+export const leaveReportApi = () => (dispatch, getState) => {
+  const state = getState();
+
+  const accessToken = state.login.accessToken;
+  const companyId = state.login.companyId;
+  const userId = state.login.userId;
+
+  const leaveReportsArr = state.applyLeave.employeeLeaveTypeArr;
+
+  const paramObj = {
+    company_id: companyId,
+    employee_id: userId,
+  }
+
+  dispatch(leaveReportsApiRequestAction());
+  api.leaveReports("GET", paramObj, accessToken).then(res => res.json()).then(res => {
+    if(res.statusCode == 200 && res.status == true) {
+      
+      const leaveReport = [];
+      const leaveReportResponse = {
+        employeeLeaveReportsArr: leaveReportsArr
+      }
+      
+      for(let i = 0; i < res.object.sum.length; i++) {
+        leaveReport.push({ id: res.object.sum[i].type_id, sum: res.object.sum[i].sum })
+      }
+      
+      for(let k = 0; k < leaveReportResponse.employeeLeaveReportsArr.length; k++) {
+        for(let l = 0; l < leaveReport.length; l++) {
+          if(leaveReportResponse.employeeLeaveReportsArr[k].id === leaveReport[l].id) {
+            leaveReportResponse.employeeLeaveReportsArr[k].remainingLeaveAllocatedDays = leaveReportResponse.employeeLeaveReportsArr[k].leaveAllocatedDays - Number(leaveReport[l].sum);
+          }
+        }
+      }
+
+      if(leaveReportResponse.employeeLeaveReportsArr.length > 0) {
+        leaveReportResponse.employeeLeaveReportsArr.unshift({ id: -1, leaveName: "Select", paidLeave: -1, leaveAllocatedDays: -1, remainingLeaveAllocatedDays: '' })
+      }
+
+      leaveReportResponse.activityIndicatorOrOkay = null;
+      leaveReportResponse.loaderStatus = null;
+      leaveReportResponse.loaderMessage = '';
+      // console.log('leaveReportResponse ==> ', leaveReportResponse);
+      dispatch(leaveReportsApiSuccessAction(leaveReportResponse))
+
+    } else {
+      res.activityIndicatorOrOkay = null,
+      res.loaderStatus = null,
+      res.loaderMessage = ''
+      dispatch(leaveReportsApiFailureAction(res))
+    }
+
+  }).catch((error) => {
+    dispatch(leaveReportsApiFailureAction(error))
   })
 }

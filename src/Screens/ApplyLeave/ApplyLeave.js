@@ -12,7 +12,7 @@ import { NinetyNineOutlineButton } from '../../Components/Shared/Buttons/NinetyN
 import { Formik } from 'formik';
 
 import { connect } from 'react-redux';
-import { netInfo, usersWithHandleLeaveCapabilitiesApi } from '../../Redux/Actions/ApplyLeaveAction';
+import { netInfo, usersWithHandleLeaveCapabilitiesApi, employeeLeaveTypeApi } from '../../Redux/Actions/ApplyLeaveAction';
 
 import { NetworkContext } from '../../Helper/NetworkProvider/NetworkProvider';
 
@@ -30,10 +30,13 @@ class ApplyLeave extends Component {
 
       isValid: false,
 
-      pickerSelectedValue: 'Select',
+      pickerSelectedValue: '',
 
       showCalendar: false,
-      selectedDate: ''
+      selectedDate: '',
+
+      selectedAssignTo: [],
+      inc: null,
     }
   }
   static contextType = NetworkContext;
@@ -52,13 +55,17 @@ class ApplyLeave extends Component {
 
         isValid: false,
 
-        pickerSelectedValue: 'Select',
+        pickerSelectedValue: '',
 
         showCalendar: false,
-        selectedDate: ''
+        selectedDate: '',
+
+        selectedAssignTo: [],
+        inc: null,
       });
 
       this.usersWithHandleLeaveCapabilities();
+      this.employeeLeaveType();
     });
   }
 
@@ -70,6 +77,22 @@ class ApplyLeave extends Component {
   usersWithHandleLeaveCapabilities = () => {
     if(this.context.isConnected) {
       this.props.dispatch(usersWithHandleLeaveCapabilitiesApi());
+
+    } else {
+      obj = {
+        activityIndicatorOrOkay: false,
+        loaderStatus: true,
+        loaderMessage: 'No Internet Connection'
+      }
+
+      this.props.dispatch(netInfo(obj));
+    }
+  }
+
+
+  employeeLeaveType = () => {
+    if(this.context.isConnected) {
+      this.props.dispatch(employeeLeaveTypeApi());
 
     } else {
       obj = {
@@ -95,14 +118,6 @@ class ApplyLeave extends Component {
     })
   }
 
-  applyLeaveHandler = () => {
-    console.log('applyLeaveHandler')
-  }
-
-  cancelLeaveHandler = () => {
-    console.log('cancelLeaveHandler')
-  }
-
 
   onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -112,8 +127,48 @@ class ApplyLeave extends Component {
     console.log('onChange ==> ', selectedDate);
   };
 
+
+  assignToHandler = (value) => {
+    this.setState({
+      selectedAssignTo: [...this.state.selectedAssignTo, value.authorityId],
+      inc: this.state.inc == null ? 0 : this.state.inc + 1
+    }, () => {
+      // console.log('val ==> ', value, this.state);
+    })
+  }
+
+
+  applyLeaveHandler = () => {
+    console.log('applyLeaveHandler')
+  }
+
+  cancelLeaveHandler = () => {
+    console.log('cancelLeaveHandler')
+  }
+
   
   render() {
+    // console.log('this.props.applyLeave ==> ', this.props.applyLeave);
+
+    const pickerItem = this.props.applyLeave.employeeLeaveReportsArr.length > 0 ? this.props.applyLeave.employeeLeaveReportsArr.map((item, id) => {
+      return (
+        <Picker.Item key={id} label={item.leaveName} value={item} />
+      )
+    }) : null;
+
+
+    const usersWithAuthorityList = this.props.applyLeave.usersWithHandleLeaveAuthorities.length > 0 ? this.props.applyLeave.usersWithHandleLeaveAuthorities.map((item, id) => {
+      return (
+        <TouchableOpacity key={id} style={{ marginBottom: 12, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', width:"50%" }} onPress={() => {
+          this.assignToHandler(item)
+        }}>
+          <Text key={id} style={{ borderWidth: 1, paddingHorizontal: 9, backgroundColor: this.state.selectedAssignTo.length > 0 ? (this.state.selectedAssignTo[this.state.inc] == item.authorityId ? 'blue'  : 'transparent') : null }}></Text>
+          <Text style={{ marginLeft: 15 }}>{item.fullName}</Text>
+        </TouchableOpacity>
+      )
+    }) : null;
+    
+
     return(
       <View style={{ flex: 1 }}>
         <NinetyNineHeader title="Apply leave" isHome={true} navigation={this.props.navigation}  />
@@ -129,10 +184,10 @@ class ApplyLeave extends Component {
 
               isValid: false,
               
-              pickerSelectedValue: 'Select',
+              pickerSelectedValue: '',
 
               showCalendar: false,
-              selectedDate: ''
+              selectedDate: '',
             }}
             // validationSchema={}
             onSubmit={(values, actions) => {
@@ -207,78 +262,43 @@ class ApplyLeave extends Component {
                   onValueChange={(itemValue, itemIndex) => {
                     // console.log('picker ==> ', itemValue, itemIndex)
                     this.setState({pickerSelectedValue: itemValue}, () => {
-                      console.log('state ==> ', this.state)
+                      // console.log('state ==> ', this.state);
                     })
                   }}
                 >
-                  <Picker.Item label="Select" value="Select" />
-                  <Picker.Item label="Annual Paid" value="annual paid" />
-                  <Picker.Item label="Annual Unpaid" value="annual unpaid" />
-                  <Picker.Item label="Annual Sick" value="annual sick" />
-                  <Picker.Item label="Marriage Leave" value="marriage leave" />
-                  <Picker.Item label="Mourning Leave" value="mourning leave" />
+                  { pickerItem }
                 </Picker>
               </View>
 
               {
-                this.state.pickerSelectedValue !== 'Select' ?
-                <View style={{ marginBottom: 20, padding: 20, backgroundColor: 'lightgrey' }}>
-                  <Text style={{ marginBottom: 5, fontSize: 18, fontWeight: 'bold' }}>Leave Status</Text>
+                this.state.pickerSelectedValue != '' ?
+                  this.state.pickerSelectedValue.leaveName !== 'Select' ?
+                    <View style={{ marginBottom: 20, padding: 20, backgroundColor: 'lightgrey' }}>
+                      <Text style={{ marginBottom: 5, fontSize: 18, fontWeight: 'bold' }}>Leave Status</Text>
 
-                  <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                      <Text style={{ fontSize: 16 }}>Available:&nbsp;&nbsp;</Text>
-                      <Text style={{ fontSize: 16, fontWeight: 'bold' }}>10</Text>
-                    </View>
+                      <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                          <Text style={{ fontSize: 16 }}>Available:&nbsp;&nbsp;</Text>
+                          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{this.state.pickerSelectedValue.remainingLeaveAllocatedDays != '' ? this.state.pickerSelectedValue.remainingLeaveAllocatedDays : this.state.pickerSelectedValue.leaveAllocatedDays}</Text>
+                        </View>
 
-                    <View style={{ marginLeft: 90, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                      <Text style={{ fontSize: 16 }}>Taken:&nbsp;&nbsp;</Text>
-                      <Text style={{ fontSize: 16, fontWeight: 'bold' }}>0</Text>
-                    </View>
-                  </View>
-                </View> :
+                        <View style={{ marginLeft: 90, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                          <Text style={{ fontSize: 16 }}>Taken:&nbsp;&nbsp;</Text>
+                          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{this.state.pickerSelectedValue.remainingLeaveAllocatedDays != '' ? this.state.pickerSelectedValue.leaveAllocatedDays - this.state.pickerSelectedValue.remainingLeaveAllocatedDays : 0}</Text>
+                        </View>
+                      </View>
+                    </View> :
+                  null : 
                 null
               }
 
+
               <Text style={{ marginBottom: 10, fontSize: 18, fontWeight: 'bold' }}>Assign to</Text>
 
-              <View style={{ borderWidth: this.state.isValid ? 1 : null, borderColor: this.state.isValid ? 'red' : null }}>
-                <View style={[{ marginBottom: 10, paddingTop: this.state.isValid ? 20 : null, paddingHorizontal: this.state.isValid ? 10 : null }, styles.assignToList]}>
-                  <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                    <Text style={{ borderWidth: 1, paddingHorizontal: 9 }}></Text>
-                    <Text style={{ marginLeft: 15 }}>Sanjeev Thapa</Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                    <Text style={{ borderWidth: 1, paddingHorizontal: 9 }}></Text>
-                    <Text style={{ marginLeft: 15 }}>Sambridh Pyakurel</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <View style={[{ marginBottom: 10, paddingHorizontal: this.state.isValid ? 10 : null }, styles.assignToList]}>
-                  <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                    <Text style={{ borderWidth: 1, paddingHorizontal: 9 }}></Text>
-                    <Text style={{ marginLeft: 15 }}>Sanjeev Thapa</Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                    <Text style={{ borderWidth: 1, paddingHorizontal: 9 }}></Text>
-                    <Text style={{ marginLeft: 15 }}>Sambridh Pyakurel</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <View style={[{ paddingBottom: this.state.isValid ? 20 : null, paddingHorizontal: this.state.isValid ? 10 : null }, styles.assignToList]}>
-                  <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                    <Text style={{ borderWidth: 1, paddingHorizontal: 9 }}></Text>
-                    <Text style={{ marginLeft: 15 }}>Sanjeev Thapa</Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                    <Text style={{ borderWidth: 1, paddingHorizontal: 9 }}></Text>
-                    <Text style={{ marginLeft: 15 }}>Sambridh Pyakurel</Text>
-                  </TouchableOpacity>
-                </View>
+              <View style={{ flexDirection: "row", justifyContent: 'space-between', alignItems: 'center', flexWrap: "wrap" }}>
+                { usersWithAuthorityList }
               </View>
+
 
               <View style={{ height: 35 }}>
                 <Text>&nbsp;</Text>
@@ -350,7 +370,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    applyLeave: state
+    applyLeave: state.applyLeave
   }
 }
 

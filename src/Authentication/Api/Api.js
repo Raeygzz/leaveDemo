@@ -193,3 +193,14 @@ export const usersWithHandleLeaveCapabilities = (method = {}, paramObj = {}, acc
     }
   });
 }
+
+
+export const employeeLeaveType = (method = {}, paramObj = {}, accessToken = {}) => {
+  return fetch(url + '/leave/leavetype?company_id=' + paramObj.company_id, {
+    method: method,
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    }
+  });
+}

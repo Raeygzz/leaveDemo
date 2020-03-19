@@ -78,12 +78,12 @@ export const MainNavigator = () => (
       component={HomeBottomNavigator}
       options={{ title: 'Attendance' }}
     />
-    {/* <Drawer.Screen
+    <Drawer.Screen
       name="ApplyLeave"
       component={HomeBottomNavigator}
       options={{ title: 'Apply Leave' }}
     />
-    <Drawer.Screen
+    {/* <Drawer.Screen
       name="Events"
       component={HomeBottomNavigator}
       options={{ title: 'Events' }}

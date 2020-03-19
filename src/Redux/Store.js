@@ -10,13 +10,15 @@ import LoginReducer from './Reducers/LoginReducer';
 import checkInOutReducer from './Reducers/CheckInOutReducer';
 import eventsReducer from './Reducers/eventsReducer';
 import ReportsReducer from './Reducers/ReportsReducer';
+import ApplyLeaveReducer from './Reducers/ApplyLeaveReducer';
 
 
 const rootReducer = combineReducers({
   login: LoginReducer,
   checkInOut: checkInOutReducer,
   events: eventsReducer,
-  reports: ReportsReducer
+  reports: ReportsReducer,
+  applyLeave: ApplyLeaveReducer
 })
 
 const configureStore = () => {
