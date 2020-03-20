@@ -204,3 +204,15 @@ export const employeeLeaveType = (method = {}, paramObj = {}, accessToken = {}) 
     }
   });
 }
+
+
+export const applyLeave = (method = {}, accessToken = {}, body = {}) => {
+  return fetch(url + '/leave/leave', {
+    method: method,
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: body
+  });
+}

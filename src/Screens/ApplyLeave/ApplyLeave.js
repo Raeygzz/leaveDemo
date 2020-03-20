@@ -9,10 +9,11 @@ import { NinetyNineHeader } from '../../Components/Shared/Headers/NinetyNineHead
 import { NinetyNineButton } from '../../Components/Shared/Buttons/NinetyNineButton';
 import { NinetyNineOutlineButton } from '../../Components/Shared/Buttons/NinetyNineOutlineButton';
 
+// import * as yup from 'yup';
 import { Formik } from 'formik';
 
 import { connect } from 'react-redux';
-import { netInfo, usersWithHandleLeaveCapabilitiesApi, employeeLeaveTypeApi } from '../../Redux/Actions/ApplyLeaveAction';
+import { netInfo, usersWithHandleLeaveCapabilitiesApi, employeeLeaveTypeApi, applyLeaveApi } from '../../Redux/Actions/ApplyLeaveAction';
 
 import { NetworkContext } from '../../Helper/NetworkProvider/NetworkProvider';
 
@@ -26,17 +27,29 @@ class ApplyLeave extends Component {
       isSelectHalfDay: false,
 
       isSelect1stHalf: false, 
-      isSelect2ndHalf: false,
+      isSelect2ndHalf: true,
 
-      isValid: false,
-
-      pickerSelectedValue: '',
+      pickerSelectedValue: { id: -1, leaveName: "Select", paidLeave: -1, leaveAllocatedDays: -1, remainingLeaveAllocatedDays: '' },
+      pickerSelectionValid: false,
 
       showCalendar: false,
-      selectedDate: '',
+
+      selectedStartDate: '',
+      selectedStart_new_Date: '',
+      selectedStartDateConfirm: false,
+      selectedStartDateValid: false,
+
+      selectedEndDate: '',
+      selectedEndDateConfirm: false,
+      selectedEndDateValid: false,
 
       selectedAssignTo: [],
+      assignToValid: false,
+
       inc: null,
+
+      textInputReason: '',
+      textInputReasonValid: false
     }
   }
   static contextType = NetworkContext;
@@ -51,17 +64,29 @@ class ApplyLeave extends Component {
         isSelectHalfDay: false,
 
         isSelect1stHalf: false, 
-        isSelect2ndHalf: false,
+        isSelect2ndHalf: true,
 
-        isValid: false,
-
-        pickerSelectedValue: '',
+        pickerSelectedValue: { id: -1, leaveName: "Select", paidLeave: -1, leaveAllocatedDays: -1, remainingLeaveAllocatedDays: '' },
+        pickerSelectionValid: false,
 
         showCalendar: false,
-        selectedDate: '',
+        
+        selectedStartDate: '',
+        selectedStart_new_Date: '',
+        selectedStartDateConfirm: false,
+        selectedStartDateValid: false,
+
+        selectedEndDate: '',
+        selectedEndDateConfirm: false,
+        selectedEndDateValid: false,
 
         selectedAssignTo: [],
+        assignToValid: false,
+
         inc: null,
+
+        textInputReason: '',
+        textInputReasonValid: false
       });
 
       this.usersWithHandleLeaveCapabilities();
@@ -108,30 +133,63 @@ class ApplyLeave extends Component {
 
   startDateHandler = () => {
     this.setState({
+      selectedStart_new_Date: '',
+      selectedStartDateConfirm: true,
       showCalendar: true
     })
   }
 
   endDateHandler = () => {
     this.setState({
+      selectedEndDateConfirm: true,
       showCalendar: true
     })
   }
 
 
   onChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
-    this.setState({
-      showCalendar: false
-    })
-    console.log('onChange ==> ', selectedDate);
+    if(selectedDate != undefined) {
+      
+      const year = new Date(selectedDate).getFullYear();
+      let month = new Date(selectedDate).getMonth() + 1;
+      month.toString().length <= 1 ? month = '0' + month : month;
+      let date = new Date(selectedDate).getDate();
+      date.toString().length <= 1 ? date = '0' + date : date;
+      const fullYear = year + '/' + month + '/' + date;
+  
+      if(this.state.selectedStartDateConfirm) {
+        this.setState({
+          selectedStart_new_Date: selectedDate,
+          selectedStartDate: fullYear,
+          showCalendar: false,
+          selectedStartDateConfirm: false,
+          selectedEndDateConfirm: false,
+          selectedStartDateValid: false,
+        }, () => {
+          // console.log('state1 ==> ', this.state)
+        })
+  
+      } else if(this.state.selectedEndDateConfirm) {
+        this.setState({
+          selectedEndDate: fullYear,
+          showCalendar: false,
+          selectedStartDateConfirm: false,
+          selectedEndDateConfirm: false,
+          selectedEndDateValid: false,
+        }, () => {
+          // console.log('state2 ==> ', this.state)
+        })
+      }
+
+    }
   };
 
 
   assignToHandler = (value) => {
     this.setState({
       selectedAssignTo: [...this.state.selectedAssignTo, value.authorityId],
-      inc: this.state.inc == null ? 0 : this.state.inc + 1
+      inc: this.state.inc == null ? 0 : this.state.inc + 1,
+      assignToValid: false,
     }, () => {
       // console.log('val ==> ', value, this.state);
     })
@@ -139,7 +197,52 @@ class ApplyLeave extends Component {
 
 
   applyLeaveHandler = () => {
-    console.log('applyLeaveHandler')
+    if(this.context.isConnected) {
+      this.state.selectedStartDate == '' ? this.setState({ selectedStartDateValid: true }) : this.setState({ selectedStartDateValid: false });
+
+      this.state.selectedEndDate == '' ? this.setState({ selectedEndDateValid: true }) : this.setState({ selectedEndDateValid: false });
+
+      this.state.pickerSelectedValue.id == '-1' ? this.setState({ pickerSelectionValid: true }) : this.setState({ pickerSelectionValid: false });
+      
+      this.state.selectedAssignTo.length < 1 ? this.setState({ assignToValid: true }) : this.setState({ assignToValid: false });
+      
+      this.state.textInputReason == '' ? this.setState({ textInputReasonValid: true }) : this.setState({ textInputReasonValid: false });
+
+      const startDateInTime = new Date(this.state.selectedStartDate).getTime();
+      const endDateInTime = new Date(this.state.selectedEndDate).getTime();
+      
+      // console.log('selectedStartDate ==> ', this.state.selectedStartDate);
+      // console.log('selectedEndDate ==> ', this.state.selectedEndDate);
+      // console.log('diff ==> ', endDateInTime - startDateInTime);
+
+      if(startDateInTime <= endDateInTime && !this.state.selectedStartDateValid && !this.state.selectedEndDateValid && !this.state.pickerSelectionValid && !this.state.assignToValid && !this.state.textInputReasonValid) {
+        let obj = {
+          startDate: this.state.selectedStartDate,
+          endDate: this.state.selectedEndDate,
+          assignedTo: this.state.selectedAssignTo,
+          isHalfDay: this.state.isSelectFullDay ? 0 : 1,
+          halfDay: !this.state.isSelectFullDay ? (this.state.isSelect1stHalf ? 'first' : 'second') : '',
+          typeId: this.state.pickerSelectedValue.id,
+          reason: this.state.textInputReason
+        }
+
+        this.props.dispatch(applyLeaveApi(obj));
+
+        this.setState({
+          selectedAssignTo: [],
+          inc: null
+        })
+      }
+
+    } else {
+      obj = {
+        activityIndicatorOrOkay: false,
+        loaderStatus: true,
+        loaderMessage: 'No Internet Connection'
+      }
+
+      this.props.dispatch(netInfo(obj));
+    }
   }
 
   cancelLeaveHandler = () => {
@@ -176,22 +279,32 @@ class ApplyLeave extends Component {
         <ScrollView>
           <Formik
             initialValues={{
-              isSelectFullDay: true,
-              isSelectHalfDay: false,
+              // isSelectFullDay: true,
+              // isSelectHalfDay: false,
 
-              isSelect1stHalf: false, 
-              isSelect2ndHalf: false,
-
-              isValid: false,
+              // isSelect1stHalf: false, 
+              // isSelect2ndHalf: true,
               
-              pickerSelectedValue: '',
+              pickerSelectedValue: { id: -1, leaveName: "Select", paidLeave: -1, leaveAllocatedDays: -1, remainingLeaveAllocatedDays: '' },
 
-              showCalendar: false,
-              selectedDate: '',
+              // showCalendar: false,
+              
+              selectedStartDate: '',
+              // selectedStart_new_Date: '',
+              // selectedStartDateConfirm: false,
+
+              selectedEndDate: '',
+              // selectedEndDateConfirm: false,
+
+              selectedAssignTo: [],
+              // inc: null,
+
+              textInputReason: ''
             }}
-            // validationSchema={}
+            // validationSchema={applyLeaveSchema}
             onSubmit={(values, actions) => {
-              this.props.onPress(values);
+              // this.props.onPress(values);
+              this.applyLeaveHandler();
               // actions.resetForm();
             }}
           >
@@ -201,7 +314,7 @@ class ApplyLeave extends Component {
               <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 15 }}>Select Leave</Text>
 
               <View style={{ marginBottom: 20, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }} onPress={() => this.setState({ isSelectFullDay: true, isSelectHalfDay: false, isSelect1stHalf: false, isSelect2ndHalf: false })}>
+                <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }} onPress={() => this.setState({ isSelectFullDay: true, isSelectHalfDay: false, isSelect1stHalf: false, isSelect2ndHalf: true })}>
                   <Text style={[{ backgroundColor: this.state.isSelectFullDay ? 'blue' : null }, styles.radioButton]}></Text>
                   <Text style={{ marginLeft: 10 }}>Full Day</Text>
                 </TouchableOpacity>
@@ -228,16 +341,15 @@ class ApplyLeave extends Component {
                 (null)
               }
 
-
               <View style={{ marginBottom: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }} onPress={this.startDateHandler}>
                   <Icon style={styles.icon} size={25} name="calendar-alt" />
-                  <Text style={styles.textDate}>Start Date</Text>
+                  <Text style={[styles.textDate, { borderColor: this.state.selectedStartDateValid ? 'red' : null }]}>{this.state.selectedStartDate != '' ? this.state.selectedStartDate : 'Start Date'}</Text>
                 </TouchableOpacity>
-
+          
                 <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }} onPress={this.endDateHandler}>
                   <Icon style={styles.icon} size={25} name="calendar-alt" />
-                  <Text style={styles.textDate}>End Date</Text>
+                  <Text style={[styles.textDate, { borderColor: this.state.selectedEndDateValid ? 'red' : null }]}>{this.state.selectedEndDate != '' ? this.state.selectedEndDate : 'End Date'}</Text>
                 </TouchableOpacity>
               </View>
 
@@ -247,21 +359,23 @@ class ApplyLeave extends Component {
                     testID="dateTimePicker"
                     mode='date'
                     value={new Date()}
-                    minimumDate={new Date()}
-                    // maximumDate={new Date()}
+                    minimumDate={this.state.selectedStart_new_Date != '' ? this.state.selectedStart_new_Date : new Date()}
                     display="calendar"
                     onChange={this.onChange}
                   />
                 )
               }
 
-              <View style={{ borderWidth: 1, marginBottom: 20 }}>
+              <View style={{ borderWidth: 1, marginBottom: 20, borderColor: this.state.pickerSelectionValid ? 'red' : null }}>
                 <Picker
                   selectedValue={this.state.pickerSelectedValue}
                   style={{height: 50, width: "100%"}}
                   onValueChange={(itemValue, itemIndex) => {
                     // console.log('picker ==> ', itemValue, itemIndex)
-                    this.setState({pickerSelectedValue: itemValue}, () => {
+                    this.setState({
+                      pickerSelectedValue: itemValue,
+                      pickerSelectionValid: false
+                    }, () => {
                       // console.log('state ==> ', this.state);
                     })
                   }}
@@ -271,31 +385,29 @@ class ApplyLeave extends Component {
               </View>
 
               {
-                this.state.pickerSelectedValue != '' ?
-                  this.state.pickerSelectedValue.leaveName !== 'Select' ?
-                    <View style={{ marginBottom: 20, padding: 20, backgroundColor: 'lightgrey' }}>
-                      <Text style={{ marginBottom: 5, fontSize: 18, fontWeight: 'bold' }}>Leave Status</Text>
+                this.state.pickerSelectedValue.leaveName !== 'Select' ?
+                  <View style={{ marginBottom: 20, padding: 20, backgroundColor: 'lightgrey' }}>
+                    <Text style={{ marginBottom: 5, fontSize: 18, fontWeight: 'bold' }}>Leave Status</Text>
 
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                       <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                          <Text style={{ fontSize: 16 }}>Available:&nbsp;&nbsp;</Text>
-                          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{this.state.pickerSelectedValue.remainingLeaveAllocatedDays != '' ? this.state.pickerSelectedValue.remainingLeaveAllocatedDays : this.state.pickerSelectedValue.leaveAllocatedDays}</Text>
-                        </View>
-
-                        <View style={{ marginLeft: 90, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                          <Text style={{ fontSize: 16 }}>Taken:&nbsp;&nbsp;</Text>
-                          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{this.state.pickerSelectedValue.remainingLeaveAllocatedDays != '' ? this.state.pickerSelectedValue.leaveAllocatedDays - this.state.pickerSelectedValue.remainingLeaveAllocatedDays : 0}</Text>
-                        </View>
+                        <Text style={{ fontSize: 16 }}>Available:&nbsp;&nbsp;</Text>
+                        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{this.state.pickerSelectedValue.remainingLeaveAllocatedDays != '' ? this.state.pickerSelectedValue.remainingLeaveAllocatedDays : this.state.pickerSelectedValue.leaveAllocatedDays}</Text>
                       </View>
-                    </View> :
-                  null : 
+
+                      <View style={{ marginLeft: 90, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 16 }}>Taken:&nbsp;&nbsp;</Text>
+                        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{this.state.pickerSelectedValue.remainingLeaveAllocatedDays != '' ? this.state.pickerSelectedValue.leaveAllocatedDays - this.state.pickerSelectedValue.remainingLeaveAllocatedDays : 0}</Text>
+                      </View>
+                    </View>
+                  </View> :
                 null
               }
 
 
               <Text style={{ marginBottom: 10, fontSize: 18, fontWeight: 'bold' }}>Assign to</Text>
 
-              <View style={{ flexDirection: "row", justifyContent: 'space-between', alignItems: 'center', flexWrap: "wrap" }}>
+              <View style={[{ flexDirection: "row", justifyContent: 'space-between', alignItems: 'center', flexWrap: "wrap" }, this.state.assignToValid ? styles.assignToValidDesign : null]}>
                 { usersWithAuthorityList }
               </View>
 
@@ -304,10 +416,12 @@ class ApplyLeave extends Component {
                 <Text>&nbsp;</Text>
               </View>
 
-              <TextInput style={{ marginBottom: 20, borderWidth: 1, paddingLeft: 15, paddingTop: 5, paddingBottom: 80 }} multiline={true} placeholder="Reason" />
+
+              <TextInput style={[{ borderColor: this.state.textInputReasonValid ? 'red' : null }, styles.textInput]} multiline={true} placeholder="Reason" onChangeText={(textInputReason) => this.setState({ textInputReason: textInputReason, textInputReasonValid: false })} />
 
               <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                 <NinetyNineButton style={styles.ninetyNineButton} buttonTitle="Apply" onItemPressed={this.applyLeaveHandler} />
+                
                 <View style={{ marginLeft: 15 }}>
                   <NinetyNineOutlineButton style={styles.ninetyNineOutlineButton} outlineButtonTitle="Cancel" onItemPressed={this.cancelLeaveHandler} />
                 </View>
@@ -350,6 +464,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row', 
     justifyContent: 'space-between', 
     alignItems: 'center' 
+  },
+  assignToValidDesign: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'red'
+  },
+  textInput: {
+    marginBottom: 20, 
+    borderWidth: 1, 
+    paddingLeft: 15, 
+    paddingTop: 5, 
+    paddingBottom: 80
   },
   ninetyNineButton: {
     fontSize: 18, 

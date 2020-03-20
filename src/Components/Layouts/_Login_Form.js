@@ -41,13 +41,12 @@ class _Login_Form extends Component {
           // email: 'pratik.sangami@cloudyfox.com',
           // password: '3PvyS%&GTo',
 
-          email: 'regan.timsina@cloudyfox.com',
-          password: 'regan@248',
+          // email: 'regan.timsina@cloudyfox.com',
+          // password: 'regan@248',
 
-
-          // company_id = 2
-          // email: 'bijay@gmail.com',
-          // password: 'password',
+          
+          email: 'bijay@gmail.com',                                        // company_id = 4
+          password: 'password',
 
           // email: 'biplab@gmail.com',                                    // comapy_id = 5
           // password: 'password@2',

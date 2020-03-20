@@ -1,4 +1,4 @@
-import { NET_INFO, USERS_HANDLE_LEAVE_CAPABILITIES_GET_API_REQUEST, USERS_HANDLE_LEAVE_CAPABILITIES_GET_API_SUCCESS, USERS_HANDLE_LEAVE_CAPABILITIES_GET_API_FAILURE, EMPLOYEE_LEAVE_TYPE_GET_API_REQUEST, EMPLOYEE_LEAVE_TYPE_GET_API_SUCCESS, EMPLOYEE_LEAVE_TYPE_GET_API_FAILURE, EMPLOYEE_LEAVE_REPORTS_GET_API_REQUEST, EMPLOYEE_LEAVE_REPORTS_GET_API_SUCCESS, EMPLOYEE_LEAVE_REPORTS_GET_API_FAILURE } from './Constants/ActionsTypes';
+import { NET_INFO, USERS_HANDLE_LEAVE_CAPABILITIES_GET_API_REQUEST, USERS_HANDLE_LEAVE_CAPABILITIES_GET_API_SUCCESS, USERS_HANDLE_LEAVE_CAPABILITIES_GET_API_FAILURE, EMPLOYEE_LEAVE_TYPE_GET_API_REQUEST, EMPLOYEE_LEAVE_TYPE_GET_API_SUCCESS, EMPLOYEE_LEAVE_TYPE_GET_API_FAILURE, EMPLOYEE_LEAVE_REPORTS_GET_API_REQUEST, EMPLOYEE_LEAVE_REPORTS_GET_API_SUCCESS, EMPLOYEE_LEAVE_REPORTS_GET_API_FAILURE, APPLY_LEAVE_POST_API_REQUEST, APPLY_LEAVE_POST_API_SUCCESS, APPLY_LEAVE_POST_API_FAILURE } from './Constants/ActionsTypes';
 
 import * as api from '../../Authentication/Api/Api';
 
@@ -79,6 +79,30 @@ const leaveReportsApiFailureAction = leaveReportsFailure => {
   return {
     type: EMPLOYEE_LEAVE_REPORTS_GET_API_FAILURE,
     payload: leaveReportsFailure
+  }
+}
+
+
+const applyLeaveApiRequestAction = applyLeaveRequest => {
+  return {
+    type: APPLY_LEAVE_POST_API_REQUEST,
+    payload: applyLeaveRequest
+  }
+}
+
+
+const applyLeaveApiSuccessAction = applyLeaveSuccess => {
+  return {
+    type: APPLY_LEAVE_POST_API_SUCCESS,
+    payload: applyLeaveSuccess
+  }
+}
+
+
+const applyLeaveApiFailureAction = applyLeaveFailure => {
+  return {
+    type: APPLY_LEAVE_POST_API_FAILURE,
+    payload: applyLeaveFailure
   }
 }
 
@@ -223,5 +247,63 @@ export const leaveReportApi = () => (dispatch, getState) => {
 
   }).catch((error) => {
     dispatch(leaveReportsApiFailureAction(error))
+  })
+}
+
+
+
+export const applyLeaveApi = (obj) => (dispatch, getState) => {
+  console.log('obj ==> ', obj);
+  const state = getState();
+
+  const accessToken = state.login.accessToken;
+  const companyId = state.login.companyId;
+  const userId = state.login.userId;
+
+  const options = {
+    error: '',
+    activityIndicatorOrOkay: true,
+    loaderStatus: true,
+    loaderMessage: 'Updating data. Please wait'
+  }
+
+  const body = JSON.stringify({
+    company_id: companyId,
+    user_id: userId,
+    start_date: obj.startDate,
+    end_date: obj.endDate,
+    assigned_to: obj.assignedTo,
+    is_half_day: obj.isHalfDay,
+    half: obj.halfDay,
+    type_id: obj.typeId,
+    reason: obj.reason
+  })
+
+  console.log('body ==> ', JSON.parse(body));
+
+  dispatch(applyLeaveApiRequestAction(options));
+  api.applyLeave("POST", accessToken, body).then(res => res.json()).then(res => {
+    if(res.statusCode == 200 && res.status == true) {
+
+      res.activityIndicatorOrOkay = null;
+      res.loaderStatus = null;
+      res.loaderMessage = '';
+      console.log('res ==> ', res);
+      dispatch(applyLeaveApiSuccessAction(res))
+         
+      successRes.activityIndicatorOrOkay = null;
+      successRes.loaderStatus = null;
+      successRes.loaderMessage = '';
+      dispatch(applyLeaveApiSuccessAction(successRes))
+
+    } else {
+      res.activityIndicatorOrOkay = null,
+      res.loaderStatus = null,
+      res.loaderMessage = ''
+      dispatch(applyLeaveApiFailureAction(res))
+    }
+
+  }).catch((error) => {
+    dispatch(applyLeaveApiFailureAction(error))
   })
 }
