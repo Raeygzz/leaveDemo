@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri Mar 20 14:17:05 NPT 2020
+#Fri Mar 20 16:51:55 NPT 2020
 60.set=NATIVE_RESOURCE
 52.set=NATIVE_RESOURCE
 53.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
@@ -16,7 +16,7 @@
 72.baseType=DIRECTORY
 62.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 54.path=lib/x86/libnative-filters.so
-69.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
+69.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/dexMerger/debug/0
 9.set=NATIVE_RESOURCE
 22.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 14.path=lib/x86/libreactnativejni.so
@@ -35,7 +35,7 @@
 58.baseType=DIRECTORY
 18.baseType=DIRECTORY
 23.path=lib/x86/libjsc.so
-70.path=lib/x86_64/libjsinspector.so
+70.path=lib/arm64-v8a/libreactnativejni.so
 21.baseType=DIRECTORY
 8.set=NATIVE_RESOURCE
 30.path=lib/x86/libc++_shared.so
@@ -58,9 +58,10 @@
 2.path=lib/armeabi-v7a/libnative-imagetranscoder.so
 46.path=lib/arm64-v8a/libjscexecutor.so
 9.path=lib/x86_64/libglog_init.so
+74.baseType=DIRECTORY
 53.path=lib/armeabi-v7a/libfolly_json.so
 7.set=NATIVE_RESOURCE
-68.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/dexMerger/debug/0
+68.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 21.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 13.path=lib/x86_64/libconceal.so
 67.baseType=DIRECTORY
@@ -76,7 +77,7 @@
 17.set=NATIVE_RESOURCE
 62.path=lib/armeabi-v7a/libfolly_futures.so
 35.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
-69.path=lib/arm64-v8a/libreactnativejni.so
+69.path=classes.dex
 60.baseType=DIRECTORY
 22.path=lib/arm64-v8a/libjsinspector.so
 29.path=lib/x86/libglog_init.so
@@ -102,7 +103,7 @@
 36.baseType=DIRECTORY
 5.set=NATIVE_RESOURCE
 52.path=lib/arm64-v8a/libfolly_json.so
-67.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
+67.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/merged_assets/debug/out
 59.path=lib/x86/libglog.so
 69.baseType=DIRECTORY
 29.baseType=DIRECTORY
@@ -110,14 +111,15 @@
 12.path=fonts/FontAwesome5_Regular.ttf
 32.baseType=DIRECTORY
 27.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
+74.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 31.set=NATIVE_RESOURCE
 23.set=NATIVE_RESOURCE
 15.set=NATIVE_RESOURCE
 59.baseType=DIRECTORY
 62.baseType=DIRECTORY
 34.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
-68.path=classes.dex
-69.set=NATIVE_RESOURCE
+68.path=lib/x86/libfolly_json.so
+69.set=DEX
 4.baseType=DIRECTORY
 21.path=lib/x86_64/libyoga.so
 28.path=lib/x86/libjscexecutor.so
@@ -133,7 +135,7 @@
 50.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 14.set=NATIVE_RESOURCE
 57.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
-68.set=DEX
+68.set=NATIVE_RESOURCE
 10.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 38.baseType=DIRECTORY
 0.path=lib/arm64-v8a/libreactnativeblob.so
@@ -155,8 +157,8 @@
 64.baseType=DIRECTORY
 24.baseType=DIRECTORY
 33.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
-67.set=NATIVE_RESOURCE
-67.path=lib/x86/libfolly_json.so
+67.set=ASSET
+67.path=fonts/MaterialIcons.ttf
 6.baseType=DIRECTORY
 59.set=NATIVE_RESOURCE
 20.path=lib/armeabi-v7a/libjscexecutor.so
@@ -164,6 +166,7 @@
 17.baseType=DIRECTORY
 27.path=lib/armeabi-v7a/libimagepipeline.so
 2.set=NATIVE_RESOURCE
+74.path=lib/armeabi/libconceal.so
 20.baseType=DIRECTORY
 42.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 34.path=lib/arm64-v8a/libnative-filters.so
@@ -174,6 +177,7 @@
 20.set=NATIVE_RESOURCE
 12.set=ASSET
 56.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
+74.set=NATIVE_RESOURCE
 66.set=ASSET
 58.set=NATIVE_RESOURCE
 43.baseType=DIRECTORY
@@ -185,7 +189,7 @@
 18.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 50.path=lib/x86_64/libglog.so
 65.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
-count=74
+count=75
 57.path=lib/armeabi-v7a/libfb.so
 10.path=lib/armeabi-v7a/libreactnativejni.so
 25.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
@@ -199,14 +203,14 @@ count=74
 19.path=lib/armeabi-v7a/libjsijniprofiler.so
 32.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 57.set=NATIVE_RESOURCE
-66.path=fonts/MaterialIcons.ttf
+66.path=index.android.bundle
 39.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 49.set=NATIVE_RESOURCE
 19.baseType=DIRECTORY
 0.set=NATIVE_RESOURCE
 22.baseType=DIRECTORY
 26.path=lib/x86/libyoga.so
-73.path=lib/armeabi/libconceal.so
+73.path=lib/arm64-v8a/libglog_init.so
 1.baseType=DIRECTORY
 49.baseType=DIRECTORY
 41.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
@@ -248,7 +252,7 @@ count=74
 39.set=NATIVE_RESOURCE
 3.baseType=DIRECTORY
 25.path=lib/x86_64/libfolly_futures.so
-72.path=lib/arm64-v8a/libglog_init.so
+72.path=lib/x86_64/libfolly_json.so
 54.baseType=DIRECTORY
 14.baseType=DIRECTORY
 40.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
@@ -289,7 +293,7 @@ count=74
 37.base=/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 5.baseType=DIRECTORY
 24.path=lib/x86/libjsijniprofiler.so
-71.path=lib/x86_64/libfolly_json.so
+71.path=lib/x86_64/libjsinspector.so
 56.baseType=DIRECTORY
 16.baseType=DIRECTORY
 31.path=lib/arm64-v8a/libglog.so
