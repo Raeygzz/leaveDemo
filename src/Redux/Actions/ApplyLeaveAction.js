@@ -253,7 +253,6 @@ export const leaveReportApi = () => (dispatch, getState) => {
 
 
 export const applyLeaveApi = (obj) => (dispatch, getState) => {
-  console.log('obj ==> ', obj);
   const state = getState();
 
   const accessToken = state.login.accessToken;
@@ -279,8 +278,6 @@ export const applyLeaveApi = (obj) => (dispatch, getState) => {
     reason: obj.reason
   })
 
-  console.log('body ==> ', JSON.parse(body));
-
   dispatch(applyLeaveApiRequestAction(options));
   api.applyLeave("POST", accessToken, body).then(res => res.json()).then(res => {
     if(res.statusCode == 200 && res.status == true) {
@@ -288,18 +285,20 @@ export const applyLeaveApi = (obj) => (dispatch, getState) => {
       res.activityIndicatorOrOkay = null;
       res.loaderStatus = null;
       res.loaderMessage = '';
-      console.log('res ==> ', res);
+      // console.log('res ==> ', res);
       dispatch(applyLeaveApiSuccessAction(res))
          
-      successRes.activityIndicatorOrOkay = null;
-      successRes.loaderStatus = null;
-      successRes.loaderMessage = '';
-      dispatch(applyLeaveApiSuccessAction(successRes))
+      setTimeout(() => {
+        res.activityIndicatorOrOkay = false;
+        res.loaderStatus = true;
+        res.loaderMessage = 'Apply Leave Successful!';
+        dispatch(applyLeaveApiSuccessAction(res))
+      }, 500)
 
     } else {
-      res.activityIndicatorOrOkay = null,
-      res.loaderStatus = null,
-      res.loaderMessage = ''
+      res.activityIndicatorOrOkay = null;
+      res.loaderStatus = null;
+      res.loaderMessage = '';
       dispatch(applyLeaveApiFailureAction(res))
     }
 

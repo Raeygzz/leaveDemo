@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/cloudyfox/Desktop/REGAN/PROJECTS/ninetyNineLeave/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v28/values-v28.xml",
+            "outputFile": "E:\\Company\\Cloudyfox Pvt Ltd\\Projects\\99Leave\\leaveDemo\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v28\\values-v28.xml",
             "map": [
                 {
-                    "source": "/Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/6e0781d58b95860601cdf6d7740dcdaf/res/values-v28/values-v28.xml",
+                    "source": "C:\\Users\\Regan Timsina\\.gradle\\caches\\transforms-2\\files-2.1\\b4d0ed216b9cd1711a1fc8a0fcf86686\\res\\values-v28\\values-v28.xml",
                     "from": {
                         "startLines": "2,3,4,8",
                         "startColumns": "4,4,4,4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "/Users/cloudyfox/.gradle/caches/transforms-2/files-2.1/b76a097ddc0fc2cef81a24ab5bee1032/res/values-v28/values-v28.xml",
+                    "source": "C:\\Users\\Regan Timsina\\.gradle\\caches\\transforms-2\\files-2.1\\17f56a15d732a68fa2f8b3a018bab7c9\\res\\values-v28\\values-v28.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",

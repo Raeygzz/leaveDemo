@@ -40,6 +40,7 @@ class ApplyLeave extends Component {
       selectedStartDateValid: false,
 
       selectedEndDate: '',
+      selectedEnd_new_Date: '',
       selectedEndDateConfirm: false,
       selectedEndDateValid: false,
 
@@ -49,8 +50,9 @@ class ApplyLeave extends Component {
       inc: null,
 
       textInputReason: '',
-      textInputReasonValid: false
+      textInputReasonValid: false,
     }
+    this.myTextInput = React.createRef();
   }
   static contextType = NetworkContext;
 
@@ -77,6 +79,7 @@ class ApplyLeave extends Component {
         selectedStartDateValid: false,
 
         selectedEndDate: '',
+        selectedEnd_new_Date: '',
         selectedEndDateConfirm: false,
         selectedEndDateValid: false,
 
@@ -86,8 +89,9 @@ class ApplyLeave extends Component {
         inc: null,
 
         textInputReason: '',
-        textInputReasonValid: false
+        textInputReasonValid: false,
       });
+      this.myTextInput.current.clear(),
 
       this.usersWithHandleLeaveCapabilities();
       this.employeeLeaveType();
@@ -141,6 +145,7 @@ class ApplyLeave extends Component {
 
   endDateHandler = () => {
     this.setState({
+      selectedEnd_new_Date: '',
       selectedEndDateConfirm: true,
       showCalendar: true
     })
@@ -148,8 +153,8 @@ class ApplyLeave extends Component {
 
 
   onChange = (event, selectedDate) => {
-    if(selectedDate != undefined) {
-      
+    if(selectedDate != undefined && event.type == 'set') {
+
       const year = new Date(selectedDate).getFullYear();
       let month = new Date(selectedDate).getMonth() + 1;
       month.toString().length <= 1 ? month = '0' + month : month;
@@ -165,23 +170,26 @@ class ApplyLeave extends Component {
           selectedStartDateConfirm: false,
           selectedEndDateConfirm: false,
           selectedStartDateValid: false,
-        }, () => {
-          // console.log('state1 ==> ', this.state)
         })
   
       } else if(this.state.selectedEndDateConfirm) {
         this.setState({
+          selectedEnd_new_Date: selectedDate,
           selectedEndDate: fullYear,
           showCalendar: false,
           selectedStartDateConfirm: false,
           selectedEndDateConfirm: false,
           selectedEndDateValid: false,
-        }, () => {
-          // console.log('state2 ==> ', this.state)
         })
       }
 
-    }
+    } else if(selectedDate == undefined && event.type == 'dismissed') {
+      this.setState({
+        showCalendar: false,
+        selectedStartDateConfirm: false,
+        selectedEndDateConfirm: false,
+      })
+    }    
   };
 
 
@@ -191,8 +199,37 @@ class ApplyLeave extends Component {
       inc: this.state.inc == null ? 0 : this.state.inc + 1,
       assignToValid: false,
     }, () => {
-      // console.log('val ==> ', value, this.state);
+      // console.log('value, this.state ==> ', value, this.state);
     })
+  }
+
+
+  componentDidUpdate(prevProps) {    
+    // console.log('componentDidUpdate');
+    if (this.props.applyLeave.applyLeaveSuccess !== prevProps.applyLeave.applyLeaveSuccess) {
+
+      this.myTextInput.current.clear();
+      this.setState({
+        isSelectFullDay: true,
+        isSelectHalfDay: false,
+
+        isSelect1stHalf: false, 
+        isSelect2ndHalf: true,
+
+        selectedStartDate: '',
+        selectedStart_new_Date: '',
+        
+        selectedEndDate: '',
+        selectedEnd_new_Date: '',
+
+        pickerSelectedValue: { id: -1, leaveName: "Select", paidLeave: -1, leaveAllocatedDays: -1, remainingLeaveAllocatedDays: '' },
+        
+        selectedAssignTo: [],
+        inc: null,
+
+        textInputReason: '',
+      })
+    }
   }
 
 
@@ -202,37 +239,41 @@ class ApplyLeave extends Component {
 
       this.state.selectedEndDate == '' ? this.setState({ selectedEndDateValid: true }) : this.setState({ selectedEndDateValid: false });
 
+      this.state.selectedStartDate != '' && this.state.selectedEndDate != '' ? 
+        this.state.selectedStart_new_Date.getTime() > this.state.selectedEnd_new_Date.getTime() ? this.setState({ selectedStartDateValid: true, selectedEndDateValid: true }) : this.setState({ selectedStartDateValid: false, selectedEndDateValid: false }) :
+      null
+
       this.state.pickerSelectedValue.id == '-1' ? this.setState({ pickerSelectionValid: true }) : this.setState({ pickerSelectionValid: false });
       
+      this.state.pickerSelectedValue.remainingLeaveAllocatedDays !== '' ?
+        this.state.pickerSelectedValue.remainingLeaveAllocatedDays < 1 ? this.setState({ pickerSelectionValid: true }) : this.setState({ pickerSelectionValid: false }) : 
+      null
+
       this.state.selectedAssignTo.length < 1 ? this.setState({ assignToValid: true }) : this.setState({ assignToValid: false });
       
-      this.state.textInputReason == '' ? this.setState({ textInputReasonValid: true }) : this.setState({ textInputReasonValid: false });
-
-      const startDateInTime = new Date(this.state.selectedStartDate).getTime();
-      const endDateInTime = new Date(this.state.selectedEndDate).getTime();
-      
-      // console.log('selectedStartDate ==> ', this.state.selectedStartDate);
-      // console.log('selectedEndDate ==> ', this.state.selectedEndDate);
-      // console.log('diff ==> ', endDateInTime - startDateInTime);
-
-      if(startDateInTime <= endDateInTime && !this.state.selectedStartDateValid && !this.state.selectedEndDateValid && !this.state.pickerSelectionValid && !this.state.assignToValid && !this.state.textInputReasonValid) {
-        let obj = {
-          startDate: this.state.selectedStartDate,
-          endDate: this.state.selectedEndDate,
-          assignedTo: this.state.selectedAssignTo,
-          isHalfDay: this.state.isSelectFullDay ? 0 : 1,
-          halfDay: !this.state.isSelectFullDay ? (this.state.isSelect1stHalf ? 'first' : 'second') : '',
-          typeId: this.state.pickerSelectedValue.id,
-          reason: this.state.textInputReason
+      this.state.textInputReason == '' ? this.setState({ textInputReasonValid: true }) : this.setState({ textInputReasonValid: false }, () => {
+        
+        const startDateInTime = new Date(this.state.selectedStartDate).getTime();
+        const endDateInTime = new Date(this.state.selectedEndDate).getTime();
+        
+        // console.log('selectedStartDate ==> ', this.state.selectedStartDate);
+        // console.log('selectedEndDate ==> ', this.state.selectedEndDate);
+        // console.log('diff ==> ', endDateInTime - startDateInTime);
+  
+        if(startDateInTime <= endDateInTime && !this.state.selectedStartDateValid && !this.state.selectedEndDateValid && !this.state.pickerSelectionValid && !this.state.assignToValid && !this.state.textInputReasonValid) {
+          let obj = {
+            startDate: this.state.selectedStartDate,
+            endDate: this.state.selectedEndDate,
+            assignedTo: this.state.selectedAssignTo,
+            isHalfDay: this.state.isSelectFullDay ? 0 : 1,
+            halfDay: !this.state.isSelectFullDay ? (this.state.isSelect1stHalf ? 'first' : 'second') : '',
+            typeId: this.state.pickerSelectedValue.id,
+            reason: this.state.textInputReason
+          }
+  
+          this.props.dispatch(applyLeaveApi(obj));  
         }
-
-        this.props.dispatch(applyLeaveApi(obj));
-
-        this.setState({
-          selectedAssignTo: [],
-          inc: null
-        })
-      }
+      });
 
     } else {
       obj = {
@@ -246,7 +287,7 @@ class ApplyLeave extends Component {
   }
 
   cancelLeaveHandler = () => {
-    console.log('cancelLeaveHandler')
+    console.log('cancelLeaveHandler');
   }
 
   
@@ -294,6 +335,7 @@ class ApplyLeave extends Component {
               // selectedStartDateConfirm: false,
 
               selectedEndDate: '',
+              // selectedEnd_new_Date: '',
               // selectedEndDateConfirm: false,
 
               selectedAssignTo: [],
@@ -392,12 +434,12 @@ class ApplyLeave extends Component {
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                       <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                         <Text style={{ fontSize: 16 }}>Available:&nbsp;&nbsp;</Text>
-                        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{this.state.pickerSelectedValue.remainingLeaveAllocatedDays != '' ? this.state.pickerSelectedValue.remainingLeaveAllocatedDays : this.state.pickerSelectedValue.leaveAllocatedDays}</Text>
+                        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{this.state.pickerSelectedValue.remainingLeaveAllocatedDays !== '' ? this.state.pickerSelectedValue.remainingLeaveAllocatedDays : this.state.pickerSelectedValue.leaveAllocatedDays}</Text>
                       </View>
 
                       <View style={{ marginLeft: 90, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                         <Text style={{ fontSize: 16 }}>Taken:&nbsp;&nbsp;</Text>
-                        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{this.state.pickerSelectedValue.remainingLeaveAllocatedDays != '' ? this.state.pickerSelectedValue.leaveAllocatedDays - this.state.pickerSelectedValue.remainingLeaveAllocatedDays : 0}</Text>
+                        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{this.state.pickerSelectedValue.remainingLeaveAllocatedDays !== '' ? this.state.pickerSelectedValue.leaveAllocatedDays - this.state.pickerSelectedValue.remainingLeaveAllocatedDays : 0}</Text>
                       </View>
                     </View>
                   </View> :
@@ -417,7 +459,7 @@ class ApplyLeave extends Component {
               </View>
 
 
-              <TextInput style={[{ borderColor: this.state.textInputReasonValid ? 'red' : null }, styles.textInput]} multiline={true} placeholder="Reason" onChangeText={(textInputReason) => this.setState({ textInputReason: textInputReason, textInputReasonValid: false })} />
+              <TextInput  ref={this.myTextInput} style={[{ borderColor: this.state.textInputReasonValid ? 'red' : null }, styles.textInput]} multiline={true} placeholder="Reason" onChangeText={(textInputReason) => this.setState({ textInputReason: textInputReason, textInputReasonValid: false })} />
 
               <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                 <NinetyNineButton style={styles.ninetyNineButton} buttonTitle="Apply" onItemPressed={this.applyLeaveHandler} />
@@ -427,6 +469,7 @@ class ApplyLeave extends Component {
                 </View>
               </View>    
 
+              <Text style={{ marginTop: 30, color: 'red', textAlign: 'left' }}>{ this.props.applyLeave.error != '' ? this.props.applyLeave.error : null }</Text>
             </View>
           )}
         </Formik>
